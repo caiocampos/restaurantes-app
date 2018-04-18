@@ -20,6 +20,7 @@ export class AppService {
 
         this.http.post('http://localhost:8085/login', params.toString(), { headers: headers }).subscribe(response => {
             this.authenticated = true;
+            alert(JSON.stringify(response));
             if (callback) { callback(); }
         }, () => {
             this.authenticated = false;
