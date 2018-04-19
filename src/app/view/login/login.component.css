@@ -1,0 +1,17 @@
+.login-header {
+    margin: 5px 10px 15px 10px;
+}
+
+.login-outer-box {
+    border: 0px;
+    background: #002200a0;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.login-inner-box {
+    border: 0px;
+    background: #cceeff90;
+    padding: 10px;
+    border-radius: 15px;
+}
