@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "firefox",
+            "request": "attach",
+            "name": "Attach to Firefox",
+            "pathMappings": [
+                {
+                    "url": "webpack:///src/app/",
+                    "path": "${workspaceFolder}\\src\\app/"
+                }
+            ]
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch via NPM",

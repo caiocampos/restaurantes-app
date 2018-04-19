@@ -1,7 +1,4 @@
-@import './app/login.component.css';
-@import './app/app.component.css';
-
-body {
-    background: darkslateblue;
-    color: white;
-}
+@import './app/core.css';
+@import './app/main/app.component.css';
+@import './app/dynaview/dynaview.component.css';
+@import './app/view/login/login.component.css';

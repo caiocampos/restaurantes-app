@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppService } from './app.service';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
-import { LoginComponent } from './login.component';
+import { HomeComponent } from '../view/home/home.component';
+import { LoginComponent } from '../view/login/login.component';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS

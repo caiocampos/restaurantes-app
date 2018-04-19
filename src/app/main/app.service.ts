@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Config } from '../config';
 
 @Injectable()
 export class AppService {
@@ -20,7 +21,8 @@ export class AppService {
 
         this.http.post('http://localhost:8085/login', params.toString(), { headers: headers }).subscribe(response => {
             this.authenticated = true;
-            alert(JSON.stringify(response));
+            delete response['password'];
+            Config.user = response;
             if (callback) { callback(); }
         }, () => {
             this.authenticated = false;

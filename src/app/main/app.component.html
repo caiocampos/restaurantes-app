@@ -1,0 +1,25 @@
+<div id="header-menu" class="container-fluid">
+  <div id="header-menu" class="row">
+    <div class="col-md-6">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="nav nav-pills justify-content-end">
+        <li class="nav-item" *ngIf="!authenticated()">
+          <a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
+        </li>
+        <li class="nav-item" *ngIf="authenticated()">
+          <span class="text-primary align-middle mx-md-3">{{nomeUsuario()}}</span>
+          <span class="btn btn-outline-danger font-weight-bold" (click)="logout()">Sair</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
