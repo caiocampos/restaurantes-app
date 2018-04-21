@@ -20,6 +20,7 @@ export class LoginComponent {
     });
     return false;
   }
-  titulo() { return Config.title; }
+
+  get titulo() { return Config.title; }
 
 }

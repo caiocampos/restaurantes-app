@@ -25,8 +25,6 @@ export class XhrInterceptor implements HttpInterceptor {
   }
 }
 
-const APP_TITULO = 'Restaurante\'s';
-
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
