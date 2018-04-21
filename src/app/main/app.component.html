@@ -6,20 +6,20 @@
 					<a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
 				</li>
 				<li class="nav-item" *ngFor="let entity of entities">
-					<a class="nav-link" routerLinkActive="active" routerLink="/{{parseLink(entity.title)}}">{{entity.title}}</a>
+					<a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active" routerLink="/{{entity.entity.toLowerCase()}}">{{entity.title}}</a>
 				</li>
 			</ul>
 		</div>
 		<div class="col-md-6">
 			<ul class="nav nav-pills justify-content-end">
 				<li class="nav-item">
-					<ng-container *ngIf="!authenticated">
-						<a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
-					</ng-container>
-					<ng-container *ngIf="authenticated">
+					<ng-container *ngIf="authenticated; else loginLink">
 						<span class="text-primary align-middle mx-md-3">{{nomeUsuario}}</span>
 						<span class="btn btn-outline-danger font-weight-bold" (click)="logout()">Sair</span>
 					</ng-container>
+					<ng-template #loginLink>
+						<a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
+					</ng-template>
 				</li>
 			</ul>
 		</div>

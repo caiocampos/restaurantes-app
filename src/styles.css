@@ -1,4 +1,12 @@
-@import './app/core.css';
-@import './app/main/app.component.css';
-@import './app/dynaview/dynaview.component.css';
-@import './app/view/login/login.component.css';
+body {
+    background: darkslateblue;
+    color: white;
+}
+
+.app-center {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

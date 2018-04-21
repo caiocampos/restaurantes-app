@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { Config } from '../../config';
 
 @Component({
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
@@ -21,6 +22,7 @@ export class LoginComponent {
     return false;
   }
 
-  get titulo() { return Config.title; }
-
+  get titulo() {
+    return Config.title;
+  }
 }
