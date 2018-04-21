@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '../view/home/home.component';
 import { LoginComponent } from '../view/login/login.component';
+import { DynaviewComponent } from '../dynaview/dynaview.component';
 import { Injectable } from '@angular/core';
 import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
@@ -30,7 +31,8 @@ export class XhrInterceptor implements HttpInterceptor {
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'dyna/:nome', component: DynaviewComponent }
 ];
 
 @NgModule({
@@ -38,6 +40,7 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     LoginComponent,
+    DynaviewComponent,
     ModalComponent
   ],
   imports: [

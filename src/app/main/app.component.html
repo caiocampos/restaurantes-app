@@ -6,7 +6,7 @@
 					<a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
 				</li>
 				<li class="nav-item" *ngFor="let entity of entities">
-					<a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active" routerLink="/{{entity.entity.toLowerCase()}}">{{entity.title}}</a>
+					<a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active" [routerLink]="['/dyna', entity.entity.toLowerCase() ]">{{entity.title}}</a>
 				</li>
 			</ul>
 		</div>
@@ -25,6 +25,6 @@
 		</div>
 	</div>
 </div>
-<div class="container">
+<div class="container-fluid">
 	<router-outlet></router-outlet>
 </div>
