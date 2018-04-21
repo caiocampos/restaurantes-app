@@ -7,7 +7,6 @@ import { Config } from '../../config';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-
   constructor(private app: AppService, private http: HttpClient) {
   }
 

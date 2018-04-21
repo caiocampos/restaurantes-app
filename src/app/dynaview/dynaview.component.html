@@ -1,54 +1,52 @@
-<h1>Angular 4 CRUD Example</h1>
-<h3 *ngIf="articleIdToUpdate; else create"> 
-   Update Article for Id: {{articleIdToUpdate}}
-</h3>
-<ng-template #create>
-   <h3> Create New Article </h3>
-</ng-template>
-<div>
- <form [formGroup]="articleForm" (ngSubmit)="onArticleFormSubmit()">
-  <table>
-    <tr><td>Enter Title</td><td><input formControlName="title">
-	  <label *ngIf="articleForm.get('title').invalid && processValidation" [ngClass] = "'error'"> Title is required. </label>
-    </td></tr>
-    <tr><td>Enter Category</td><td><input formControlName="category">
-	  <label *ngIf="articleForm.get('category').invalid && processValidation" [ngClass] = "'error'"> Category is required. </label>
-    </td></tr>	
-    <tr><td colspan="2">
-	  <button *ngIf="!articleIdToUpdate">CREATE</button>  
-	  <button *ngIf="articleIdToUpdate">UPDATE</button>  
-	  <button (click)="backToCreateArticle()" *ngIf="articleIdToUpdate">Go Back</button>  
-    </td></tr>
+<ng-template #grid>
+  <div class="container-fluid my-md-4">
+    <div class="row">
+      <div class="input-group col-md-6">
+        <input #busca type="text" class="form-control" aria-describedby="basic-addon2" (keyup.enter)="searh(busca.value)">
+        <div class="input-group-append">
+          <button class="btn btn-light font-weight-bold" type="button" (click)="searh(busca.value)">Buscar</button>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-danger font-weight-bold" type="button" (click)="busca.value=''; searh('')">Limpar</button>
+        </div>
+      </div>
+      <div class="input-group col-md-6">
+        <div class="mx-auto">
+          <button class="btn btn-outline-light font-weight-bold" type="button" (click)="newRecord()">Novo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table">
+    <thead class='grid-head'>
+      <tr>
+        <th scope="col" *ngFor="let field of this.entityInfo.fields">{{field.label}}</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class='grid-body'>
+      <tr *ngFor="let record of records">
+        <td scope="col" *ngFor="let field of this.entityInfo.fields">{{ this.getValue(record, field) }}</td>
+        <td scope="col">
+          <button class="btn btn-outline-primary font-weight-bold" (click)="edit(record)">Editar</button>
+        </td>
+        <td scope="col">
+          <button class="btn btn-outline-danger font-weight-bold" (click)="delete(record.id)">Apagar</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
- </form> 
- <br/>
- <div *ngIf="statusCode; else processing">
-   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
-	    Article added successfully.
-   </div>   
-   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
-        Article already exists.
-   </div>   	
-   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
-        Article updated successfully.
-   </div>   	      
-   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
-        Article deleted successfully.
-   </div>   	   
-   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
-        Internal Server Error.
-   </div>	
- </div>
- <ng-template #processing>
-	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
- </ng-template>
-</div>
-<h3>Article Details</h3>
-<table>
-  <tr><th> Id</th> <th>Title</th><th>Category</th><th></th><th></th></tr>
-  <tr *ngFor="let article of allArticles" >
-        <td>{{article.id}}</td> <td>{{article.title}}</td> <td>{{article.category}}</td>
-	<td><button type="button" (click)="loadArticleToEdit(article.id)">Edit</button> </td> 
-	<td><button type="button" (click)="deleteArticle(article.id)">Delete</button></td>
-  </tr>
-</table> 
+</ng-template>
+<ng-container *ngIf="formMode; else grid">
+  <div class="container-fluid my-md-4">
+    <div class="row">
+        <div class="mx-auto">
+          <button class="btn btn-outline-light font-weight-bold" type="button" (click)="return()">Retornar</button>
+        </div>
+        <div class="mx-auto">
+          <button class="btn btn-danger font-weight-bold" type="button" (click)="delete(dataId)">Apagar</button>
+        </div>
+    </div>
+  </div>
+</ng-container>

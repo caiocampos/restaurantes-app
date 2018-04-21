@@ -9,7 +9,6 @@ import { Config } from '../../config';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
   credentials = { username: '', password: '' };
 
   constructor(private app: AppService, private http: HttpClient, private router: Router) {

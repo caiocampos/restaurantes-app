@@ -17,7 +17,7 @@ export class AppComponent {
   }
 
   logout() {
-    this.http.post('logout', {}).finally(() => {
+    this.http.post(Config.server + 'logout', {}).finally(() => {
       this.app.invalidateSession();
       this.router.navigateByUrl('/login');
     }).subscribe();
