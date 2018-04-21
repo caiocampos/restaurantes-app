@@ -13,6 +13,8 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { ModalService, ModalComponent } from '../modal/modal.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -35,15 +37,18 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ModalComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
+    NgbModule.forRoot(),
     BrowserModule,
     HttpClientModule,
     FormsModule
   ],
-  providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  entryComponents: [ModalComponent],
+  providers: [AppService, ModalService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/finally';
 import { Config } from '../config';
-import { AppHelper } from '../app.helper';
-import { EntityInfo } from '../model/entityInfo/entityInfo';
+import { EntityInfoAcess } from '../model/entityInfo/entityInfoAcess';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +15,35 @@ export class AppComponent {
   constructor(private app: AppService, private http: HttpClient, private router: Router) {
     this.app.setEntities();
   }
+
   logout() {
     this.http.post('logout', {}).finally(() => {
-      this.app.authenticated = false;
+      this.app.invalidateSession();
       this.router.navigateByUrl('/login');
     }).subscribe();
   }
 
-  get entities() { return Config.entities; }
-  get authenticated() { return this.app.authenticated; }
-  get nomeUsuario() { return (Config.user.nome || 'Ninja') + (Config.user.sobrenome !== undefined ? (' ' + Config.user.sobrenome) : ''); }
+  get entities() {
+    return Config.entities;
+  }
 
-  parseLink(title) {
-    return AppHelper.parseToLowerNormalized(title);
+  get authenticated() {
+    return this.app.authenticated;
+  }
+
+  get nomeUsuario() {
+    return (Config.user.nome || 'Ninja') + (Config.user.sobrenome !== undefined ? (' ' + Config.user.sobrenome) : '');
+  }
+
+  canAcess(userAcess: EntityInfoAcess) {
+    const roles = Config.user.roles;
+    if (roles === undefined) {
+      return false;
+    } else if (roles.includes('admin')) {
+      return true;
+    } else if (roles.includes('user')) {
+      return userAcess.read;
+    }
+    return false;
   }
 }

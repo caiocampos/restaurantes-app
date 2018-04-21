@@ -7,3 +7,7 @@
     color: red;
     font-weight: bold;
 }
+
+.not-allowed {
+    cursor: not-allowed !important;
+}

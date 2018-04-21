@@ -11,7 +11,11 @@ export class HomeComponent {
   constructor(private app: AppService, private http: HttpClient) {
   }
 
-  get authenticated() { return this.app.authenticated; }
-  get nomeUsuario() { return Config.user.nome + ' ' + Config.user.sobrenome; }
+  get authenticated() {
+    return this.app.authenticated;
+  }
 
+  get nomeUsuario() {
+    return Config.user.nome + ' ' + Config.user.sobrenome;
+  }
 }
