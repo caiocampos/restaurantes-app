@@ -1,8 +1,8 @@
 <div class="app-center">
-	<div [hidden]="!authenticated()">
-		<h1>Bem vindo {{nomeUsuario()}}</h1>
+	<div [hidden]="!authenticated">
+		<h1>Bem vindo {{nomeUsuario}}</h1>
 	</div>
-	<div [hidden]="authenticated()">
+	<div [hidden]="authenticated">
 		<h1>Faça Login!</h1>
 	</div>
 </div>
