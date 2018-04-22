@@ -6,6 +6,7 @@ import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { ModalService } from '../modal/modal.service';
 import { DynaviewComponent } from '../dynaview/dynaview.component';
 import { CRUDRequest } from '../model/service/crudRequest';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AppService {
@@ -17,8 +18,6 @@ export class AppService {
     }),
     withCredentials: true
   };
-
-  openModal = this.modal.open;
 
   constructor(private http: HttpClient, private modal: ModalService) {
   }
@@ -36,9 +35,9 @@ export class AppService {
       Config.user = Object.setPrototypeOf(response, User);
       this.authenticated = true;
       if (callback) { callback(); }
-    }, (err) => {
+    }, err => {
       this.invalidateSession();
-      this.modal.open('Erro!', 'Não foi possível acessar o Sistema!');
+      this.openModal('Erro!', 'Não foi possível acessar o Sistema!');
     });
   }
 
@@ -50,13 +49,17 @@ export class AppService {
   setEntities() {
     this.http.post(Config.server + 'entity/list', {}, this.headers).subscribe(response => {
       Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
-    }, (err) => {
+    }, err => {
       Config.entities = [];
-      this.modal.open('Erro!', 'Não foi possível carregar as telas do Sistema!');
+      this.openModal('Erro!', 'Não foi possível carregar as telas do Sistema!');
     });
   }
 
   request(action, req: CRUDRequest, callback, errorCallback?) {
     return this.http.post(Config.server + action, req, this.headers).subscribe(callback, errorCallback);
+  }
+
+  openModal(title, message, close?, buttons?) {
+    return this.modal.open(title, message, close, buttons);
   }
 }

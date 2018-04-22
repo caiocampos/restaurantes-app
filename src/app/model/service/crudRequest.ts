@@ -2,6 +2,6 @@ export class CRUDRequest {
   entity: string;
   id: string;
   special: string;
-  param: object[];
+  param: any[];
   data: object;
 }
