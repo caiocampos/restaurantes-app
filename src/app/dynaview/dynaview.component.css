@@ -6,3 +6,8 @@
 .grid-head {
     background: black;
 }
+
+.form-body {
+    background: beige;
+    height: 80vh;
+}

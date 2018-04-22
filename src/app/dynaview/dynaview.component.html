@@ -2,9 +2,9 @@
   <div class="container-fluid my-md-4">
     <div class="row">
       <div class="input-group col-md-6">
-        <input #busca type="text" class="form-control" aria-describedby="basic-addon2" (keyup.enter)="searh(busca.value)">
+        <input #busca type="text" class="form-control" aria-describedby="basic-addon2" (keyup.enter)="searh(busca.value)" />
         <div class="input-group-append">
-          <button class="btn btn-light font-weight-bold" type="button" (click)="searh(busca.value)">Buscar</button>
+          <button class="btn btn-success font-weight-bold" type="button" (click)="searh(busca.value)">Buscar</button>
         </div>
         <div class="input-group-append">
           <button class="btn btn-danger font-weight-bold" type="button" (click)="busca.value=''; searh('')">Limpar</button>
@@ -20,14 +20,14 @@
   <table class="table">
     <thead class='grid-head'>
       <tr>
-        <th scope="col" *ngFor="let field of this.entityInfo.fields">{{field.label}}</th>
+        <th scope="col" *ngFor="let field of entityInfo.fields">{{field.label}}</th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody class='grid-body'>
       <tr *ngFor="let record of records">
-        <td scope="col" *ngFor="let field of this.entityInfo.fields">{{ this.getValue(record, field) }}</td>
+        <td scope="col" *ngFor="let field of entityInfo.fields">{{ getValue(record, field) }}</td>
         <td scope="col">
           <button class="btn btn-outline-primary font-weight-bold" (click)="edit(record)">Editar</button>
         </td>
@@ -39,14 +39,35 @@
   </table>
 </ng-template>
 <ng-container *ngIf="formMode; else grid">
-  <div class="container-fluid my-md-4">
-    <div class="row">
+  <div class="form-group">
+    <div class="container-fluid my-md-4">
+      <div class="row">
         <div class="mx-auto">
-          <button class="btn btn-outline-light font-weight-bold" type="button" (click)="return()">Retornar</button>
+          <button class="btn btn-outline-light font-weight-bold" type="reset" (click)="return()">Retornar</button>
         </div>
         <div class="mx-auto">
-          <button class="btn btn-danger font-weight-bold" type="button" (click)="delete(dataId)">Apagar</button>
+          <button class="btn btn-success font-weight-bold" type="submit" (click)="save()">Salvar</button>
         </div>
+        <div class="mx-auto">
+          <button class="btn btn-danger font-weight-bold" type="button" (click)="delete(data == null ? null : data['id'])">Apagar</button>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid py-md-2 form-body">
+      <div class="row">
+        <div class="input-group col-md-{{field.size}} my-md-1" *ngFor="let field of entityInfo.fields">
+          <ng-container *ngIf="field.type !== 'TOGGLE'; else fieldLabel">
+            <div class="input-group-prepend">
+              <span class="input-group-text font-weight-bold text-white" [ngClass]="field.required ? 'bg-danger' : 'bg-primary' ">{{field.label}}:</span>
+            </div>
+          </ng-container>
+          <ng-template #fieldLabel>
+            <label class="text-dark font-weight-bold" for="{{field.name}}">{{field.label}}</label>
+          </ng-template>
+          <input id="{{field.name}}" class="form-control" [type]="getType(field)" [required]="field.required" value="{{data != null ? (getValue(data, field, true) || '') : ''}}"
+            [checked]="field.type === 'TOGGLE' && data != null && data[field.name]" />
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
