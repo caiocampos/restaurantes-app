@@ -14,16 +14,17 @@ import { EntityInfoField } from '../model/entityInfo/EntityInfoField';
 export class DynaviewComponent implements OnInit {
   entityInfo: EntityInfo = new EntityInfo();
   records = [];
-  dataId = '';
+  data = null;
   formMode = false;
 
   constructor(private app: AppService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.formMode = false;
+    this.return();
     if (this.app.authenticated) {
       this.route.params.subscribe(params => {
+        this.return();
         this.entityInfo = Config.entities.find((element) => element.entity.toLocaleLowerCase() === params['nome']);
 
         const req = new CRUDRequest();
@@ -31,6 +32,7 @@ export class DynaviewComponent implements OnInit {
         this.app.request('findall', req, (response) => {
           this.records = response;
         }, (err) => {
+          this.return();
           this.records = [];
         });
       });
@@ -39,19 +41,32 @@ export class DynaviewComponent implements OnInit {
     }
   }
 
-  getValue(record, field: EntityInfoField) {
-    if (field.name === 'password') {
+  getValue(record, field: EntityInfoField, form?: boolean) {
+    if (record[field.name] == null) {
+      return '';
+    } else if (field.name === 'password' && !form) {
       return '************';
     } else if (field.type === 'TOGGLE') {
       return record[field.name] ? 'Sim' : 'Não';
     } else if (field.type === 'FOREIGN') {
-      if (field.options !== undefined && field.options[0] !== undefined) {
-        return record[field.options[0]];
-      } else if (record[field.name]['nome'] !== undefined) {
-        return record[field.name]['nome'];
+      if (field.fk != null && field.fk.param != null) {
+        return record[field.name][field.fk.param];
+      } else {
+        return '';
       }
     }
     return record[field.name];
+  }
+
+  getType(field: EntityInfoField) {
+    switch (field.type) {
+      case 'PHONE' : return 'tel';
+      case 'NUMBER' : return 'number';
+      case 'VALUE' : return 'number';
+      case 'TOGGLE' : return 'checkbox';
+      case 'PASS' : return 'password';
+      default: return 'text';
+    }
   }
 
   searh(busca) {
@@ -71,11 +86,15 @@ export class DynaviewComponent implements OnInit {
 
   edit(record) {
     this.formMode = true;
-    this.dataId = record['id'];
+    this.data = record;
+  }
+
+  save() {
+    this.return();
   }
 
   return() {
     this.formMode = false;
-    this.dataId = '';
+    this.data = null;
   }
 }

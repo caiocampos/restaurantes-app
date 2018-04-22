@@ -32,12 +32,12 @@ export class AppComponent {
   }
 
   get nomeUsuario() {
-    return (Config.user.nome || 'Ninja') + (Config.user.sobrenome !== undefined ? (' ' + Config.user.sobrenome) : '');
+    return (Config.user.nome || 'Ninja') + (Config.user.sobrenome != null ? (' ' + Config.user.sobrenome) : '');
   }
 
   canAcess(userAcess: EntityInfoAcess) {
     const roles = Config.user.roles;
-    if (roles === undefined) {
+    if (roles == null) {
       return false;
     } else if (roles.includes('admin')) {
       return true;
