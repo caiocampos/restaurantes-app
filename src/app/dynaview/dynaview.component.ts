@@ -104,6 +104,7 @@ export class DynaviewComponent implements OnInit {
       return field.type === 'FOREIGN';
     });
     if (fk.length > 0) {
+      let times = 0;
       for (let i = 0; i < fk.length; i++) {
         const field = fk[i];
         if (this.data[field.name] == null || this.data[field.name] === '') {
@@ -115,22 +116,15 @@ export class DynaviewComponent implements OnInit {
           fkReq.param = [this.data[field.name]];
           this.app.request('findspecial', fkReq, response => {
             req.data[field.name] = response != null ? (response[0] != null ? response[0] : null) : null;
+            times++;
+            if (times === fk.length) {
+              this.saveRequest(req);
+            }
           }, err => {
             req.data[field.name] = null;
           });
         }
       }
-      const wait = 1 +
-        (fk.length > 1 ? 1 : 0) +
-        (fk.length > 3 ? 1 : 0) +
-        (fk.length > 5 ? 1 : 0) +
-        (fk.length > 10 ? 1 : 0) +
-        (fk.length > 30 ? 1 : 0) +
-        (fk.length > 50 ? 1 : 0) +
-        (fk.length > 100 ? 1 : 0);
-      setTimeout(() => {
-        this.saveRequest(req);
-      }, 100 * wait);
     } else {
       this.saveRequest(req);
     }
