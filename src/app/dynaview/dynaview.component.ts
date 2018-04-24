@@ -122,6 +122,10 @@ export class DynaviewComponent implements OnInit {
             }
           }, err => {
             req.data[field.name] = null;
+            times++;
+            if (times === fk.length) {
+              this.saveRequest(req);
+            }
           });
         }
       }
