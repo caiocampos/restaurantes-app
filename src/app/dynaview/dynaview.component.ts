@@ -105,10 +105,17 @@ export class DynaviewComponent implements OnInit {
     });
     if (fk.length > 0) {
       let times = 0;
+      const attempt = () => {
+        times++;
+        if (times === fk.length) {
+          this.saveRequest(req);
+        }
+      };
       for (let i = 0; i < fk.length; i++) {
         const field = fk[i];
         if (this.data[field.name] == null || this.data[field.name] === '') {
           req.data[field.name] = null;
+          attempt();
         } else {
           const fkReq = new CRUDRequest();
           fkReq.entity = field.fk.entity;
@@ -116,12 +123,10 @@ export class DynaviewComponent implements OnInit {
           fkReq.param = [this.data[field.name]];
           this.app.request('findspecial', fkReq, response => {
             req.data[field.name] = response != null ? (response[0] != null ? response[0] : null) : null;
-            times++;
-            if (times === fk.length) {
-              this.saveRequest(req);
-            }
+            attempt();
           }, err => {
             req.data[field.name] = null;
+            attempt();
           });
         }
       }
