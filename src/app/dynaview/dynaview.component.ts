@@ -103,12 +103,24 @@ export class DynaviewComponent implements OnInit {
     const fk = this.entityInfo.fields.filter(field => {
       return field.type === 'FOREIGN';
     });
+    const request = () => {
+      this.app.request('save', req, response => {
+        this.records = this.records.filter(record => {
+          return record['id'] !== response['id'];
+        });
+        this.records.push(response);
+        this.return();
+        this.app.openModal('Sucesso!', 'Dados gravados!');
+      }, err => {
+        this.app.openModal('Erro!', 'Não foi possível gravar os dados!');
+      });
+    };
     if (fk.length > 0) {
       let times = 0;
       const attempt = () => {
         times++;
         if (times === fk.length) {
-          this.saveRequest(req);
+          request();
         }
       };
       for (let i = 0; i < fk.length; i++) {
@@ -131,22 +143,8 @@ export class DynaviewComponent implements OnInit {
         }
       }
     } else {
-      this.saveRequest(req);
+      request();
     }
-  }
-
-  private saveRequest(req) {
-    this.app.request('save', req, response => {
-      this.records = this.records.filter(record => {
-        return record['id'] !== response['id'];
-      });
-      this.records.push(response);
-      this.return();
-      this.app.openModal('Sucesso!', 'Dados gravados!');
-    }, err => {
-      this.app.openModal('Erro!', 'Não foi possível gravar os dados!');
-    });
-
   }
 
   delete(id) {
