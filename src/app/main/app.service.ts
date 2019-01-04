@@ -6,7 +6,7 @@ import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { ModalService } from '../modal/modal.service';
 import { DynaviewComponent } from '../dynaview/dynaview.component';
 import { CRUDRequest } from '../model/service/crudRequest';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {

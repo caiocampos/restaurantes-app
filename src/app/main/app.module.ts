@@ -13,7 +13,6 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
 import { ModalService, ModalComponent } from '../modal/modal.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -45,7 +44,7 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(routes),
-    NgbModule.forRoot(),
+    NgbModule,
     BrowserModule,
     HttpClientModule,
     FormsModule
