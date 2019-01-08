@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from './app.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,8 +12,11 @@ import { EntityInfoAcess } from '../model/entityInfo/entityInfoAcess';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private app: AppService, private http: HttpClient, private router: Router) {
+  }
+
+  ngOnInit(): void {
     this.app.setEntities();
   }
 

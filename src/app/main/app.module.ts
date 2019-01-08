@@ -9,7 +9,7 @@ import { LoginComponent } from '../view/login/login.component';
 import { DynaviewComponent } from '../dynaview/dynaview.component';
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
+  HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 } from '@angular/common/http';
 
 import { ModalService, ModalComponent } from '../modal/modal.service';

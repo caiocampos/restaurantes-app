@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppService } from '../../main/app.service';
-import { HttpClient } from '@angular/common/http';
 import { Config } from '../../config';
 
 @Component({
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  constructor(private app: AppService, private http: HttpClient) {
+  constructor(private app: AppService) {
   }
 
   get authenticated() {

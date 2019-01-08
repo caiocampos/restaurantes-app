@@ -4,9 +4,7 @@ import { Config } from '../config';
 import { User } from '../model/user';
 import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { ModalService } from '../modal/modal.service';
-import { DynaviewComponent } from '../dynaview/dynaview.component';
 import { CRUDRequest } from '../model/service/crudRequest';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
@@ -35,7 +33,7 @@ export class AppService {
       Config.user = Object.setPrototypeOf(response, User);
       this.authenticated = true;
       if (callback) { callback(); }
-    }, err => {
+    }, () => {
       this.invalidateSession();
       this.openModal('Erro!', 'Não foi possível acessar o Sistema!');
     });
@@ -49,7 +47,7 @@ export class AppService {
   setEntities() {
     this.http.post(Config.server + 'entity/list', {}, this.headers).subscribe(response => {
       Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
-    }, err => {
+    }, () => {
       Config.entities = [];
       this.openModal('Erro!', 'Não foi possível carregar as telas do Sistema!');
     });

@@ -6,7 +6,7 @@ import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { Config } from '../config';
 import { CRUDRequest } from '../model/service/crudRequest';
 import { EntityInfoField } from '../model/entityInfo/EntityInfoField';
-import { Form, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   templateUrl: './dynaview.component.html',
@@ -32,7 +32,7 @@ export class DynaviewComponent implements OnInit {
         req.entity = this.entityInfo.entity;
         this.app.request('findall', req, response => {
           this.records = response;
-        }, err => {
+        }, () => {
           this.return();
           this.records = [];
         });
@@ -76,7 +76,7 @@ export class DynaviewComponent implements OnInit {
     req.param = [busca];
     this.app.request('findnome', req, response => {
       this.records = response;
-    }, err => {
+    }, () => {
       this.records = [];
     });
   }
@@ -111,7 +111,7 @@ export class DynaviewComponent implements OnInit {
         this.records.push(response);
         this.return();
         this.app.openModal('Sucesso!', 'Dados gravados!');
-      }, err => {
+      }, () => {
         this.app.openModal('Erro!', 'Não foi possível gravar os dados!');
       });
     };
@@ -136,7 +136,7 @@ export class DynaviewComponent implements OnInit {
           this.app.request('findspecial', fkReq, response => {
             req.data[field.name] = response != null ? (response[0] != null ? response[0] : null) : null;
             attempt();
-          }, err => {
+          }, () => {
             req.data[field.name] = null;
             attempt();
           });
@@ -157,7 +157,7 @@ export class DynaviewComponent implements OnInit {
       });
       this.return();
       this.app.openModal('Sucesso!', 'Dados apagados!');
-    }, err => {
+    }, () => {
       this.app.openModal('Erro!', 'Não foi possível apagar os dados!');
     });
   }
