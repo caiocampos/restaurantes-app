@@ -1,30 +1,31 @@
 <div id="header-menu" class="container-fluid">
-	<div id="header-menu" class="row">
-		<div class="col-md-6">
-			<ul class="nav nav-pills">
-				<li class="nav-item">
-					<a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
-				</li>
-				<li class="nav-item" *ngFor="let entity of entities">
-					<a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active" [routerLink]="['/dyna', entity.entity.toLowerCase() ]">{{entity.title}}</a>
-				</li>
-			</ul>
-		</div>
-		<div class="col-md-6">
-			<ul class="nav nav-pills justify-content-end">
-				<li class="nav-item">
-					<ng-container *ngIf="authenticated; else loginLink">
-						<span class="text-primary align-middle mx-md-3">{{nomeUsuario}}</span>
-						<span class="btn btn-outline-danger font-weight-bold" (click)="logout()">Sair</span>
-					</ng-container>
-					<ng-template #loginLink>
-						<a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
-					</ng-template>
-				</li>
-			</ul>
-		</div>
-	</div>
+  <div id="header-menu" class="row">
+    <div class="col-md-6">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
+        </li>
+        <li class="nav-item" *ngFor="let entity of entities">
+          <a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active"
+            [routerLink]="['/dyna', entity.entity.toLowerCase() ]">{{entity.title}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="nav nav-pills justify-content-end">
+        <li class="nav-item">
+          <ng-container *ngIf="authenticated; else loginLink">
+            <span class="text-primary align-middle mx-md-3">{{nomeUsuario}}</span>
+            <span class="btn btn-outline-danger font-weight-bold" (click)="logout()">Sair</span>
+          </ng-container>
+          <ng-template #loginLink>
+            <a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <div class="container-fluid">
-	<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

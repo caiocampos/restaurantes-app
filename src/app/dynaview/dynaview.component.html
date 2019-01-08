@@ -65,8 +65,7 @@
             <label class="text-dark font-weight-bold" for="{{field.name}}">{{field.label}}</label>
           </ng-template>
           <input id="{{field.name}}" name="{{field.name}}" class="form-control" [type]="getType(field)" [required]="field.required"
-            [checked]="field.type === 'TOGGLE' && data != null && data[field.name]"
-            [(ngModel)]="data[field.name]" />
+            [checked]="field.type === 'TOGGLE' && data != null && data[field.name]" [(ngModel)]="data[field.name]" />
         </div>
       </div>
     </div>
