@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 import { AppService } from './app.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from '../view/home/home.component';
@@ -15,6 +14,7 @@ import {
 
 import { ModalService, ModalComponent } from '../modal/modal.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppRoutingModule } from '../app-routing.module';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -27,13 +27,6 @@ export class XhrInterceptor implements HttpInterceptor {
   }
 }
 
-const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'dyna/:nome', component: DynaviewComponent }
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +36,7 @@ const routes: Routes = [
     ModalComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     NgbModule,
     BrowserModule,
     HttpClientModule,
