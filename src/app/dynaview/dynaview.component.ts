@@ -110,9 +110,9 @@ export class DynaviewComponent implements OnInit {
         });
         this.records.push(response);
         this.return();
-        this.app.openModal('Sucesso!', 'Dados gravados!');
-      }, () => {
-        this.app.openModal('Erro!', 'Não foi possível gravar os dados!');
+        this.app.openSimpleModal('Sucesso!', 'Dados gravados!');
+      }, err => {
+        this.app.openModalDetail('Erro!', 'Não foi possível gravar os dados!', err);
       });
     };
     if (fk.length > 0) {
@@ -156,9 +156,9 @@ export class DynaviewComponent implements OnInit {
         return record['id'] !== response['id'];
       });
       this.return();
-      this.app.openModal('Sucesso!', 'Dados apagados!');
-    }, () => {
-      this.app.openModal('Erro!', 'Não foi possível apagar os dados!');
+      this.app.openSimpleModal('Sucesso!', 'Dados apagados!');
+    }, err => {
+      this.app.openModalDetail('Erro!', 'Não foi possível apagar os dados!', err);
     });
   }
 

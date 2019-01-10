@@ -1,15 +1,28 @@
 <div id="modal">
-	<div class="modal-header">
-		<h4 class="modal-title">{{titulo}}</h4>
-		<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
-	<div class="modal-body">
-		<p>{{mensagem}}</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">{{fechar}}</button>
-		<button *ngFor="let b of botoes" type="button" class="btn btn-outline-dark" (click)="b.callback">{{b.name}}</button>
-	</div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{titulo}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{mensagem}}</p>
+    <div *ngIf="detalhe">
+        <button type="button" class="btn btn-sm btn-block btn-outline-info" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+          aria-controls="detalhes">
+          Mais Detalhes:
+        </button>
+        <div id="detalhes" [ngbCollapse]="isCollapsed">
+          <div class="card">
+            <div class="card-body">
+              <div [innerHTML]="detalhe"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="activeModal.close('Close click')">{{fechar}}</button>
+    <button *ngFor="let b of botoes" type="button" class="btn btn-outline-dark" (click)="b.callback">{{b.name}}</button>
+  </div>
 </div>
