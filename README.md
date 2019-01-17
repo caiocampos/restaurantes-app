@@ -1,6 +1,6 @@
 # restaurantes-app (Restaurante's)
 
-[<img src="https://api.travis-ci.org/caiocampos/restaurantes-app.svg?branch=master">](https://travis-ci.org/caiocampos/tabs)
+[<img src="https://api.travis-ci.org/caiocampos/restaurantes-app.svg?branch=master">](https://travis-ci.org/caiocampos/restaurantes-app)
 ![](https://img.shields.io/david/caiocampos/restaurantes-app.svg)
 [![License](https://img.shields.io/github/license/caiocampos/restaurantes-app.svg)](LICENSE)
 
