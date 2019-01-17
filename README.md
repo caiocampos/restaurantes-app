@@ -1,5 +1,9 @@
 # restaurantes-app (Restaurante's)
 
+[<img src="https://api.travis-ci.org/caiocampos/restaurantes-app.svg?branch=master">](https://travis-ci.org/caiocampos/tabs)
+![](https://img.shields.io/david/caiocampos/restaurantes-app.svg)
+[![License](https://img.shields.io/github/license/caiocampos/restaurantes-app.svg)](LICENSE)
+
 Software com login, gestão de autoridades e CRUD de entidades, usando Java, Spring, Angular 5, Bootstrap 4 e MongoDB
 
 ## [Projeto Back-end](https://github.com/caiocampos/Restaurantes)
