@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from './app.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 
 import { Config } from '../config';
 import { EntityInfoAcess } from '../model/entityInfo/entityInfoAcess';
@@ -13,7 +10,7 @@ import { EntityInfoAcess } from '../model/entityInfo/entityInfoAcess';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private app: AppService, private http: HttpClient, private router: Router) {
+  constructor(private app: AppService) {
   }
 
   ngOnInit(): void {
@@ -21,13 +18,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.http.post(Config.server + 'logout', {})
-      .pipe(
-        finalize(() => {
-          this.app.invalidateSession();
-          this.router.navigateByUrl('/login');
-        })
-      ).subscribe();
+    this.app.logout();
   }
 
   get entities() {

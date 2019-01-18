@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppService } from '../../main/app.service';
-import { Router } from '@angular/router';
 import { Config } from '../../config';
 
 @Component({
@@ -10,12 +9,12 @@ import { Config } from '../../config';
 export class LoginComponent {
   credentials = { username: '', password: '' };
 
-  constructor(private app: AppService, private router: Router) {
+  constructor(private app: AppService) {
   }
 
   login() {
     this.app.authenticate(this.credentials, () => {
-      this.router.navigateByUrl('/');
+      this.app.navigateTo('/');
     });
     return false;
   }

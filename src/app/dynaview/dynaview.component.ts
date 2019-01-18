@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { AppService } from '../main/app.service';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { Config } from '../config';
 import { CRUDRequest } from '../model/service/crudRequest';
 import { EntityInfoField } from '../model/entityInfo/EntityInfoField';
-import { NgForm } from '@angular/forms';
 
 @Component({
   templateUrl: './dynaview.component.html',
@@ -18,7 +17,7 @@ export class DynaviewComponent implements OnInit {
   data = {};
   formMode = false;
 
-  constructor(private app: AppService, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  constructor(private app: AppService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -38,7 +37,7 @@ export class DynaviewComponent implements OnInit {
         });
       });
     } else {
-      this.router.navigateByUrl('/');
+      this.app.navigateTo('/');
     }
   }
 

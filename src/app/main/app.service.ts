@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { retry, finalize } from 'rxjs/operators';
 import { Config } from '../config';
 import { User } from '../model/user';
 import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { ModalService, ModalStructure } from '../modal/modal.service';
 import { CRUDRequest } from '../model/service/crudRequest';
-import { retry } from 'rxjs/operators';
 import { ENTITIES } from '../mock/mock-entities';
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +20,11 @@ export class AppService {
     withCredentials: true
   };
 
-  constructor(private http: HttpClient, private modal: ModalService) {
+  constructor(private http: HttpClient, private router: Router, private modal: ModalService) {
+  }
+
+  navigateTo(route) {
+    this.router.navigateByUrl(route);
   }
 
   authenticate(credentials, callback) {
@@ -41,6 +46,16 @@ export class AppService {
     });
   }
 
+  logout() {
+    this.http.post(Config.server + 'logout', {}).pipe(
+      retry(1),
+      finalize(() => {
+        this.invalidateSession();
+        this.navigateTo('/login');
+      })
+    ).subscribe(() => { }, () => { });
+  }
+
   invalidateSession() {
     this.authenticated = false;
     Config.user = new User();
@@ -53,8 +68,9 @@ export class AppService {
       Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
     }, err => {
       if (window.location.href.includes('github') || window.location.href.includes('localhost')) {
-        this.authenticateAsTest();
         Config.entities = ENTITIES;
+        this.authenticateAsTest();
+        this.navigateTo('/');
         this.openSimpleModal('Servidor não encontado', 'Serão utilizados dados de teste somente para visualização!');
       } else {
         Config.entities = [];
