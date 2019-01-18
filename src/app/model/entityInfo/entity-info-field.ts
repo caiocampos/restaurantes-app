@@ -1,11 +1,11 @@
-import { EntityInfoFK } from './entityInfoFK';
+import { EntityInfoFk } from './entity-info-fk';
 
 export class EntityInfoField {
   name: string;
   label: string;
   type: string;
   options: string[];
-  fk: EntityInfoFK;
+  fk: EntityInfoFk;
   required: boolean;
   size: number;
 }

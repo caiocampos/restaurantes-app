@@ -8,12 +8,12 @@ import {
 } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AppComponent } from './main/app.component';
-import { HomeComponent } from './view/home/home.component';
-import { LoginComponent } from './view/login/login.component';
-import { DynaviewComponent } from './dynaview/dynaview.component';
-import { ModalComponent } from './modal/modal.service';
+import { DynaviewComponent } from './component/dynaview/dynaview.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './component/app/app.component';
+import { LoginComponent } from './component/login/login.component';
+import { HomeComponent } from './component/home/home.component';
+import { ModalComponent } from './component/modal/modal.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {

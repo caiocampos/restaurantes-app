@@ -1,4 +1,4 @@
-import { EntityInfo } from '../model/entityInfo/entityInfo';
+import { EntityInfo } from '../model/entityInfo/entity-info';
 
 export const ENTITIES: Array<EntityInfo> =
   [

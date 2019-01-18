@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { AppService } from '../../main/app.service';
-import { Config } from '../../config';
+import { Config } from '../../static/config';
+import { AppService } from 'src/app/service/app.service';
 
 @Component({
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './app.service';
-
-import { Config } from '../config';
-import { EntityInfoAcess } from '../model/entityInfo/entityInfoAcess';
+import { AppService } from '../../service/app.service';
+import { Config } from 'src/app/static/config';
+import { EntityInfoAccess } from 'src/app/model/entityInfo/entity-info-access';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit {
     return (Config.user.nome || 'Ninja') + (Config.user.sobrenome != null ? (' ' + Config.user.sobrenome) : '');
   }
 
-  canAcess(userAcess: EntityInfoAcess) {
+  canAcess(userAcess: EntityInfoAccess) {
     const roles = Config.user.roles;
     if (roles == null) {
       return false;

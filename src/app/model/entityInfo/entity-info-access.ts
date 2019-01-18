@@ -1,4 +1,4 @@
-export class EntityInfoAcess {
+export class EntityInfoAccess {
   create: boolean;
   read: boolean;
   update: boolean;

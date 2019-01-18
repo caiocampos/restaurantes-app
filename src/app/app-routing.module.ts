@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './view/home/home.component';
-import { LoginComponent } from './view/login/login.component';
-import { DynaviewComponent } from './dynaview/dynaview.component';
+import { DynaviewComponent } from './component/dynaview/dynaview.component';
+import { HomeComponent } from './component/home/home.component';
+import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },

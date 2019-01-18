@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { AppService } from '../../main/app.service';
-import { Config } from '../../config';
+import { Config } from '../../static/config';
+import { AppService } from 'src/app/service/app.service';
 
 @Component({
-  templateUrl: './home.component.html'
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   constructor(private app: AppService) {

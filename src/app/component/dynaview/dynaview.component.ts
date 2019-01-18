@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { AppService } from '../main/app.service';
-import { EntityInfo } from '../model/entityInfo/entityInfo';
-import { Config } from '../config';
-import { CRUDRequest } from '../model/service/crudRequest';
-import { EntityInfoField } from '../model/entityInfo/EntityInfoField';
+import { Config } from 'src/app/static/config';
+import { AppService } from '../../service/app.service';
+import { CrudRequest } from 'src/app/model/service/crud-request';
+import { EntityInfo } from 'src/app/model/entityInfo/entity-info';
+import { EntityInfoField } from 'src/app/model/entityInfo/entity-info-field';
 
 @Component({
+  selector: 'app-dynaview',
   templateUrl: './dynaview.component.html',
   styleUrls: ['./dynaview.component.css']
 })
@@ -27,7 +28,7 @@ export class DynaviewComponent implements OnInit {
         this.return();
         this.entityInfo = Config.entities.find(element => element.entity.toLocaleLowerCase() === params['nome']);
 
-        const req = new CRUDRequest();
+        const req = new CrudRequest();
         req.entity = this.entityInfo.entity;
         this.app.request('findall', req, response => {
           this.records = response;
@@ -70,7 +71,7 @@ export class DynaviewComponent implements OnInit {
   }
 
   searh(busca) {
-    const req = new CRUDRequest();
+    const req = new CrudRequest();
     req.entity = this.entityInfo.entity;
     req.param = [busca];
     this.app.request('findnome', req, response => {
@@ -96,7 +97,7 @@ export class DynaviewComponent implements OnInit {
   }
 
   save(form: NgForm) {
-    const req = new CRUDRequest();
+    const req = new CrudRequest();
     req.entity = this.entityInfo.entity;
     req.data = Object.assign({}, this.data);
     const fk = this.entityInfo.fields.filter(field => {
@@ -128,7 +129,7 @@ export class DynaviewComponent implements OnInit {
           req.data[field.name] = null;
           attempt();
         } else {
-          const fkReq = new CRUDRequest();
+          const fkReq = new CrudRequest();
           fkReq.entity = field.fk.entity;
           fkReq.special = field.fk.search;
           fkReq.param = [this.data[field.name]];
@@ -147,7 +148,7 @@ export class DynaviewComponent implements OnInit {
   }
 
   delete(id) {
-    const req = new CRUDRequest();
+    const req = new CrudRequest();
     req.entity = this.entityInfo.entity;
     req.id = id;
     this.app.request('delete', req, response => {

@@ -1,15 +1,18 @@
+import { HttpErrorResponse, HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { retry, finalize } from 'rxjs/operators';
-import { Config } from '../config';
+import { ModalStructure } from '../model/service/modal-structure';
+import { Config } from '../static/config';
 import { User } from '../model/user';
-import { EntityInfo } from '../model/entityInfo/entityInfo';
-import { ModalService, ModalStructure } from '../modal/modal.service';
-import { CRUDRequest } from '../model/service/crudRequest';
+import { ModalService } from './modal/modal.service';
 import { ENTITIES } from '../mock/mock-entities';
+import { EntityInfo } from '../model/entityInfo/entity-info';
+import { CrudRequest } from '../model/service/crud-request';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AppService {
   authenticated = false;
 
@@ -90,7 +93,7 @@ export class AppService {
     this.authenticated = true;
   }
 
-  request(action, req: CRUDRequest, callback, errorCallback?) {
+  request(action, req: CrudRequest, callback, errorCallback?) {
     return this.http.post(Config.server + action, req, this.headers).subscribe(callback, errorCallback);
   }
 

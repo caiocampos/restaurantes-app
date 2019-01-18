@@ -1,5 +1,5 @@
-import { User } from './model/user';
-import { EntityInfo } from './model/entityInfo/entityInfo';
+import { User } from '../model/user';
+import { EntityInfo } from '../model/entityInfo/entity-info';
 
 export class Config {
   static server = 'http://localhost:8085/';
