@@ -6,7 +6,7 @@ import { ModalStructure } from '../model/service/modal-structure';
 import { Config } from '../static/config';
 import { User } from '../model/user';
 import { ModalService } from './modal/modal.service';
-import { ENTITIES } from '../mock/mock-entities';
+import { MOCK_ENTITIES } from '../mock/mock-entities';
 import { EntityInfo } from '../model/entityInfo/entity-info';
 import { CrudRequest } from '../model/service/crud-request';
 
@@ -71,7 +71,7 @@ export class AppService {
       Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
     }, err => {
       if (window.location.href.includes('github') || window.location.href.includes('localhost')) {
-        Config.entities = ENTITIES;
+        Config.entities = MOCK_ENTITIES;
         this.authenticateAsTest();
         this.navigateTo('/');
         this.openSimpleModal('Servidor não encontado', 'Serão utilizados dados de teste somente para visualização!');

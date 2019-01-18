@@ -1,6 +1,6 @@
 import { EntityInfo } from '../model/entityInfo/entity-info';
 
-export const ENTITIES: Array<EntityInfo> =
+export const MOCK_ENTITIES: Array<EntityInfo> =
   [
     {
       'entity': 'Prato',
