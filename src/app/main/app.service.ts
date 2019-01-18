@@ -5,6 +5,8 @@ import { User } from '../model/user';
 import { EntityInfo } from '../model/entityInfo/entityInfo';
 import { ModalService, ModalStructure } from '../modal/modal.service';
 import { CRUDRequest } from '../model/service/crudRequest';
+import { retry } from 'rxjs/operators';
+import { ENTITIES } from '../mock/mock-entities';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
@@ -45,12 +47,31 @@ export class AppService {
   }
 
   setEntities() {
-    this.http.post(Config.server + 'entity/list', {}, this.headers).subscribe(response => {
+    this.http.post(Config.server + 'entity/list', {}, this.headers).pipe(
+      retry(1),
+    ).subscribe(response => {
       Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
     }, err => {
-      Config.entities = [];
-      this.openModalDetail('Erro!', 'Não foi possível carregar as telas do Sistema!', err);
+      if (window.location.href.includes('github') || window.location.href.includes('localhost')) {
+        this.authenticateAsTest();
+        Config.entities = ENTITIES;
+        this.openSimpleModal('Servidor não encontado', 'Serão utilizados dados de teste somente para visualização!');
+      } else {
+        Config.entities = [];
+        this.openModalDetail('Erro!', 'Não foi possível carregar as telas do Sistema!', err);
+      }
     });
+  }
+
+  private authenticateAsTest() {
+    Config.user = {
+      username: 'test',
+      roles: ['user'],
+      nome: 'Test',
+      sobrenome: 'Test',
+      enabled: true
+    };
+    this.authenticated = true;
   }
 
   request(action, req: CRUDRequest, callback, errorCallback?) {
