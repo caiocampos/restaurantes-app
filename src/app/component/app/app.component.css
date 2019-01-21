@@ -1,13 +1,13 @@
 #header-menu {
-    background: white;
-    font-weight: bold;
+	background: white;
+	font-weight: bold;
 }
 
 #header-menu > .btn-outline-danger {
-    color: red;
-    font-weight: bold;
+	color: red;
+	font-weight: bold;
 }
 
 .not-allowed {
-    cursor: not-allowed !important;
+	cursor: not-allowed !important;
 }

@@ -1,13 +1,13 @@
 .grid-body {
-  color: black;
-  background: white;
+	color: black;
+	background: white;
 }
 
 .grid-head {
-  background: black;
+	background: black;
 }
 
 .form-body {
-  background: beige;
-  height: 80vh;
+	background: beige;
+	height: 80vh;
 }

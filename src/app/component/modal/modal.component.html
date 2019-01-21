@@ -8,17 +8,17 @@
   <div class="modal-body">
     <p>{{mensagem}}</p>
     <div *ngIf="detalhe">
-        <button type="button" class="btn btn-sm btn-block btn-outline-info" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
-          aria-controls="detalhes">
-          Mais Detalhes:
-        </button>
-        <div id="detalhes" [ngbCollapse]="isCollapsed">
-          <div class="card">
-            <div class="card-body">
-              <div [innerHTML]="detalhe"></div>
-            </div>
+      <button type="button" class="btn btn-sm btn-block btn-outline-info" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="detalhes">
+        Mais Detalhes:
+      </button>
+      <div id="detalhes" [ngbCollapse]="isCollapsed">
+        <div class="card">
+          <div class="card-body">
+            <div [innerHTML]="detalhe"></div>
           </div>
         </div>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
