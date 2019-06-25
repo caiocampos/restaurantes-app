@@ -22,7 +22,7 @@
     "@angular/router": "~8.0.1",
     "@ng-bootstrap/ng-bootstrap": "^4.2.1",
     "@types/bootstrap": "^4.2.2",
-    "@types/jquery": "^3.3.29",
+    "@types/jquery": "^3.3.30",
     "bootstrap": "^4.3.1",
     "core-js": "^3.1.4",
     "jquery": "^3.4.1",
