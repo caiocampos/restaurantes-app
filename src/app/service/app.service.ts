@@ -39,8 +39,8 @@ export class AppService {
       .set('username', credentials['username'])
       .set('password', credentials['password']);
 
-    this.http.post(Config.server + 'login', params.toString(), { headers: headers, withCredentials: true }).subscribe(response => {
-      Config.user = Object.setPrototypeOf(response, User);
+    this.http.post<User>(Config.server + 'login', params.toString(), { headers: headers, withCredentials: true }).subscribe(response => {
+      Config.user = response;
       this.authenticated = true;
       if (callback) { callback(); }
     }, err => {
@@ -65,16 +65,16 @@ export class AppService {
   }
 
   setEntities() {
-    this.http.post(Config.server + 'entity/list', {}, this.headers).pipe(
-      retry(1),
+    this.http.post<Array<EntityInfo>>(Config.server + 'entity/list', {}, this.headers).pipe(
+      retry(5),
     ).subscribe(response => {
-      Config.entities = Object.setPrototypeOf(response, Array<EntityInfo>());
+      Config.entities = response;
     }, err => {
-      if (window.location.href.includes('github') || window.location.href.includes('localhost')) {
+      if (Config.location === Config.Location.GitHub || Config.location === Config.Location.Local) {
         Config.entities = MOCK_ENTITIES;
         this.authenticateAsTest();
         this.navigateTo('/');
-        this.openSimpleModal('Servidor não encontado', 'Serão utilizados dados de teste somente para visualização!');
+        this.openSimpleModal('Servidor não inicializado', 'Serão utilizados dados de teste somente para visualização!');
       } else {
         Config.entities = [];
         this.openModalDetail('Erro!', 'Não foi possível carregar as telas do Sistema!', err);
@@ -93,7 +93,7 @@ export class AppService {
     this.authenticated = true;
   }
 
-  request(action, req: CrudRequest, callback, errorCallback?) {
+  request(action, req: CrudRequest, callback?: (value: any) => void, errorCallback?: (error: any) => void) {
     return this.http.post(Config.server + action, req, this.headers).subscribe(callback, errorCallback);
   }
 
