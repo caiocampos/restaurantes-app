@@ -56,16 +56,18 @@
     <div class="container-fluid py-md-2 form-body">
       <div class="row">
         <div class="input-group col-md-{{field.size}} my-md-1" *ngFor="let field of entityInfo.fields">
-          <ng-container *ngIf="field.type !== 'TOGGLE'; else fieldLabel">
+          <ng-container *ngIf="field.type !== 'TOGGLE'; else checkbox">
             <div class="input-group-prepend">
               <span class="input-group-text font-weight-bold text-white" [ngClass]="field.required ? 'bg-danger' : 'bg-primary' ">{{field.label}}:</span>
             </div>
+            <input id="{{field.name}}" name="{{field.name}}" class="form-control" [type]="getType(field)" [required]="field.required"
+              [(ngModel)]="data[field.name]" />
           </ng-container>
-          <ng-template #fieldLabel>
+          <ng-template #checkbox>
             <label class="text-dark font-weight-bold" for="{{field.name}}">{{field.label}}</label>
+            <input id="{{field.name}}" name="{{field.name}}" class="form-control" type="checkbox" [required]="field.required"
+              [checked]="data != null && data[field.name]" [(ngModel)]="!!data[field.name]" />
           </ng-template>
-          <input id="{{field.name}}" name="{{field.name}}" class="form-control" [type]="getType(field)" [required]="field.required"
-            [checked]="field.type === 'TOGGLE' && data != null && data[field.name]" [(ngModel)]="data[field.name]" />
         </div>
       </div>
     </div>

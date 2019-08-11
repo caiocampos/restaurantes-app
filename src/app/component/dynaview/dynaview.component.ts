@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { Config } from 'src/app/static/config';
 import { AppService } from '../../service/app.service';
 import { CrudRequest } from 'src/app/model/service/crud-request';
@@ -64,7 +63,6 @@ export class DynaviewComponent implements OnInit {
       case 'PHONE': return 'tel';
       case 'NUMBER': return 'number';
       case 'VALUE': return 'number';
-      case 'TOGGLE': return 'checkbox';
       case 'PASS': return 'password';
       default: return 'text';
     }
@@ -83,9 +81,10 @@ export class DynaviewComponent implements OnInit {
 
   newRecord() {
     this.formMode = true;
+    this.data = {};
   }
 
-  edit(record, form) {
+  edit(record) {
     const data = Object.assign({}, record);
     this.entityInfo.fields.forEach(field => {
       if (field.type === 'FOREIGN') {
@@ -96,18 +95,17 @@ export class DynaviewComponent implements OnInit {
     this.data = data;
   }
 
-  save(form: NgForm) {
+  save() {
     const req = new CrudRequest();
     req.entity = this.entityInfo.entity;
     req.data = Object.assign({}, this.data);
-    const fk = this.entityInfo.fields.filter(field => {
-      return field.type === 'FOREIGN';
+    this.entityInfo.fields.filter(field => field.type === 'LIST' && !Array.isArray(req.data[field.name])).forEach(field => {
+      req.data[field.name] = req.data[field.name] ? req.data[field.name].split(',') : [];
     });
+    const fk = this.entityInfo.fields.filter(field => field.type === 'FOREIGN');
     const request = () => {
       this.app.request('save', req, response => {
-        this.records = this.records.filter(record => {
-          return record['id'] !== response['id'];
-        });
+        this.records = this.records.filter(record => record['id'] !== response['id']);
         this.records.push(response);
         this.return();
         this.app.openSimpleModal('Sucesso!', 'Dados gravados!');
