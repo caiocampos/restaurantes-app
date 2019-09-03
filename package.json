@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^8.2.3",
     "@angular/platform-browser-dynamic": "^8.2.3",
     "@angular/router": "^8.2.3",
-    "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "core-js": "^3.2.1",
     "rxjs": "~6.5.2",
     "tar": "^4.4.10",
