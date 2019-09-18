@@ -23,7 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
     "core-js": "^3.2.1",
     "rxjs": "~6.5.3",
-    "tar": "^4.4.10",
+    "tar": "^4.4.11",
     "tslib": "^1.10.0",
     "webpack": "^4.40.2",
     "webpack-dev-server": "^3.8.1",
