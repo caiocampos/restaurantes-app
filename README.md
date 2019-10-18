@@ -3,6 +3,7 @@
 [<img src="https://api.travis-ci.org/caiocampos/restaurantes-app.svg?branch=master">](https://travis-ci.org/caiocampos/restaurantes-app)
 ![](https://img.shields.io/david/caiocampos/restaurantes-app.svg)
 [![DepShield Badge](https://depshield.sonatype.org/badges/caiocampos/restaurantes-app/depshield.svg)](https://depshield.github.io)
+[![GuardRails Badge](https://badges.guardrails.io/caiocampos/restaurantes-app.svg)](https://www.guardrails.io/)
 [![License](https://img.shields.io/github/license/caiocampos/restaurantes-app.svg)](LICENSE)
 
 Software com login, gestão de autoridades e CRUD de entidades, usando Java, Spring, Angular 8, Bootstrap 4 e MongoDB
