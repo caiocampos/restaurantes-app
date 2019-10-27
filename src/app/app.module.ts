@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import {
   HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 } from '@angular/common/http';
+import { LinksButtonsModule } from '@caiocampos/links-buttons';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynaviewComponent } from './component/dynaview/dynaview.component';
@@ -39,7 +40,8 @@ export class XhrInterceptor implements HttpInterceptor {
     NgbModule,
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    LinksButtonsModule
   ],
   entryComponents: [ModalComponent],
   bootstrap: [AppComponent]

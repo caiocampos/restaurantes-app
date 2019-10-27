@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Config } from '../../static/config';
+
 import { AppService } from 'src/app/service/app.service';
+import { Config } from '../../static/config';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +12,15 @@ export class HomeComponent {
   constructor(private app: AppService) {
   }
 
-  get authenticated() {
+  get authenticated(): boolean {
     return this.app.authenticated;
   }
 
-  get nomeUsuario() {
+  get onGithub(): boolean {
+    return Config.location === Config.Location.GitHub;
+  }
+
+  get nomeUsuario(): string {
     return Config.user.nome + ' ' + Config.user.sobrenome;
   }
 }

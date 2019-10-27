@@ -6,8 +6,8 @@
           <a class="nav-link" routerLinkActive="active" routerLink="/home">Início</a>
         </li>
         <li class="nav-item" *ngFor="let entity of entities">
-          <a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}" routerLinkActive="active"
-            [routerLink]="['/dyna', entity.entity.toLowerCase() ]">{{entity.title}}</a>
+          <a class="nav-link" [ngClass]="{'disabled not-allowed': !canAcess(entity.userAcess)}"
+            routerLinkActive="active" [routerLink]="['/dyna', entity.entity.toLowerCase() ]">{{entity.title}}</a>
         </li>
       </ul>
     </div>
@@ -26,6 +26,19 @@
     </div>
   </div>
 </div>
+
+<lb-group text="Mais..." position="bottom">
+  <lb-link link="https://caiocampos.github.io" text="Página inicial"
+    img="https://caiocampos.github.io/assets/img/extra/home.png">
+  </lb-link>
+  <lb-link link="https://github.com/caiocampos/restaurantes-app" text="Código fonte (Front-end)"
+    img="https://caiocampos.github.io/assets/img/github/mark/GitHub-Mark-120px-plus.png">
+  </lb-link>
+  <lb-link link="https://github.com/caiocampos/Restaurantes" text="Código fonte (Back-end)"
+    img="https://caiocampos.github.io/assets/img/github/mark/GitHub-Mark-Light-120px-plus.png">
+  </lb-link>
+</lb-group>
+
 <div class="container-fluid">
   <router-outlet></router-outlet>
 </div>

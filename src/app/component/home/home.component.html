@@ -1,8 +1,15 @@
 <div class="app-center">
-	<div [hidden]="!authenticated">
+	<ng-container *ngIf="authenticated; else doLogin">
 		<h1>Bem vindo {{nomeUsuario}}</h1>
-	</div>
-	<div [hidden]="authenticated">
+	</ng-container>
+	<ng-template #doLogin>
 		<h1>Faça Login!</h1>
-	</div>
+		<ng-container *ngIf="onGithub">
+			<h3>
+				Tente acessar com:<br>
+				usuário: teste<br>
+				senha: teste
+			</h3>
+		</ng-container>
+	</ng-template>
 </div>
