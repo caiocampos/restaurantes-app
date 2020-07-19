@@ -9,7 +9,7 @@ branches:
   - master
 
 before_script:
-  - npm install -g @angular/cli@9
+  - npm install -g @angular/cli@10
 
 script:
   - ng lint
