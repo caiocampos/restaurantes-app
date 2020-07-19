@@ -131,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "restaurantes-app"
+  "defaultProject": "restaurantes-app",
+  "cli": {
+    "analytics": "74c053bd-010c-4ad0-8006-b6fa1101d657"
+  }
 }
