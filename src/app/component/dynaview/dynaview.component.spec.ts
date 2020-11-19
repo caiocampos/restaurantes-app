@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DynaviewComponent } from './dynaview.component';
 
@@ -6,7 +6,7 @@ describe('DynaviewComponent', () => {
   let component: DynaviewComponent;
   let fixture: ComponentFixture<DynaviewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DynaviewComponent ]
     })
