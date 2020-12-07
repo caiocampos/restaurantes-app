@@ -23,7 +23,7 @@
     "@angular/router": "^11.0.2",
     "@caiocampos/links-buttons": "~0.0.9",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
-    "core-js": "^3.8.0",
+    "core-js": "^3.8.1",
     "rxjs": "~6.6.3",
     "tar": "^6.0.5",
     "tslib": "^2.0.0",
