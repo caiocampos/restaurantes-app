@@ -27,7 +27,7 @@
     "rxjs": "~6.6.3",
     "tar": "^6.1.0",
     "tslib": "^2.1.0",
-    "webpack": "^4.45.0",
+    "webpack": "^4.46.0",
     "webpack-dev-server": "^3.11.1",
     "zone.js": "~0.10.3"
   },
