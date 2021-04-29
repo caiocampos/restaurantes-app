@@ -20,7 +20,7 @@
     "@angular/localize": "^11.2.11",
     "@angular/platform-browser": "^11.2.11",
     "@angular/platform-browser-dynamic": "^11.2.11",
-    "@angular/router": "^11.2.11",
+    "@angular/router": "^11.2.12",
     "@caiocampos/links-buttons": "~0.0.9",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "core-js": "^3.11.0",
