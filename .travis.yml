@@ -9,11 +9,11 @@ branches:
   - master
 
 before_script:
-  - npm install -g @angular/cli@11
+  - npm install -g @angular/cli@12
 
 script:
   - ng lint
-  - ng build --prod --base-href /restaurantes-app/
+  - ng build --configuration production --base-href /restaurantes-app/
   - cd dist/restaurantes-app
   - cp index.html 404.html
   - cd ../..
