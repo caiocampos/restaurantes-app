@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^12.0.2",
     "@angular/router": "^12.0.2",
     "@caiocampos/links-buttons": "~0.0.10",
-    "@ng-bootstrap/ng-bootstrap": "^9.1.1",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.2",
     "core-js": "^3.13.1",
     "rxjs": "~6.6.7",
     "tar": "^6.1.0",
