@@ -24,7 +24,7 @@
     "@caiocampos/links-buttons": "~0.0.10",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "bootstrap": "^5.1.0",
-    "core-js": "^3.16.4",
+    "core-js": "^3.17.1",
     "rxjs": "~7.3.0",
     "tar": "^6.1.11",
     "tslib": "^2.3.1",
