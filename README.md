@@ -1,7 +1,6 @@
 # restaurantes-app (Restaurante's)
 
-[<img src="https://api.travis-ci.org/caiocampos/restaurantes-app.svg?branch=master">](https://travis-ci.org/caiocampos/restaurantes-app)
-![](https://img.shields.io/david/caiocampos/restaurantes-app.svg)
+[![Node.js CI](https://github.com/caiocampos/restaurantes-app/actions/workflows/node.js.yml/badge.svg)](https://github.com/caiocampos/restaurantes-app/actions/workflows/node.js.yml)
 [![DepShield Badge](https://depshield.sonatype.org/badges/caiocampos/restaurantes-app/depshield.svg)](https://depshield.github.io)
 [![GuardRails Badge](https://badges.guardrails.io/caiocampos/restaurantes-app.svg)](https://www.guardrails.io/)
 [![License](https://img.shields.io/github/license/caiocampos/restaurantes-app.svg)](LICENSE)
