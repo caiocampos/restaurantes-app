@@ -28,22 +28,21 @@ export class XhrInterceptor implements HttpInterceptor {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    LoginComponent,
-    DynaviewComponent,
-    ModalComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    NgbModule,
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    LinksButtonsModule
-  ],
-  entryComponents: [ModalComponent],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        LoginComponent,
+        DynaviewComponent,
+        ModalComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        NgbModule,
+        BrowserModule,
+        HttpClientModule,
+        FormsModule,
+        LinksButtonsModule
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
