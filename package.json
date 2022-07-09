@@ -20,7 +20,7 @@
     "@angular/localize": "^14.0.5",
     "@angular/platform-browser": "^14.0.4",
     "@angular/platform-browser-dynamic": "^14.0.4",
-    "@angular/router": "^14.0.4",
+    "@angular/router": "^14.0.5",
     "@caiocampos/links-buttons": "^0.0.11",
     "@ng-bootstrap/ng-bootstrap": "^13.0.0-beta.1",
     "@popperjs/core": "^2.11.5",
