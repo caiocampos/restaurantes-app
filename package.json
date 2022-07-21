@@ -25,7 +25,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0-beta.1",
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.2.0",
-    "core-js": "^3.23.4",
+    "core-js": "^3.23.5",
     "rxjs": "^7.5.6",
     "tar": "^6.1.11",
     "tslib": "^2.4.0",
