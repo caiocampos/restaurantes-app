@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "@caiocampos/links-buttons": "^0.0.11",
-    "@ng-bootstrap/ng-bootstrap": "^13.0.0-beta.1",
+    "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.2.0",
     "core-js": "^3.24.0",
