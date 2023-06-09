@@ -27,7 +27,7 @@
     "bootstrap": "^5.3.0",
     "core-js": "^3.26.1",
     "rxjs": "^7.8.1",
-    "tar": "^6.1.13",
+    "tar": "^6.1.15",
     "tslib": "^2.5.3",
     "webpack-dev-server": "^4.11.1",
     "zone.js": "^0.11.8"
