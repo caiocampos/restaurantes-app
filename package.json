@@ -30,7 +30,7 @@
     "tar": "^6.1.15",
     "tslib": "^2.6.0",
     "webpack-dev-server": "^4.15.1",
-    "zone.js": "^0.11.8"
+    "zone.js": "^0.13.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.4",
