@@ -860,7 +860,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RestaurantsController = void 0;
 const common_1 = __webpack_require__(3);
@@ -874,6 +874,9 @@ const require_permission_decorator_1 = __webpack_require__(31);
 let RestaurantsController = class RestaurantsController {
     constructor(restaurantsService) {
         this.restaurantsService = restaurantsService;
+    }
+    count() {
+        return this.restaurantsService.count();
     }
     create(dto) {
         return this.restaurantsService.create(dto);
@@ -893,11 +896,17 @@ let RestaurantsController = class RestaurantsController {
 };
 exports.RestaurantsController = RestaurantsController;
 __decorate([
+    (0, common_1.Get)('count'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
+], RestaurantsController.prototype, "count", null);
+__decorate([
     (0, require_permission_decorator_1.RequirePermission)("restaurants", "create"),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_b = typeof create_restaurant_dto_1.CreateRestaurantDto !== "undefined" && create_restaurant_dto_1.CreateRestaurantDto) === "function" ? _b : Object]),
+    __metadata("design:paramtypes", [typeof (_c = typeof create_restaurant_dto_1.CreateRestaurantDto !== "undefined" && create_restaurant_dto_1.CreateRestaurantDto) === "function" ? _c : Object]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "create", null);
 __decorate([
@@ -905,7 +914,7 @@ __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof pagination_query_dto_1.PaginationQueryDto !== "undefined" && pagination_query_dto_1.PaginationQueryDto) === "function" ? _c : Object]),
+    __metadata("design:paramtypes", [typeof (_d = typeof pagination_query_dto_1.PaginationQueryDto !== "undefined" && pagination_query_dto_1.PaginationQueryDto) === "function" ? _d : Object]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "findAll", null);
 __decorate([
@@ -922,7 +931,7 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, typeof (_d = typeof update_restaurant_dto_1.UpdateRestaurantDto !== "undefined" && update_restaurant_dto_1.UpdateRestaurantDto) === "function" ? _d : Object]),
+    __metadata("design:paramtypes", [String, typeof (_e = typeof update_restaurant_dto_1.UpdateRestaurantDto !== "undefined" && update_restaurant_dto_1.UpdateRestaurantDto) === "function" ? _e : Object]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "update", null);
 __decorate([
@@ -969,6 +978,16 @@ const mongoose_connection_1 = __webpack_require__(22);
 let RestaurantsService = class RestaurantsService {
     constructor(restaurantModel) {
         this.restaurantModel = restaurantModel;
+    }
+    async count() {
+        try {
+            return await this.restaurantModel.countDocuments().exec();
+        }
+        catch (error) {
+            const msg = "Erro ao contar os restaurantes";
+            console.error(msg, error);
+            throw new common_1.BadRequestException(msg);
+        }
     }
     create(dto) {
         return new this.restaurantModel(dto).save();
