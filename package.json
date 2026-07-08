@@ -1,0 +1,32 @@
+{
+  "name": "restaurantes-back",
+  "version": "1.0.0",
+  "description": "Restaurantes Back-end",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "@nestjs/common": "^10.4.6",
+    "@nestjs/config": "^3.3.0",
+    "@nestjs/core": "^10.4.6",
+    "@nestjs/jwt": "^10.2.0",
+    "@nestjs/mapped-types": "^2.0.6",
+    "@nestjs/mongoose": "^10.0.10",
+    "@nestjs/passport": "^10.0.3",
+    "@nestjs/platform-express": "^10.4.6",
+    "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.7.3",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rimraf": "^6.1.3",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
