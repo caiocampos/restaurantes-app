@@ -17,7 +17,7 @@ import { getjwtExpiresIn, getjwtSecret } from "./jwt-env";
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
       secret: getjwtSecret(),
-      signOptions: { expiresIn: getjwtExpiresIn },
+      signOptions: { expiresIn: getjwtExpiresIn() },
     }),
   ],
   providers: [JwtStrategy],
