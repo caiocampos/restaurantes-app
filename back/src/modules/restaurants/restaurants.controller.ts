@@ -22,11 +22,6 @@ import { RequirePermission } from "../../common/permissions/require-permission.d
 export class RestaurantsController {
   constructor(private readonly restaurantsService: RestaurantsService) {}
 
-  @Get('count')
-  count(): Promise<number> {
-    return this.restaurantsService.count();
-  }
-
   @RequirePermission("restaurants", "create")
   @Post()
   create(@Body() dto: CreateRestaurantDto) {

@@ -4,6 +4,7 @@ import { Restaurant, RestaurantSchema } from "./schemas/restaurant.schema";
 import { RestaurantsController } from "./restaurants.controller";
 import { RestaurantsService } from "./restaurants.service";
 import { connectionName } from "../../mongoose-connection";
+import { RestaurantsOpenController } from "./restaurants-open.controller";
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { connectionName } from "../../mongoose-connection";
       connectionName,
     ),
   ],
-  controllers: [RestaurantsController],
+  controllers: [RestaurantsController, RestaurantsOpenController],
   providers: [RestaurantsService],
   exports: [RestaurantsService],
 })
