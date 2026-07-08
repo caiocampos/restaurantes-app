@@ -1175,7 +1175,12 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, enum: role_enum_1.Role, default: role_enum_1.Role.USER }),
+    (0, mongoose_1.Prop)({
+        required: true,
+        type: String,
+        enum: role_enum_1.Role,
+        default: role_enum_1.Role.USER,
+    }),
     __metadata("design:type", typeof (_a = typeof role_enum_1.Role !== "undefined" && role_enum_1.Role) === "function" ? _a : Object)
 ], User.prototype, "role", void 0);
 __decorate([
