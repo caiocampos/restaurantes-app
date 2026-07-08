@@ -741,13 +741,13 @@
     path-to-regexp "8.4.2"
     tslib "2.8.1"
 
-"@nestjs/jwt@^10.2.0":
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/jwt/-/jwt-10.2.0.tgz#6aa35a04922d19c6426efced4671620f92e6dbd0"
-  integrity sha512-x8cG90SURkEiLOehNaN2aRlotxT0KZESUliOPKKnjWiyJOcWurkF3w345WOX0P4MgFzUjGoZ1Sy0aZnxeihT0g==
+"@nestjs/jwt@^11.0.2":
+  version "11.0.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/jwt/-/jwt-11.0.2.tgz#bd574b2932de75e0d99017204eb08203cf373adf"
+  integrity sha512-rK8aE/3/Ma45gAWfCksAXUNbOoSOUudU0Kn3rT39htPF7wsYXtKfjALKeKKJbFrIWbLjsbqfXX5bIJNvgBugGA==
   dependencies:
-    "@types/jsonwebtoken" "9.0.5"
-    jsonwebtoken "9.0.2"
+    "@types/jsonwebtoken" "9.0.10"
+    jsonwebtoken "9.0.3"
 
 "@nestjs/mapped-types@^2.0.6":
   version "2.1.1"
@@ -1034,19 +1034,12 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
-"@types/jsonwebtoken@*":
+"@types/jsonwebtoken@*", "@types/jsonwebtoken@9.0.10":
   version "9.0.10"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.10.tgz#a7932a47177dcd4283b6146f3bd5c26d82647f09"
   integrity sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==
   dependencies:
     "@types/ms" "*"
-    "@types/node" "*"
-
-"@types/jsonwebtoken@9.0.5":
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-9.0.5.tgz#0bd9b841c9e6c5a937c17656e2368f65da025588"
-  integrity sha512-VRLSGzik+Unrup6BsouBeHsf4d1hOEgYWTm/7Nmw1sXoN1+tRly/Gy/po3yeahnP4jfnQWWAhQAqcNfH7ngOkA==
-  dependencies:
     "@types/node" "*"
 
 "@types/ms@*":
@@ -3554,23 +3547,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonwebtoken@9.0.2:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.2.tgz#65ff91f4abef1784697d40952bb1998c504caaf3"
-  integrity sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==
-  dependencies:
-    jws "^3.2.2"
-    lodash.includes "^4.3.0"
-    lodash.isboolean "^3.0.3"
-    lodash.isinteger "^4.0.4"
-    lodash.isnumber "^3.0.3"
-    lodash.isplainobject "^4.0.6"
-    lodash.isstring "^4.0.1"
-    lodash.once "^4.0.0"
-    ms "^2.1.1"
-    semver "^7.5.4"
-
-jsonwebtoken@^9.0.0:
+jsonwebtoken@9.0.3, jsonwebtoken@^9.0.0:
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.3.tgz#6cd57ab01e9b0ac07cb847d53d3c9b6ee31f7ae2"
   integrity sha512-MT/xP0CrubFRNLNKvxJ2BYfy53Zkm++5bX9dtuPbqAeQpTVe0MQTFhao8+Cp//EmJp244xt6Drw/GVEGCUj40g==
@@ -3586,15 +3563,6 @@ jsonwebtoken@^9.0.0:
     ms "^2.1.1"
     semver "^7.5.4"
 
-jwa@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/jwa/-/jwa-1.4.2.tgz#16011ac6db48de7b102777e57897901520eec7b9"
-  integrity sha512-eeH5JO+21J78qMvTIDdBXidBd6nG2kZjg5Ohz/1fpa28Z4CcsWUzJ1ZZyFq/3z3N17aZy+ZuBoHljASbL1WfOw==
-  dependencies:
-    buffer-equal-constant-time "^1.0.1"
-    ecdsa-sig-formatter "1.0.11"
-    safe-buffer "^5.0.1"
-
 jwa@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jwa/-/jwa-2.0.1.tgz#bf8176d1ad0cd72e0f3f58338595a13e110bc804"
@@ -3602,14 +3570,6 @@ jwa@^2.0.1:
   dependencies:
     buffer-equal-constant-time "^1.0.1"
     ecdsa-sig-formatter "1.0.11"
-    safe-buffer "^5.0.1"
-
-jws@^3.2.2:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/jws/-/jws-3.2.3.tgz#5ac0690b460900a27265de24520526853c0b8ca1"
-  integrity sha512-byiJ0FLRdLdSVSReO/U4E7RoEyOCKnEnEPMjq3HxWtvzLsV08/i5RQKsFVNkCldrCaPr2vDNAOMsfs8T/Hze7g==
-  dependencies:
-    jwa "^1.4.2"
     safe-buffer "^5.0.1"
 
 jws@^4.0.1:
