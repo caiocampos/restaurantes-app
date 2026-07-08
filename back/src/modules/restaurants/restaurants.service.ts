@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Restaurant, RestaurantDocument } from "./schemas/restaurant.schema";
@@ -15,6 +19,16 @@ export class RestaurantsService {
     @InjectModel(Restaurant.name, connectionName)
     private readonly restaurantModel: Model<RestaurantDocument>,
   ) {}
+
+  async count(): Promise<number> {
+    try {
+      return await this.restaurantModel.countDocuments().exec();
+    } catch (error) {
+      const msg = "Erro ao contar os restaurantes";
+      console.error(msg, error);
+      throw new BadRequestException(msg);
+    }
+  }
 
   create(dto: CreateRestaurantDto): Promise<RestaurantDocument> {
     return new this.restaurantModel(dto).save();
