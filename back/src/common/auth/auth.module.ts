@@ -2,7 +2,6 @@ import { Global, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from "./jwt.strategy";
-import { forceString } from "../utils";
 import { getjwtExpiresIn, getjwtSecret } from "./jwt-env";
 
 /**

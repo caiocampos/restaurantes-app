@@ -1,6 +1,6 @@
-import { FilterQuery, Model } from 'mongoose';
-import { PaginationQueryDto } from '../dto/pagination-query.dto';
-import { PaginatedResult } from '../interfaces/paginated-result.interface';
+import { QueryFilter, Model } from "mongoose";
+import { PaginationQueryDto } from "../dto/pagination-query.dto";
+import { PaginatedResult } from "../interfaces/paginated-result.interface";
 
 /**
  * Executa uma busca paginada em um model do Mongoose, aplicando
@@ -10,14 +10,17 @@ import { PaginatedResult } from '../interfaces/paginated-result.interface';
 export async function paginate<T>(
   model: Model<T>,
   query: PaginationQueryDto,
-  extraFilter: FilterQuery<T> = {},
+  extraFilter: QueryFilter<T> = {},
 ): Promise<PaginatedResult<T>> {
   const page = query.page ?? 1;
   const limit = query.limit ?? 10;
 
-  const filter: FilterQuery<T> = { ...extraFilter };
+  const filter: QueryFilter<T> = { ...extraFilter };
   if (query.name) {
-    (filter as Record<string, unknown>).name = { $regex: query.name, $options: 'i' };
+    (filter as Record<string, unknown>).name = {
+      $regex: query.name,
+      $options: "i",
+    };
   }
 
   const [data, total] = await Promise.all([
@@ -30,5 +33,11 @@ export async function paginate<T>(
     model.countDocuments(filter),
   ]);
 
-  return { data, total, page, limit, totalPages: Math.max(Math.ceil(total / limit), 1) };
+  return {
+    data,
+    total,
+    page,
+    limit,
+    totalPages: Math.max(Math.ceil(total / limit), 1),
+  };
 }

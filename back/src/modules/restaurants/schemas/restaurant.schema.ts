@@ -1,19 +1,19 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { applyToJSONTransform } from '../../../common/utils';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { applyToJSONTransform } from "../../../common/utils";
 
 export type RestaurantDocument = Restaurant & Document;
 
-@Schema({ timestamps: true, collection: 'restaurants' })
+@Schema({ timestamps: true, collection: "restaurants" })
 export class Restaurant {
   @Prop({ required: true, trim: true, index: true })
-  name: string;
+  name!: string;
 
   @Prop({ required: true, trim: true })
-  phone: string;
+  phone!: string;
 
   @Prop({ required: true, trim: true })
-  address: string;
+  address!: string;
 }
 
 export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);

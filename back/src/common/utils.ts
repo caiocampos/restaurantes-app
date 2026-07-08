@@ -1,9 +1,8 @@
-import { Schema } from 'mongoose';
-
+import { Schema } from "mongoose";
 
 export const forceNumber = (num: unknown): number => Number(num) || 0;
 
-export const forceString = (str: unknown): string => String(str) || '';
+export const forceString = (str: unknown): string => String(str) || "";
 
 /**
  * Aplica um transform padrão de toJSON em um schema do Mongoose:
@@ -11,8 +10,11 @@ export const forceString = (str: unknown): string => String(str) || '';
  * - remove "__v"
  * - permite remover campos sensíveis extras (ex.: password)
  */
-export function applyToJSONTransform(schema: Schema, omitFields: string[] = []): void {
-  schema.set('toJSON', {
+export function applyToJSONTransform(
+  schema: Schema,
+  omitFields: string[] = [],
+): void {
+  schema.set("toJSON", {
     virtuals: true,
     versionKey: false,
     transform: (_doc, ret: Record<string, any>) => {

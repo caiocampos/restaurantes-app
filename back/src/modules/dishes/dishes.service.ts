@@ -1,14 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Dish, DishDocument } from './schemas/dish.schema';
-import { CreateDishDto } from './dto/create-dish.dto';
-import { UpdateDishDto } from './dto/update-dish.dto';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
-import { PaginatedResult } from '../../common/interfaces/paginated-result.interface';
-import { paginate } from '../../common/helpers/paginate';
-import { connectionName } from '../../mongoose-connection';
-import { Restaurant, RestaurantDocument } from '../restaurants/schemas/restaurant.schema';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { Dish, DishDocument } from "./schemas/dish.schema";
+import { CreateDishDto } from "./dto/create-dish.dto";
+import { UpdateDishDto } from "./dto/update-dish.dto";
+import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
+import { PaginatedResult } from "../../common/interfaces/paginated-result.interface";
+import { paginate } from "../../common/helpers/paginate";
+import { connectionName } from "../../mongoose-connection";
+import {
+  Restaurant,
+  RestaurantDocument,
+} from "../restaurants/schemas/restaurant.schema";
 
 @Injectable()
 export class DishesService {
@@ -22,7 +25,7 @@ export class DishesService {
   private async ensureRestaurantExists(restaurantId: string): Promise<void> {
     const exists = await this.restaurantModel.exists({ _id: restaurantId });
     if (!exists) {
-      throw new NotFoundException('Restaurante informado não existe');
+      throw new NotFoundException("Restaurante informado não existe");
     }
   }
 
@@ -38,7 +41,7 @@ export class DishesService {
   async findById(id: string): Promise<DishDocument> {
     const dish = await this.dishModel.findById(id);
     if (!dish) {
-      throw new NotFoundException('Prato não encontrado');
+      throw new NotFoundException("Prato não encontrado");
     }
     return dish;
   }

@@ -1,11 +1,16 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
 import {
   PERMISSION_KEY,
   RequiredPermission,
-} from '../permissions/require-permission.decorator';
-import { hasPermission } from '../permissions/permissions.matrix';
-import { RequestUser } from '../auth/jwt.strategy';
+} from "../permissions/require-permission.decorator";
+import { hasPermission } from "../permissions/permissions.matrix";
+import { RequestUser } from "../auth/jwt.strategy";
 
 /**
  * Lê a permissão exigida pela rota (via @RequirePermission) e confere
@@ -19,10 +24,9 @@ export class PermissionsGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const required = this.reflector.getAllAndOverride<RequiredPermission | undefined>(
-      PERMISSION_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const required = this.reflector.getAllAndOverride<
+      RequiredPermission | undefined
+    >(PERMISSION_KEY, [context.getHandler(), context.getClass()]);
 
     // Rota sem @RequirePermission: apenas autenticação é exigida.
     if (!required) return true;
@@ -31,7 +35,7 @@ export class PermissionsGuard implements CanActivate {
     const user = request.user as RequestUser | undefined;
 
     if (!user) {
-      throw new ForbiddenException('Usuário não autenticado');
+      throw new ForbiddenException("Usuário não autenticado");
     }
 
     const allowed = hasPermission(user.role, required.module, required.action);

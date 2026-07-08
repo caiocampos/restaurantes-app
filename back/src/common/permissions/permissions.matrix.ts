@@ -1,7 +1,7 @@
-import { Role } from '../enums/role.enum';
+import { Role } from "../enums/role.enum";
 
-export type ModuleName = 'dishes' | 'restaurants' | 'users';
-export type Action = 'create' | 'read' | 'update' | 'delete';
+export type ModuleName = "dishes" | "restaurants" | "users";
+export type Action = "create" | "read" | "update" | "delete";
 
 type ActionsMap = Record<Action, boolean>;
 type PermissionsMatrix = Record<Role, Record<ModuleName, ActionsMap>>;
@@ -27,6 +27,10 @@ export const PERMISSIONS: PermissionsMatrix = {
   },
 };
 
-export function hasPermission(role: Role, module: ModuleName, action: Action): boolean {
+export function hasPermission(
+  role: Role,
+  module: ModuleName,
+  action: Action,
+): boolean {
   return PERMISSIONS[role]?.[module]?.[action] ?? false;
 }
