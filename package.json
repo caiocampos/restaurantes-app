@@ -27,14 +27,14 @@
     "bootstrap": "^5.3.3",
     "core-js": "^3.33.1",
     "rxjs": "^7.8.1",
-    "tar": "^6.1.15",
+    "tar": "^7.5.19",
     "tslib": "^2.6.2",
     "webpack-dev-server": "^5.0.0",
     "zone.js": "^0.13.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.5",
-    "@angular/cli": "^16.2.4",
+    "@angular/cli": "^22.0.5",
     "@angular/compiler-cli": "^16.2.7",
     "@angular/language-service": "^16.1.5",
     "@types/jasmine": "^4.3.5",
