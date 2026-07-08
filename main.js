@@ -966,6 +966,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var RestaurantsService_1;
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RestaurantsService = void 0;
@@ -975,9 +976,10 @@ const mongoose_2 = __webpack_require__(17);
 const restaurant_schema_1 = __webpack_require__(18);
 const paginate_1 = __webpack_require__(21);
 const mongoose_connection_1 = __webpack_require__(22);
-let RestaurantsService = class RestaurantsService {
+let RestaurantsService = RestaurantsService_1 = class RestaurantsService {
     constructor(restaurantModel) {
         this.restaurantModel = restaurantModel;
+        this.logger = new common_1.Logger(RestaurantsService_1.name);
     }
     async count() {
         try {
@@ -985,7 +987,7 @@ let RestaurantsService = class RestaurantsService {
         }
         catch (error) {
             const msg = "Erro ao contar os restaurantes";
-            console.error(msg, error);
+            this.logger.error(msg, error);
             throw new common_1.BadRequestException(msg);
         }
     }
@@ -1014,7 +1016,7 @@ let RestaurantsService = class RestaurantsService {
     }
 };
 exports.RestaurantsService = RestaurantsService;
-exports.RestaurantsService = RestaurantsService = __decorate([
+exports.RestaurantsService = RestaurantsService = RestaurantsService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(restaurant_schema_1.Restaurant.name, mongoose_connection_1.connectionName)),
     __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object])
