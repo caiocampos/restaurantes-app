@@ -1101,7 +1101,7 @@ __decorate([
     __metadata("design:returntype", typeof (_b = typeof Promise !== "undefined" && Promise) === "function" ? _b : Object)
 ], RestaurantsOpenController.prototype, "count", null);
 exports.RestaurantsOpenController = RestaurantsOpenController = __decorate([
-    (0, common_1.Controller)("restaurants"),
+    (0, common_1.Controller)("restaurants-open"),
     __metadata("design:paramtypes", [typeof (_a = typeof restaurants_service_1.RestaurantsService !== "undefined" && restaurants_service_1.RestaurantsService) === "function" ? _a : Object])
 ], RestaurantsOpenController);
 
