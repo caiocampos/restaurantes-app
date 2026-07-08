@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
@@ -15,6 +16,8 @@ import { connectionName } from "../../mongoose-connection";
 
 @Injectable()
 export class RestaurantsService {
+  private readonly logger = new Logger(RestaurantsService.name);
+
   constructor(
     @InjectModel(Restaurant.name, connectionName)
     private readonly restaurantModel: Model<RestaurantDocument>,
@@ -25,7 +28,7 @@ export class RestaurantsService {
       return await this.restaurantModel.countDocuments().exec();
     } catch (error) {
       const msg = "Erro ao contar os restaurantes";
-      console.error(msg, error);
+      this.logger.error(msg, error);
       throw new BadRequestException(msg);
     }
   }
