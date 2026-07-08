@@ -1,8 +1,9 @@
-import { Global, Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt.strategy';
-import { forceString } from '../utils';
+import { Global, Module } from "@nestjs/common";
+import { JwtModule } from "@nestjs/jwt";
+import { PassportModule } from "@nestjs/passport";
+import { JwtStrategy } from "./jwt.strategy";
+import { forceString } from "../utils";
+import { getjwtExpiresIn, getjwtSecret } from "./jwt-env";
 
 /**
  * Módulo global de autenticação: configura o JWT (assinatura e verificação)
@@ -13,10 +14,10 @@ import { forceString } from '../utils';
 @Global()
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: forceString(process.env.JWT_SECRET, 'JWT_SECRET'),
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN ?? '1d' },
+      secret: getjwtSecret(),
+      signOptions: { expiresIn: getjwtExpiresIn },
     }),
   ],
   providers: [JwtStrategy],
