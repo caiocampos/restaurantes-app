@@ -158,7 +158,11 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         });
     }
     validate(payload) {
-        return { userId: payload.sub, username: payload.username, role: payload.role };
+        return {
+            userId: payload.sub,
+            username: payload.username,
+            role: payload.role,
+        };
     }
 };
 exports.JwtStrategy = JwtStrategy;
@@ -184,7 +188,7 @@ exports.getjwtExpiresIn = exports.getjwtSecret = void 0;
 const utils_1 = __webpack_require__(14);
 const getjwtSecret = () => (0, utils_1.forceString)(process.env.JWT_SECRET_RESTAURANTS ?? process.env.JWT_SECRET);
 exports.getjwtSecret = getjwtSecret;
-const getjwtExpiresIn = () => (0, utils_1.forceString)(process.env.JWT_EXPIRES_IN_RESTAURANTS ??
+const getjwtExpiresIn = () => (process.env.JWT_EXPIRES_IN_RESTAURANTS ??
     process.env.JWT_EXPIRES_IN ??
     "1d");
 exports.getjwtExpiresIn = getjwtExpiresIn;
@@ -200,10 +204,10 @@ exports.forceString = exports.forceNumber = void 0;
 exports.applyToJSONTransform = applyToJSONTransform;
 const forceNumber = (num) => Number(num) || 0;
 exports.forceNumber = forceNumber;
-const forceString = (str) => String(str) || '';
+const forceString = (str) => String(str) || "";
 exports.forceString = forceString;
 function applyToJSONTransform(schema, omitFields = []) {
-    schema.set('toJSON', {
+    schema.set("toJSON", {
         virtuals: true,
         versionKey: false,
         transform: (_doc, ret) => {
@@ -288,11 +292,16 @@ __decorate([
     __metadata("design:type", Number)
 ], Dish.prototype, "price", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Restaurant', required: true, index: true }),
+    (0, mongoose_1.Prop)({
+        type: mongoose_2.Types.ObjectId,
+        ref: "Restaurant",
+        required: true,
+        index: true,
+    }),
     __metadata("design:type", typeof (_a = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _a : Object)
 ], Dish.prototype, "restaurant_id", void 0);
 exports.Dish = Dish = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true, collection: 'dishes' })
+    (0, mongoose_1.Schema)({ timestamps: true, collection: "dishes" })
 ], Dish);
 exports.DishSchema = mongoose_1.SchemaFactory.createForClass(Dish);
 (0, utils_1.applyToJSONTransform)(exports.DishSchema);
@@ -338,7 +347,7 @@ __decorate([
     __metadata("design:type", String)
 ], Restaurant.prototype, "address", void 0);
 exports.Restaurant = Restaurant = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true, collection: 'restaurants' })
+    (0, mongoose_1.Schema)({ timestamps: true, collection: "restaurants" })
 ], Restaurant);
 exports.RestaurantSchema = mongoose_1.SchemaFactory.createForClass(Restaurant);
 (0, utils_1.applyToJSONTransform)(exports.RestaurantSchema);
@@ -394,7 +403,7 @@ let DishesController = class DishesController {
 };
 exports.DishesController = DishesController;
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('dishes', 'create'),
+    (0, require_permission_decorator_1.RequirePermission)("dishes", "create"),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -402,7 +411,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "create", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('dishes', 'read'),
+    (0, require_permission_decorator_1.RequirePermission)("dishes", "read"),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -410,32 +419,32 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "findAll", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('dishes', 'read'),
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("dishes", "read"),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "findOne", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('dishes', 'update'),
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("dishes", "update"),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, typeof (_d = typeof update_dish_dto_1.UpdateDishDto !== "undefined" && update_dish_dto_1.UpdateDishDto) === "function" ? _d : Object]),
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "update", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('dishes', 'delete'),
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("dishes", "delete"),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "remove", null);
 exports.DishesController = DishesController = __decorate([
-    (0, common_1.Controller)('dishes'),
+    (0, common_1.Controller)("dishes"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
     __metadata("design:paramtypes", [typeof (_a = typeof dishes_service_1.DishesService !== "undefined" && dishes_service_1.DishesService) === "function" ? _a : Object])
 ], DishesController);
@@ -476,7 +485,7 @@ let DishesService = class DishesService {
     async ensureRestaurantExists(restaurantId) {
         const exists = await this.restaurantModel.exists({ _id: restaurantId });
         if (!exists) {
-            throw new common_1.NotFoundException('Restaurante informado não existe');
+            throw new common_1.NotFoundException("Restaurante informado não existe");
         }
     }
     async create(dto) {
@@ -489,7 +498,7 @@ let DishesService = class DishesService {
     async findById(id) {
         const dish = await this.dishModel.findById(id);
         if (!dish) {
-            throw new common_1.NotFoundException('Prato não encontrado');
+            throw new common_1.NotFoundException("Prato não encontrado");
         }
         return dish;
     }
@@ -528,7 +537,10 @@ async function paginate(model, query, extraFilter = {}) {
     const limit = query.limit ?? 10;
     const filter = { ...extraFilter };
     if (query.name) {
-        filter.name = { $regex: query.name, $options: 'i' };
+        filter.name = {
+            $regex: query.name,
+            $options: "i",
+        };
     }
     const [data, total] = await Promise.all([
         model
@@ -539,7 +551,13 @@ async function paginate(model, query, extraFilter = {}) {
             .exec(),
         model.countDocuments(filter),
     ]);
-    return { data, total, page, limit, totalPages: Math.max(Math.ceil(total / limit), 1) };
+    return {
+        data,
+        total,
+        page,
+        limit,
+        totalPages: Math.max(Math.ceil(total / limit), 1),
+    };
 }
 
 
@@ -550,7 +568,7 @@ async function paginate(model, query, extraFilter = {}) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.connectionName = void 0;
-exports.connectionName = 'restaurants';
+exports.connectionName = "restaurants";
 
 
 /***/ }),
@@ -682,7 +700,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtAuthGuard = void 0;
 const common_1 = __webpack_require__(3);
 const passport_1 = __webpack_require__(10);
-let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)('jwt') {
+let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)("jwt") {
 };
 exports.JwtAuthGuard = JwtAuthGuard;
 exports.JwtAuthGuard = JwtAuthGuard = __decorate([
@@ -722,7 +740,7 @@ let PermissionsGuard = class PermissionsGuard {
         const request = context.switchToHttp().getRequest();
         const user = request.user;
         if (!user) {
-            throw new common_1.ForbiddenException('Usuário não autenticado');
+            throw new common_1.ForbiddenException("Usuário não autenticado");
         }
         const allowed = (0, permissions_matrix_1.hasPermission)(user.role, required.module, required.action);
         if (!allowed) {
@@ -746,7 +764,7 @@ exports.PermissionsGuard = PermissionsGuard = __decorate([
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RequirePermission = exports.PERMISSION_KEY = void 0;
 const common_1 = __webpack_require__(3);
-exports.PERMISSION_KEY = 'required_permission';
+exports.PERMISSION_KEY = "required_permission";
 const RequirePermission = (module, action) => (0, common_1.SetMetadata)(exports.PERMISSION_KEY, { module, action });
 exports.RequirePermission = RequirePermission;
 
@@ -875,7 +893,7 @@ let RestaurantsController = class RestaurantsController {
 };
 exports.RestaurantsController = RestaurantsController;
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('restaurants', 'create'),
+    (0, require_permission_decorator_1.RequirePermission)("restaurants", "create"),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -883,7 +901,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "create", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('restaurants', 'read'),
+    (0, require_permission_decorator_1.RequirePermission)("restaurants", "read"),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -891,32 +909,32 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "findAll", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('restaurants', 'read'),
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("restaurants", "read"),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "findOne", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('restaurants', 'update'),
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("restaurants", "update"),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, typeof (_d = typeof update_restaurant_dto_1.UpdateRestaurantDto !== "undefined" && update_restaurant_dto_1.UpdateRestaurantDto) === "function" ? _d : Object]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "update", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)('restaurants', 'delete'),
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("restaurants", "delete"),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "remove", null);
 exports.RestaurantsController = RestaurantsController = __decorate([
-    (0, common_1.Controller)('restaurants'),
+    (0, common_1.Controller)("restaurants"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
     __metadata("design:paramtypes", [typeof (_a = typeof restaurants_service_1.RestaurantsService !== "undefined" && restaurants_service_1.RestaurantsService) === "function" ? _a : Object])
 ], RestaurantsController);
@@ -961,7 +979,7 @@ let RestaurantsService = class RestaurantsService {
     async findById(id) {
         const restaurant = await this.restaurantModel.findById(id);
         if (!restaurant) {
-            throw new common_1.NotFoundException('Restaurante não encontrado');
+            throw new common_1.NotFoundException("Restaurante não encontrado");
         }
         return restaurant;
     }
@@ -1152,20 +1170,20 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "enabled", void 0);
 exports.User = User = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true, collection: 'users' })
+    (0, mongoose_1.Schema)({ timestamps: true, collection: "users" })
 ], User);
 exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-exports.UserSchema.pre('save', async function (next) {
+exports.UserSchema.pre("save", async function () {
     const user = this;
-    if (!user.isModified('password'))
-        return next();
+    if (!user.isModified("password")) {
+        return;
+    }
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-    next();
 });
 exports.UserSchema.methods.comparePassword = function (candidate) {
     return bcrypt.compare(candidate, this.password);
 };
-(0, utils_1.applyToJSONTransform)(exports.UserSchema, ['password']);
+(0, utils_1.applyToJSONTransform)(exports.UserSchema, ["password"]);
 
 
 /***/ }),
@@ -1240,7 +1258,7 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Post)('login'),
+    (0, common_1.Post)("login"),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -1249,7 +1267,7 @@ __decorate([
 ], UsersController.prototype, "login", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)('me'),
+    (0, common_1.Get)("me"),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_c = typeof jwt_strategy_1.RequestUser !== "undefined" && jwt_strategy_1.RequestUser) === "function" ? _c : Object]),
@@ -1257,7 +1275,7 @@ __decorate([
 ], UsersController.prototype, "getOwnProfile", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Patch)('me/password'),
+    (0, common_1.Patch)("me/password"),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -1266,7 +1284,7 @@ __decorate([
 ], UsersController.prototype, "changeOwnPassword", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'create'),
+    (0, require_permission_decorator_1.RequirePermission)("users", "create"),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -1275,7 +1293,7 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'read'),
+    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -1284,18 +1302,18 @@ __decorate([
 ], UsersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'read'),
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'update'),
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("users", "update"),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, typeof (_h = typeof update_user_dto_1.UpdateUserDto !== "undefined" && update_user_dto_1.UpdateUserDto) === "function" ? _h : Object]),
@@ -1303,24 +1321,24 @@ __decorate([
 ], UsersController.prototype, "update", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'delete'),
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "disable", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)('users', 'delete'),
-    (0, common_1.Patch)(':id/enable'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, common_1.Patch)(":id/enable"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "enable", null);
 exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)('users'),
+    (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [typeof (_a = typeof users_service_1.UsersService !== "undefined" && users_service_1.UsersService) === "function" ? _a : Object])
 ], UsersController);
 
@@ -1360,7 +1378,7 @@ let UsersService = class UsersService {
     async create(dto) {
         const existing = await this.userModel.findOne({ username: dto.username });
         if (existing) {
-            throw new common_1.ConflictException('Nome de usuário já está em uso');
+            throw new common_1.ConflictException("Nome de usuário já está em uso");
         }
         const created = new this.userModel(dto);
         return created.save();
@@ -1371,7 +1389,7 @@ let UsersService = class UsersService {
     async findById(id) {
         const user = await this.userModel.findById(id);
         if (!user) {
-            throw new common_1.NotFoundException('Usuário não encontrado');
+            throw new common_1.NotFoundException("Usuário não encontrado");
         }
         return user;
     }
@@ -1380,7 +1398,7 @@ let UsersService = class UsersService {
         if (dto.username && dto.username !== user.username) {
             const existing = await this.userModel.findOne({ username: dto.username });
             if (existing) {
-                throw new common_1.ConflictException('Nome de usuário já está em uso');
+                throw new common_1.ConflictException("Nome de usuário já está em uso");
             }
         }
         Object.assign(user, dto);
@@ -1400,7 +1418,7 @@ let UsersService = class UsersService {
         const user = await this.findById(userId);
         const isMatch = await user.comparePassword(dto.currentPassword);
         if (!isMatch) {
-            throw new common_1.UnauthorizedException('Senha atual incorreta');
+            throw new common_1.UnauthorizedException("Senha atual incorreta");
         }
         user.password = dto.newPassword;
         await user.save();
@@ -1409,16 +1427,20 @@ let UsersService = class UsersService {
     async login(dto) {
         const user = await this.userModel.findOne({ username: dto.username });
         if (!user) {
-            throw new common_1.UnauthorizedException('Usuário ou senha inválidos');
+            throw new common_1.UnauthorizedException("Usuário ou senha inválidos");
         }
         if (!user.enabled) {
-            throw new common_1.UnauthorizedException('Usuário desabilitado');
+            throw new common_1.UnauthorizedException("Usuário desabilitado");
         }
         const isMatch = await user.comparePassword(dto.password);
         if (!isMatch) {
-            throw new common_1.UnauthorizedException('Usuário ou senha inválidos');
+            throw new common_1.UnauthorizedException("Usuário ou senha inválidos");
         }
-        const payload = { sub: user.id, username: user.username, role: user.role };
+        const payload = {
+            sub: user.id,
+            username: user.username,
+            role: user.role,
+        };
         const accessToken = await this.jwtService.signAsync(payload);
         return {
             accessToken,
@@ -1496,7 +1518,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateUserDto = void 0;
 const mapped_types_1 = __webpack_require__(26);
 const create_user_dto_1 = __webpack_require__(44);
-class UpdateUserDto extends (0, mapped_types_1.PartialType)((0, mapped_types_1.OmitType)(create_user_dto_1.CreateUserDto, ['password'])) {
+class UpdateUserDto extends (0, mapped_types_1.PartialType)((0, mapped_types_1.OmitType)(create_user_dto_1.CreateUserDto, ["password"])) {
 }
 exports.UpdateUserDto = UpdateUserDto;
 
@@ -1622,7 +1644,7 @@ async function bootstrap() {
         transform: true,
         transformOptions: { enableImplicitConversion: true },
     }));
-    app.setGlobalPrefix('api');
+    app.setGlobalPrefix("api");
     app.enableCors();
     const port = process.env.PORT ? Number(process.env.PORT) : 3000;
     await app.listen(port);
