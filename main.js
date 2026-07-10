@@ -1151,7 +1151,8 @@ exports.UsersModule = void 0;
 const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(7);
 const user_schema_1 = __webpack_require__(42);
-const users_controller_1 = __webpack_require__(44);
+const auth_controller_1 = __webpack_require__(44);
+const users_controller_1 = __webpack_require__(47);
 const users_service_1 = __webpack_require__(45);
 const mongoose_connection_1 = __webpack_require__(23);
 let UsersModule = class UsersModule {
@@ -1162,7 +1163,7 @@ exports.UsersModule = UsersModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }], mongoose_connection_1.connectionName),
         ],
-        controllers: [users_controller_1.UsersController],
+        controllers: [auth_controller_1.AuthController, users_controller_1.UsersController],
         providers: [users_service_1.UsersService],
         exports: [users_service_1.UsersService],
     })
@@ -1296,54 +1297,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UsersController = void 0;
+exports.AuthController = void 0;
 const common_1 = __webpack_require__(3);
 const users_service_1 = __webpack_require__(45);
-const create_user_dto_1 = __webpack_require__(46);
-const update_user_dto_1 = __webpack_require__(47);
-const login_user_dto_1 = __webpack_require__(48);
-const change_password_dto_1 = __webpack_require__(49);
-const pagination_query_dto_1 = __webpack_require__(28);
-const jwt_auth_guard_1 = __webpack_require__(30);
-const permissions_guard_1 = __webpack_require__(31);
-const require_permission_decorator_1 = __webpack_require__(32);
-const current_user_decorator_1 = __webpack_require__(50);
-const jwt_strategy_1 = __webpack_require__(11);
-let UsersController = class UsersController {
+const login_user_dto_1 = __webpack_require__(46);
+let AuthController = class AuthController {
     constructor(usersService) {
         this.usersService = usersService;
     }
     login(dto) {
         return this.usersService.login(dto);
     }
-    getOwnProfile(currentUser) {
-        return this.usersService.findById(currentUser.userId);
-    }
-    changeOwnPassword(currentUser, dto) {
-        return this.usersService.changeOwnPassword(currentUser.userId, dto);
-    }
-    create(dto) {
-        return this.usersService.create(dto);
-    }
-    findAll(query) {
-        return this.usersService.findAll(query);
-    }
-    findOne(id) {
-        return this.usersService.findById(id);
-    }
-    update(id, dto) {
-        return this.usersService.update(id, dto);
-    }
-    disable(id) {
-        return this.usersService.disable(id);
-    }
-    enable(id) {
-        return this.usersService.enable(id);
-    }
 };
-exports.UsersController = UsersController;
+exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)("login"),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
@@ -1351,83 +1319,11 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [typeof (_b = typeof login_user_dto_1.LoginUserDto !== "undefined" && login_user_dto_1.LoginUserDto) === "function" ? _b : Object]),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "login", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)("me"),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_c = typeof jwt_strategy_1.RequestUser !== "undefined" && jwt_strategy_1.RequestUser) === "function" ? _c : Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getOwnProfile", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Patch)("me/password"),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_d = typeof jwt_strategy_1.RequestUser !== "undefined" && jwt_strategy_1.RequestUser) === "function" ? _d : Object, typeof (_e = typeof change_password_dto_1.ChangePasswordDto !== "undefined" && change_password_dto_1.ChangePasswordDto) === "function" ? _e : Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "changeOwnPassword", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "create"),
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_f = typeof create_user_dto_1.CreateUserDto !== "undefined" && create_user_dto_1.CreateUserDto) === "function" ? _f : Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "create", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
-    (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [typeof (_g = typeof pagination_query_dto_1.PaginationQueryDto !== "undefined" && pagination_query_dto_1.PaginationQueryDto) === "function" ? _g : Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "update"),
-    (0, common_1.Patch)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, typeof (_h = typeof update_user_dto_1.UpdateUserDto !== "undefined" && update_user_dto_1.UpdateUserDto) === "function" ? _h : Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "update", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
-    (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "disable", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
-    (0, common_1.Patch)(":id/enable"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "enable", null);
-exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)("users"),
+], AuthController.prototype, "login", null);
+exports.AuthController = AuthController = __decorate([
+    (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [typeof (_a = typeof users_service_1.UsersService !== "undefined" && users_service_1.UsersService) === "function" ? _a : Object])
-], UsersController);
+], AuthController);
 
 
 /***/ }),
@@ -1562,6 +1458,176 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoginUserDto = void 0;
+const class_validator_1 = __webpack_require__(25);
+class LoginUserDto {
+}
+exports.LoginUserDto = LoginUserDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], LoginUserDto.prototype, "username", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], LoginUserDto.prototype, "password", void 0);
+
+
+/***/ }),
+/* 47 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a, _b, _c, _d, _e, _f, _g;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UsersController = void 0;
+const common_1 = __webpack_require__(3);
+const users_service_1 = __webpack_require__(45);
+const create_user_dto_1 = __webpack_require__(48);
+const update_user_dto_1 = __webpack_require__(49);
+const change_password_dto_1 = __webpack_require__(50);
+const pagination_query_dto_1 = __webpack_require__(28);
+const jwt_auth_guard_1 = __webpack_require__(30);
+const permissions_guard_1 = __webpack_require__(31);
+const require_permission_decorator_1 = __webpack_require__(32);
+const current_user_decorator_1 = __webpack_require__(51);
+const jwt_strategy_1 = __webpack_require__(11);
+let UsersController = class UsersController {
+    constructor(usersService) {
+        this.usersService = usersService;
+    }
+    getOwnProfile(currentUser) {
+        return this.usersService.findById(currentUser.userId);
+    }
+    changeOwnPassword(currentUser, dto) {
+        return this.usersService.changeOwnPassword(currentUser.userId, dto);
+    }
+    create(dto) {
+        return this.usersService.create(dto);
+    }
+    findAll(query) {
+        return this.usersService.findAll(query);
+    }
+    findOne(id) {
+        return this.usersService.findById(id);
+    }
+    update(id, dto) {
+        return this.usersService.update(id, dto);
+    }
+    disable(id) {
+        return this.usersService.disable(id);
+    }
+    enable(id) {
+        return this.usersService.enable(id);
+    }
+};
+exports.UsersController = UsersController;
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)("me"),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_b = typeof jwt_strategy_1.RequestUser !== "undefined" && jwt_strategy_1.RequestUser) === "function" ? _b : Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getOwnProfile", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)("me/password"),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_c = typeof jwt_strategy_1.RequestUser !== "undefined" && jwt_strategy_1.RequestUser) === "function" ? _c : Object, typeof (_d = typeof change_password_dto_1.ChangePasswordDto !== "undefined" && change_password_dto_1.ChangePasswordDto) === "function" ? _d : Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "changeOwnPassword", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "create"),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_e = typeof create_user_dto_1.CreateUserDto !== "undefined" && create_user_dto_1.CreateUserDto) === "function" ? _e : Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "create", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [typeof (_f = typeof pagination_query_dto_1.PaginationQueryDto !== "undefined" && pagination_query_dto_1.PaginationQueryDto) === "function" ? _f : Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "update"),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, typeof (_g = typeof update_user_dto_1.UpdateUserDto !== "undefined" && update_user_dto_1.UpdateUserDto) === "function" ? _g : Object]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "update", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "disable", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
+    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, common_1.Patch)(":id/enable"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "enable", null);
+exports.UsersController = UsersController = __decorate([
+    (0, common_1.Controller)("users"),
+    __metadata("design:paramtypes", [typeof (_a = typeof users_service_1.UsersService !== "undefined" && users_service_1.UsersService) === "function" ? _a : Object])
+], UsersController);
+
+
+/***/ }),
+/* 48 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateUserDto = void 0;
@@ -1597,52 +1663,21 @@ __decorate([
 
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateUserDto = void 0;
 const mapped_types_1 = __webpack_require__(27);
-const create_user_dto_1 = __webpack_require__(46);
+const create_user_dto_1 = __webpack_require__(48);
 class UpdateUserDto extends (0, mapped_types_1.PartialType)((0, mapped_types_1.OmitType)(create_user_dto_1.CreateUserDto, ["password"])) {
 }
 exports.UpdateUserDto = UpdateUserDto;
 
 
 /***/ }),
-/* 48 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.LoginUserDto = void 0;
-const class_validator_1 = __webpack_require__(25);
-class LoginUserDto {
-}
-exports.LoginUserDto = LoginUserDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "username", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "password", void 0);
-
-
-/***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1673,7 +1708,7 @@ __decorate([
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
