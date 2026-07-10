@@ -27,12 +27,6 @@ import { RequestUser } from "../../common/auth/jwt.strategy";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post("login")
-  @HttpCode(HttpStatus.OK)
-  login(@Body() dto: LoginUserDto) {
-    return this.usersService.login(dto);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get("me")
   getOwnProfile(@CurrentUser() currentUser: RequestUser) {

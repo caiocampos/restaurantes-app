@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { User, UserSchema } from "./schemas/user.schema";
+import { AuthController } from "./auth.controller";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
 import { connectionName } from "../../mongoose-connection";
@@ -12,7 +13,7 @@ import { connectionName } from "../../mongoose-connection";
       connectionName,
     ),
   ],
-  controllers: [UsersController],
+  controllers: [AuthController, UsersController],
   providers: [UsersService],
   exports: [UsersService],
 })
