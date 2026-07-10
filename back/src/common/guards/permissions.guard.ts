@@ -12,13 +12,6 @@ import {
 import { hasPermission } from "../permissions/permissions.matrix";
 import { RequestUser } from "../auth/jwt.strategy";
 
-/**
- * Lê a permissão exigida pela rota (via @RequirePermission) e confere
- * se a role do usuário autenticado (request.user) possui essa permissão
- * na matriz definida em permissions.matrix.ts.
- *
- * Deve ser sempre usado depois do JwtAuthGuard, pois depende de request.user.
- */
 @Injectable()
 export class PermissionsGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
@@ -28,7 +21,6 @@ export class PermissionsGuard implements CanActivate {
       RequiredPermission | undefined
     >(PERMISSION_KEY, [context.getHandler(), context.getClass()]);
 
-    // Rota sem @RequirePermission: apenas autenticação é exigida.
     if (!required) return true;
 
     const request = context.switchToHttp().getRequest();

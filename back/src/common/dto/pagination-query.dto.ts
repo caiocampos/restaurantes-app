@@ -1,11 +1,6 @@
 import { Type } from "class-transformer";
 import { IsInt, IsOptional, IsString, Min } from "class-validator";
 
-/**
- * DTO reutilizado por todos os módulos para:
- * - listagem paginada (page/limit)
- * - filtro por nome (name) usando regex case-insensitive
- */
 export class PaginationQueryDto {
   @IsOptional()
   @Type(() => Number)

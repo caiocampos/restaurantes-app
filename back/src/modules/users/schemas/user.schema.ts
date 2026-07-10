@@ -34,14 +34,12 @@ export class User {
   @Prop({ required: true, trim: true })
   lastName!: string;
 
-  // Usuários nunca são removidos do banco, apenas desabilitados.
   @Prop({ default: true })
   enabled!: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-// Hash automático da senha sempre que ela for criada/alterada.
 UserSchema.pre("save", async function () {
   const user = this as unknown as UserDocument;
   if (!user.isModified("password")) {
@@ -56,5 +54,4 @@ UserSchema.methods.comparePassword = function (
   return bcrypt.compare(candidate, this.password);
 };
 
-// Nunca expor o hash da senha nas respostas da API.
 applyToJSONTransform(UserSchema, ["password"]);

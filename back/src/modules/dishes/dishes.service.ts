@@ -4,9 +4,9 @@ import { Model } from "mongoose";
 import { Dish, DishDocument } from "./schemas/dish.schema";
 import { CreateDishDto } from "./dto/create-dish.dto";
 import { UpdateDishDto } from "./dto/update-dish.dto";
-import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
+import { DishPaginationQueryDto } from "./dto/dish-pagination-query.dto";
 import { PaginatedResult } from "../../common/interfaces/paginated-result.interface";
-import { paginate } from "../../common/helpers/paginate";
+import { paginateDishes } from "./helpers/paginate";
 import { connectionName } from "../../mongoose-connection";
 import {
   Restaurant,
@@ -34,8 +34,8 @@ export class DishesService {
     return new this.dishModel(dto).save();
   }
 
-  findAll(query: PaginationQueryDto): Promise<PaginatedResult<DishDocument>> {
-    return paginate(this.dishModel, query);
+  findAll(query: DishPaginationQueryDto): Promise<PaginatedResult<DishDocument>> {
+    return paginateDishes(this.dishModel, query);
   }
 
   async findById(id: string): Promise<DishDocument> {

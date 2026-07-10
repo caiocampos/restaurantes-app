@@ -28,7 +28,6 @@ export class DishesController {
     return this.dishesService.create(dto);
   }
 
-  // Listagem paginada; use ?name=xxx para filtrar por nome.
   @RequirePermission("dishes", "read")
   @Get()
   findAll(@Query() query: PaginationQueryDto) {

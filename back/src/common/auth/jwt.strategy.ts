@@ -26,7 +26,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  // O retorno aqui é anexado automaticamente em request.user
   validate(payload: JwtPayload): RequestUser {
     return {
       userId: payload.sub,

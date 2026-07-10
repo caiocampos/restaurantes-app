@@ -2,12 +2,7 @@ import { QueryFilter, Model } from "mongoose";
 import { PaginationQueryDto } from "../dto/pagination-query.dto";
 import { PaginatedResult } from "../interfaces/paginated-result.interface";
 
-/**
- * Executa uma busca paginada em um model do Mongoose, aplicando
- * automaticamente o filtro por "name" (regex case-insensitive) quando
- * informado na query.
- */
-export async function paginate<T>(
+export async function paginateWithQuery<T>(
   model: Model<T>,
   query: PaginationQueryDto,
   extraFilter: QueryFilter<T> = {},
@@ -22,7 +17,15 @@ export async function paginate<T>(
       $options: "i",
     };
   }
+  return paginate(model, filter, page, limit);
+}
 
+export async function paginate<T>(
+  model: Model<T>,
+  filter: QueryFilter<T> = {},
+  page = 1,
+  limit = 10,
+): Promise<PaginatedResult<T>> {
   const [data, total] = await Promise.all([
     model
       .find(filter)

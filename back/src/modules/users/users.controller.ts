@@ -27,15 +27,12 @@ import { RequestUser } from "../../common/auth/jwt.strategy";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // Rota pública de autenticação.
   @Post("login")
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginUserDto) {
     return this.usersService.login(dto);
   }
 
-  // Qualquer usuário autenticado pode ver e atualizar a própria senha,
-  // independente das permissões gerais do módulo "users".
   @UseGuards(JwtAuthGuard)
   @Get("me")
   getOwnProfile(@CurrentUser() currentUser: RequestUser) {
@@ -79,7 +76,6 @@ export class UsersController {
     return this.usersService.update(id, dto);
   }
 
-  // Usuários nunca são deletados de fato: DELETE aqui significa "desabilitar".
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @RequirePermission("users", "delete")
   @Delete(":id")
