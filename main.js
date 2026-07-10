@@ -61,9 +61,9 @@ exports.moduleList = void 0;
 const mongoose_1 = __webpack_require__(7);
 const auth_module_1 = __webpack_require__(8);
 const dishes_module_1 = __webpack_require__(15);
-const restaurants_module_1 = __webpack_require__(34);
-const users_module_1 = __webpack_require__(40);
-const mongoose_connection_1 = __webpack_require__(22);
+const restaurants_module_1 = __webpack_require__(35);
+const users_module_1 = __webpack_require__(41);
+const mongoose_connection_1 = __webpack_require__(23);
 const utils_1 = __webpack_require__(14);
 exports.moduleList = [
     mongoose_1.MongooseModule.forRoot((0, utils_1.forceString)(process.env.MONGO_URI_RESTAURANTS ?? process.env.MONGO_URI), { connectionName: mongoose_connection_1.connectionName }),
@@ -241,7 +241,7 @@ const dish_schema_1 = __webpack_require__(16);
 const restaurant_schema_1 = __webpack_require__(18);
 const dishes_controller_1 = __webpack_require__(19);
 const dishes_service_1 = __webpack_require__(20);
-const mongoose_connection_1 = __webpack_require__(22);
+const mongoose_connection_1 = __webpack_require__(23);
 let DishesModule = class DishesModule {
 };
 exports.DishesModule = DishesModule;
@@ -375,12 +375,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DishesController = void 0;
 const common_1 = __webpack_require__(3);
 const dishes_service_1 = __webpack_require__(20);
-const create_dish_dto_1 = __webpack_require__(23);
-const update_dish_dto_1 = __webpack_require__(25);
-const pagination_query_dto_1 = __webpack_require__(27);
-const jwt_auth_guard_1 = __webpack_require__(29);
-const permissions_guard_1 = __webpack_require__(30);
-const require_permission_decorator_1 = __webpack_require__(31);
+const create_dish_dto_1 = __webpack_require__(24);
+const update_dish_dto_1 = __webpack_require__(26);
+const pagination_query_dto_1 = __webpack_require__(28);
+const jwt_auth_guard_1 = __webpack_require__(30);
+const permissions_guard_1 = __webpack_require__(31);
+const require_permission_decorator_1 = __webpack_require__(32);
 let DishesController = class DishesController {
     constructor(dishesService) {
         this.dishesService = dishesService;
@@ -475,7 +475,7 @@ const mongoose_1 = __webpack_require__(7);
 const mongoose_2 = __webpack_require__(17);
 const dish_schema_1 = __webpack_require__(16);
 const paginate_1 = __webpack_require__(21);
-const mongoose_connection_1 = __webpack_require__(22);
+const mongoose_connection_1 = __webpack_require__(23);
 const restaurant_schema_1 = __webpack_require__(18);
 let DishesService = class DishesService {
     constructor(dishModel, restaurantModel) {
@@ -493,7 +493,7 @@ let DishesService = class DishesService {
         return new this.dishModel(dto).save();
     }
     findAll(query) {
-        return (0, paginate_1.paginate)(this.dishModel, query);
+        return (0, paginate_1.paginateDishes)(this.dishModel, query);
     }
     async findById(id) {
         const dish = await this.dishModel.findById(id);
@@ -527,12 +527,13 @@ exports.DishesService = DishesService = __decorate([
 
 /***/ }),
 /* 21 */
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.paginate = paginate;
-async function paginate(model, query, extraFilter = {}) {
+exports.paginateDishes = paginateDishes;
+const paginate_1 = __webpack_require__(22);
+async function paginateDishes(model, query, extraFilter = {}) {
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
     const filter = { ...extraFilter };
@@ -542,6 +543,34 @@ async function paginate(model, query, extraFilter = {}) {
             $options: "i",
         };
     }
+    if (query.restaurant) {
+        filter.restaurant_id = query.restaurant;
+    }
+    return (0, paginate_1.paginate)(model, filter, page, limit);
+}
+
+
+/***/ }),
+/* 22 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.paginateWithQuery = paginateWithQuery;
+exports.paginate = paginate;
+async function paginateWithQuery(model, query, extraFilter = {}) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 10;
+    const filter = { ...extraFilter };
+    if (query.name) {
+        filter.name = {
+            $regex: query.name,
+            $options: "i",
+        };
+    }
+    return paginate(model, filter, page, limit);
+}
+async function paginate(model, filter = {}, page = 1, limit = 10) {
     const [data, total] = await Promise.all([
         model
             .find(filter)
@@ -562,7 +591,7 @@ async function paginate(model, query, extraFilter = {}) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -572,7 +601,7 @@ exports.connectionName = "restaurants";
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -587,7 +616,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateDishDto = void 0;
-const class_validator_1 = __webpack_require__(24);
+const class_validator_1 = __webpack_require__(25);
 class CreateDishDto {
 }
 exports.CreateDishDto = CreateDishDto;
@@ -608,33 +637,33 @@ __decorate([
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ ((module) => {
 
 module.exports = require("class-validator");
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateDishDto = void 0;
-const mapped_types_1 = __webpack_require__(26);
-const create_dish_dto_1 = __webpack_require__(23);
+const mapped_types_1 = __webpack_require__(27);
+const create_dish_dto_1 = __webpack_require__(24);
 class UpdateDishDto extends (0, mapped_types_1.PartialType)(create_dish_dto_1.CreateDishDto) {
 }
 exports.UpdateDishDto = UpdateDishDto;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ ((module) => {
 
 module.exports = require("@nestjs/mapped-types");
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -649,8 +678,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PaginationQueryDto = void 0;
-const class_transformer_1 = __webpack_require__(28);
-const class_validator_1 = __webpack_require__(24);
+const class_transformer_1 = __webpack_require__(29);
+const class_validator_1 = __webpack_require__(25);
 class PaginationQueryDto {
     constructor() {
         this.page = 1;
@@ -680,13 +709,13 @@ __decorate([
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ ((module) => {
 
 module.exports = require("class-transformer");
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -709,7 +738,7 @@ exports.JwtAuthGuard = JwtAuthGuard = __decorate([
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -727,8 +756,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PermissionsGuard = void 0;
 const common_1 = __webpack_require__(3);
 const core_1 = __webpack_require__(2);
-const require_permission_decorator_1 = __webpack_require__(31);
-const permissions_matrix_1 = __webpack_require__(32);
+const require_permission_decorator_1 = __webpack_require__(32);
+const permissions_matrix_1 = __webpack_require__(33);
 let PermissionsGuard = class PermissionsGuard {
     constructor(reflector) {
         this.reflector = reflector;
@@ -757,7 +786,7 @@ exports.PermissionsGuard = PermissionsGuard = __decorate([
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -770,14 +799,14 @@ exports.RequirePermission = RequirePermission;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PERMISSIONS = void 0;
 exports.hasPermission = hasPermission;
-const role_enum_1 = __webpack_require__(33);
+const role_enum_1 = __webpack_require__(34);
 exports.PERMISSIONS = {
     [role_enum_1.Role.ADMIN]: {
         dishes: { create: true, read: true, update: true, delete: true },
@@ -796,7 +825,7 @@ function hasPermission(role, module, action) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -810,7 +839,7 @@ var Role;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -825,10 +854,10 @@ exports.RestaurantsModule = void 0;
 const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(7);
 const restaurant_schema_1 = __webpack_require__(18);
-const restaurants_controller_1 = __webpack_require__(35);
-const restaurants_service_1 = __webpack_require__(36);
-const mongoose_connection_1 = __webpack_require__(22);
-const restaurants_open_controller_1 = __webpack_require__(39);
+const restaurants_controller_1 = __webpack_require__(36);
+const restaurants_service_1 = __webpack_require__(37);
+const mongoose_connection_1 = __webpack_require__(23);
+const restaurants_open_controller_1 = __webpack_require__(40);
 let RestaurantsModule = class RestaurantsModule {
 };
 exports.RestaurantsModule = RestaurantsModule;
@@ -845,7 +874,7 @@ exports.RestaurantsModule = RestaurantsModule = __decorate([
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -865,13 +894,13 @@ var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RestaurantsController = void 0;
 const common_1 = __webpack_require__(3);
-const restaurants_service_1 = __webpack_require__(36);
-const create_restaurant_dto_1 = __webpack_require__(37);
-const update_restaurant_dto_1 = __webpack_require__(38);
-const pagination_query_dto_1 = __webpack_require__(27);
-const jwt_auth_guard_1 = __webpack_require__(29);
-const permissions_guard_1 = __webpack_require__(30);
-const require_permission_decorator_1 = __webpack_require__(31);
+const restaurants_service_1 = __webpack_require__(37);
+const create_restaurant_dto_1 = __webpack_require__(38);
+const update_restaurant_dto_1 = __webpack_require__(39);
+const pagination_query_dto_1 = __webpack_require__(28);
+const jwt_auth_guard_1 = __webpack_require__(30);
+const permissions_guard_1 = __webpack_require__(31);
+const require_permission_decorator_1 = __webpack_require__(32);
 let RestaurantsController = class RestaurantsController {
     constructor(restaurantsService) {
         this.restaurantsService = restaurantsService;
@@ -942,7 +971,7 @@ exports.RestaurantsController = RestaurantsController = __decorate([
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -966,8 +995,8 @@ const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(7);
 const mongoose_2 = __webpack_require__(17);
 const restaurant_schema_1 = __webpack_require__(18);
-const paginate_1 = __webpack_require__(21);
-const mongoose_connection_1 = __webpack_require__(22);
+const paginate_1 = __webpack_require__(22);
+const mongoose_connection_1 = __webpack_require__(23);
 let RestaurantsService = RestaurantsService_1 = class RestaurantsService {
     constructor(restaurantModel) {
         this.restaurantModel = restaurantModel;
@@ -1016,7 +1045,7 @@ exports.RestaurantsService = RestaurantsService = RestaurantsService_1 = __decor
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1031,7 +1060,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateRestaurantDto = void 0;
-const class_validator_1 = __webpack_require__(24);
+const class_validator_1 = __webpack_require__(25);
 class CreateRestaurantDto {
 }
 exports.CreateRestaurantDto = CreateRestaurantDto;
@@ -1053,21 +1082,21 @@ __decorate([
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateRestaurantDto = void 0;
-const mapped_types_1 = __webpack_require__(26);
-const create_restaurant_dto_1 = __webpack_require__(37);
+const mapped_types_1 = __webpack_require__(27);
+const create_restaurant_dto_1 = __webpack_require__(38);
 class UpdateRestaurantDto extends (0, mapped_types_1.PartialType)(create_restaurant_dto_1.CreateRestaurantDto) {
 }
 exports.UpdateRestaurantDto = UpdateRestaurantDto;
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1084,7 +1113,7 @@ var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RestaurantsOpenController = void 0;
 const common_1 = __webpack_require__(3);
-const restaurants_service_1 = __webpack_require__(36);
+const restaurants_service_1 = __webpack_require__(37);
 let RestaurantsOpenController = class RestaurantsOpenController {
     constructor(restaurantsService) {
         this.restaurantsService = restaurantsService;
@@ -1107,7 +1136,7 @@ exports.RestaurantsOpenController = RestaurantsOpenController = __decorate([
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1121,10 +1150,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UsersModule = void 0;
 const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(7);
-const user_schema_1 = __webpack_require__(41);
-const users_controller_1 = __webpack_require__(43);
-const users_service_1 = __webpack_require__(44);
-const mongoose_connection_1 = __webpack_require__(22);
+const user_schema_1 = __webpack_require__(42);
+const users_controller_1 = __webpack_require__(44);
+const users_service_1 = __webpack_require__(45);
+const mongoose_connection_1 = __webpack_require__(23);
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -1141,7 +1170,7 @@ exports.UsersModule = UsersModule = __decorate([
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1191,8 +1220,8 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UserSchema = exports.User = void 0;
 const mongoose_1 = __webpack_require__(7);
-const bcrypt = __importStar(__webpack_require__(42));
-const role_enum_1 = __webpack_require__(33);
+const bcrypt = __importStar(__webpack_require__(43));
+const role_enum_1 = __webpack_require__(34);
 const utils_1 = __webpack_require__(14);
 const SALT_ROUNDS = 10;
 let User = class User {
@@ -1245,13 +1274,13 @@ exports.UserSchema.methods.comparePassword = function (candidate) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ ((module) => {
 
 module.exports = require("bcrypt");
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1271,16 +1300,16 @@ var _a, _b, _c, _d, _e, _f, _g, _h;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UsersController = void 0;
 const common_1 = __webpack_require__(3);
-const users_service_1 = __webpack_require__(44);
-const create_user_dto_1 = __webpack_require__(45);
-const update_user_dto_1 = __webpack_require__(46);
-const login_user_dto_1 = __webpack_require__(47);
-const change_password_dto_1 = __webpack_require__(48);
-const pagination_query_dto_1 = __webpack_require__(27);
-const jwt_auth_guard_1 = __webpack_require__(29);
-const permissions_guard_1 = __webpack_require__(30);
-const require_permission_decorator_1 = __webpack_require__(31);
-const current_user_decorator_1 = __webpack_require__(49);
+const users_service_1 = __webpack_require__(45);
+const create_user_dto_1 = __webpack_require__(46);
+const update_user_dto_1 = __webpack_require__(47);
+const login_user_dto_1 = __webpack_require__(48);
+const change_password_dto_1 = __webpack_require__(49);
+const pagination_query_dto_1 = __webpack_require__(28);
+const jwt_auth_guard_1 = __webpack_require__(30);
+const permissions_guard_1 = __webpack_require__(31);
+const require_permission_decorator_1 = __webpack_require__(32);
+const current_user_decorator_1 = __webpack_require__(50);
 const jwt_strategy_1 = __webpack_require__(11);
 let UsersController = class UsersController {
     constructor(usersService) {
@@ -1402,7 +1431,7 @@ exports.UsersController = UsersController = __decorate([
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1425,9 +1454,9 @@ const common_1 = __webpack_require__(3);
 const mongoose_1 = __webpack_require__(7);
 const jwt_1 = __webpack_require__(9);
 const mongoose_2 = __webpack_require__(17);
-const user_schema_1 = __webpack_require__(41);
-const paginate_1 = __webpack_require__(21);
-const mongoose_connection_1 = __webpack_require__(22);
+const user_schema_1 = __webpack_require__(42);
+const paginate_1 = __webpack_require__(22);
+const mongoose_connection_1 = __webpack_require__(23);
 let UsersService = class UsersService {
     constructor(userModel, jwtService) {
         this.userModel = userModel;
@@ -1520,7 +1549,7 @@ exports.UsersService = UsersService = __decorate([
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1536,8 +1565,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateUserDto = void 0;
-const class_validator_1 = __webpack_require__(24);
-const role_enum_1 = __webpack_require__(33);
+const class_validator_1 = __webpack_require__(25);
+const role_enum_1 = __webpack_require__(34);
 class CreateUserDto {
 }
 exports.CreateUserDto = CreateUserDto;
@@ -1568,48 +1597,17 @@ __decorate([
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateUserDto = void 0;
-const mapped_types_1 = __webpack_require__(26);
-const create_user_dto_1 = __webpack_require__(45);
+const mapped_types_1 = __webpack_require__(27);
+const create_user_dto_1 = __webpack_require__(46);
 class UpdateUserDto extends (0, mapped_types_1.PartialType)((0, mapped_types_1.OmitType)(create_user_dto_1.CreateUserDto, ["password"])) {
 }
 exports.UpdateUserDto = UpdateUserDto;
-
-
-/***/ }),
-/* 47 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.LoginUserDto = void 0;
-const class_validator_1 = __webpack_require__(24);
-class LoginUserDto {
-}
-exports.LoginUserDto = LoginUserDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "username", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(1),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "password", void 0);
 
 
 /***/ }),
@@ -1627,8 +1625,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoginUserDto = void 0;
+const class_validator_1 = __webpack_require__(25);
+class LoginUserDto {
+}
+exports.LoginUserDto = LoginUserDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], LoginUserDto.prototype, "username", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], LoginUserDto.prototype, "password", void 0);
+
+
+/***/ }),
+/* 49 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ChangePasswordDto = void 0;
-const class_validator_1 = __webpack_require__(24);
+const class_validator_1 = __webpack_require__(25);
 class ChangePasswordDto {
 }
 exports.ChangePasswordDto = ChangePasswordDto;
@@ -1644,7 +1673,7 @@ __decorate([
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
