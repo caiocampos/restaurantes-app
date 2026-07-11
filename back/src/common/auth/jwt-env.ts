@@ -8,3 +8,17 @@ export const getjwtExpiresIn = (): ms.StringValue =>
   (process.env.JWT_EXPIRES_IN_RESTAURANTS ??
     process.env.JWT_EXPIRES_IN ??
     "1d") as ms.StringValue;
+
+export const getjwtSecretRefresh = (): string =>
+  process.env.JWT_SECRET_REFRESH_RESTAURANTS ??
+  process.env.JWT_REFRESH_SECRET ??
+  getjwtSecret();
+
+export const getjwtExpiresInRefresh = (): ms.StringValue => {
+  const envInfo =
+    process.env.JWT_EXPIRES_IN_REFRESH_RESTAURANTS ??
+    process.env.JWT_EXPIRES_IN_REFRESH;
+  return envInfo !== undefined
+    ? (envInfo as ms.StringValue)
+    : getjwtExpiresIn();
+};

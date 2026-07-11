@@ -7,6 +7,7 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { JwtService } from "@nestjs/jwt";
 import { Model } from "mongoose";
+import ms from "ms";
 import { User, UserDocument } from "./schemas/user.schema";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -16,6 +17,20 @@ import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
 import { PaginatedResult } from "../../common/interfaces/paginated-result.interface";
 import { paginate } from "../../common/helpers/paginate";
 import { connectionName } from "../../mongoose-connection";
+import { Role } from "../../common/enums/role.enum";
+import { visitorUsername } from "../../common/permissions/permissions-env";
+import {
+  getjwtExpiresIn,
+  getjwtExpiresInRefresh,
+  getjwtSecret,
+  getjwtSecretRefresh,
+} from "../../common/auth/jwt-env";
+
+interface GenTokenPayload {
+  id: string;
+  username: string;
+  role: Role;
+}
 
 @Injectable()
 export class UsersService {
@@ -26,6 +41,9 @@ export class UsersService {
   ) {}
 
   async create(dto: CreateUserDto): Promise<UserDocument> {
+    if (dto.username === visitorUsername()) {
+      throw new ConflictException("O username não pode ser usado");
+    }
     const existing = await this.userModel.findOne({ username: dto.username });
     if (existing) {
       throw new ConflictException("Nome de usuário já está em uso");
@@ -86,7 +104,11 @@ export class UsersService {
 
   async login(
     dto: LoginUserDto,
-  ): Promise<{ accessToken: string; user: Partial<User> }> {
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: Partial<User>;
+  }> {
     const user = await this.userModel.findOne({ username: dto.username });
     if (!user) {
       throw new UnauthorizedException("Usuário ou senha inválidos");
@@ -98,16 +120,8 @@ export class UsersService {
     if (!isMatch) {
       throw new UnauthorizedException("Usuário ou senha inválidos");
     }
-
-    const payload = {
-      sub: user.id as string,
-      username: user.username,
-      role: user.role,
-    };
-    const accessToken = await this.jwtService.signAsync(payload);
-
     return {
-      accessToken,
+      ...(await this.generateTokens(user)),
       user: {
         username: user.username,
         role: user.role,
@@ -115,5 +129,69 @@ export class UsersService {
         lastName: user.lastName,
       },
     };
+  }
+
+  async loginAsVisitor(): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: Partial<User>;
+  }> {
+    const username = visitorUsername();
+    const role = Role.VISITOR;
+    return {
+      ...(await this.generateTokens({
+        id: "",
+        username,
+        role,
+      })),
+      user: {
+        username,
+        role,
+        name: username,
+        lastName: username,
+      },
+    };
+  }
+
+  protected async generateTokens(
+    user: GenTokenPayload,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    return {
+      accessToken: await this.generateAccessToken(user),
+      refreshToken: await this.generateRefreshToken(user),
+    };
+  }
+
+  protected async generateAccessToken(user: GenTokenPayload): Promise<string> {
+    const options = {
+      secret: getjwtSecret(),
+      expiresIn: getjwtExpiresIn(),
+    };
+    return this.generateToken(user, options);
+  }
+
+  protected async generateRefreshToken(user: GenTokenPayload): Promise<string> {
+    const options = {
+      secret: getjwtSecretRefresh(),
+      expiresIn: getjwtExpiresInRefresh(),
+    };
+    return this.generateToken(user, options);
+  }
+
+  protected async generateToken(
+    user: GenTokenPayload,
+    options: {
+      secret: string;
+      expiresIn: ms.StringValue;
+    },
+  ): Promise<string> {
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      role: user.role,
+    };
+    const refreshToken = await this.jwtService.signAsync(payload, options);
+
+    return refreshToken;
   }
 }

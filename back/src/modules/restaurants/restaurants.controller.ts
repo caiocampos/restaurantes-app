@@ -28,7 +28,6 @@ export class RestaurantsController {
     return this.restaurantsService.create(dto);
   }
 
-  // Listagem paginada; use ?name=xxx para filtrar por nome.
   @RequirePermission("restaurants", "read")
   @Get()
   findAll(@Query() query: PaginationQueryDto) {

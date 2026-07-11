@@ -8,10 +8,5 @@ export interface RequiredPermission {
   action: Action;
 }
 
-/**
- * Decorator usado nos controllers para declarar qual permissão
- * (módulo + ação) é necessária para acessar aquela rota.
- * Ex.: @RequirePermission('dishes', 'create')
- */
 export const RequirePermission = (module: ModuleName, action: Action) =>
   SetMetadata(PERMISSION_KEY, { module, action } as RequiredPermission);
