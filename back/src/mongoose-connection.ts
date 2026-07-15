@@ -1,1 +1,1 @@
-export const connectionName = "restaurants";
+export const connectionName = "restaurants"

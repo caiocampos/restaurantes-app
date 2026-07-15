@@ -1,9 +1,9 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { UsersService } from "./users.service";
-import { LoginUserDto } from "./dto/login-user.dto";
-import { RequestUser } from "../../common/auth/jwt.strategy";
-import { CurrentUser } from "../../common/decorators/current-user.decorator";
-import { RefreshTokenDto } from "./dto/refresh-token.dto";
+import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common"
+import { UsersService } from "./users.service"
+import { LoginUserDto } from "./dto/login-user.dto"
+import { RequestUser } from "../../common/auth/jwt.strategy"
+import { CurrentUser } from "../../common/decorators/current-user.decorator"
+import { RefreshTokenDto } from "./dto/refresh-token.dto"
 
 @Controller("auth")
 export class AuthController {
@@ -12,14 +12,15 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginUserDto) {
-    return this.usersService.login(dto);
+    return this.usersService.login(dto)
   }
 
   @Post("refresh-token")
   @HttpCode(HttpStatus.OK)
   refreshToken(
-      @CurrentUser() currentUser: RequestUser,
-      @Body() dto: RefreshTokenDto,) {
-    return this.usersService.refreshToken(currentUser, dto);
+    @CurrentUser() currentUser: RequestUser,
+    @Body() dto: RefreshTokenDto
+  ) {
+    return this.usersService.refreshToken(currentUser, dto)
   }
 }

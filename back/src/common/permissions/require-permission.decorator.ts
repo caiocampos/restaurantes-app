@@ -1,12 +1,12 @@
-import { SetMetadata } from "@nestjs/common";
-import { Action, ModuleName } from "./permissions.matrix";
+import { SetMetadata } from "@nestjs/common"
+import { Action, ModuleName } from "./permissions.matrix"
 
-export const PERMISSION_KEY = "required_permission";
+export const PERMISSION_KEY = "required_permission"
 
 export interface RequiredPermission {
-  module: ModuleName;
-  action: Action;
+  module: ModuleName
+  action: Action
 }
 
 export const RequirePermission = (module: ModuleName, action: Action) =>
-  SetMetadata(PERMISSION_KEY, { module, action } as RequiredPermission);
+  SetMetadata(PERMISSION_KEY, { module, action } as RequiredPermission)

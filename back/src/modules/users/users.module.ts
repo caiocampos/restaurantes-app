@@ -1,16 +1,16 @@
-import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
-import { User, UserSchema } from "./schemas/user.schema";
-import { AuthController } from "./auth.controller";
-import { UsersController } from "./users.controller";
-import { UsersService } from "./users.service";
-import { connectionName } from "../../mongoose-connection";
+import { Module } from "@nestjs/common"
+import { MongooseModule } from "@nestjs/mongoose"
+import { User, UserSchema } from "./schemas/user.schema"
+import { AuthController } from "./auth.controller"
+import { UsersController } from "./users.controller"
+import { UsersService } from "./users.service"
+import { connectionName } from "../../mongoose-connection"
 
 @Module({
   imports: [
     MongooseModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
-      connectionName,
+      connectionName
     ),
   ],
   controllers: [AuthController, UsersController],

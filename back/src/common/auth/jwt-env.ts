@@ -1,24 +1,22 @@
-import ms from "ms";
-import { forceString } from "../utils";
+import ms from "ms"
+import { forceString } from "../utils"
 
 export const getjwtSecret = (): string =>
-  forceString(process.env.JWT_SECRET_RESTAURANTS ?? process.env.JWT_SECRET);
+  forceString(process.env.JWT_SECRET_RESTAURANTS ?? process.env.JWT_SECRET)
 
 export const getjwtExpiresIn = (): ms.StringValue =>
   (process.env.JWT_EXPIRES_IN_RESTAURANTS ??
     process.env.JWT_EXPIRES_IN ??
-    "1d") as ms.StringValue;
+    "1d") as ms.StringValue
 
 export const getjwtSecretRefresh = (): string =>
   process.env.JWT_SECRET_REFRESH_RESTAURANTS ??
   process.env.JWT_REFRESH_SECRET ??
-  getjwtSecret();
+  getjwtSecret()
 
 export const getjwtExpiresInRefresh = (): ms.StringValue => {
   const envInfo =
     process.env.JWT_EXPIRES_IN_REFRESH_RESTAURANTS ??
-    process.env.JWT_EXPIRES_IN_REFRESH;
-  return envInfo !== undefined
-    ? (envInfo as ms.StringValue)
-    : getjwtExpiresIn();
-};
+    process.env.JWT_EXPIRES_IN_REFRESH
+  return envInfo !== undefined ? (envInfo as ms.StringValue) : getjwtExpiresIn()
+}

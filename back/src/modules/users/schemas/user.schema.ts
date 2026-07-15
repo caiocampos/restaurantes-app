@@ -1,24 +1,24 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
-import * as bcrypt from "bcrypt";
-import { Role } from "../../../common/enums/role.enum";
-import { applyToJSONTransform } from "../../../common/utils";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
+import { Document } from "mongoose"
+import * as bcrypt from "bcrypt"
+import { Role } from "../../../common/enums/role.enum"
+import { applyToJSONTransform } from "../../../common/utils"
 
 export interface UserMethods {
-  comparePassword(candidate: string): Promise<boolean>;
+  comparePassword(candidate: string): Promise<boolean>
 }
 
-export type UserDocument = User & Document & UserMethods;
+export type UserDocument = User & Document & UserMethods
 
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = 10
 
 @Schema({ timestamps: true, collection: "users" })
 export class User {
   @Prop({ required: true, unique: true, trim: true, index: true })
-  username!: string;
+  username!: string
 
   @Prop({ required: true })
-  password!: string;
+  password!: string
 
   @Prop({
     required: true,
@@ -26,32 +26,32 @@ export class User {
     enum: Role,
     default: Role.USER,
   })
-  role!: Role;
+  role!: Role
 
   @Prop({ required: true, trim: true })
-  name!: string;
+  name!: string
 
   @Prop({ required: true, trim: true })
-  lastName!: string;
+  lastName!: string
 
   @Prop({ default: true })
-  enabled!: boolean;
+  enabled!: boolean
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User)
 
 UserSchema.pre("save", async function () {
-  const user = this as unknown as UserDocument;
+  const user = this as unknown as UserDocument
   if (!user.isModified("password")) {
-    return;
+    return
   }
-  user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-});
+  user.password = await bcrypt.hash(user.password, SALT_ROUNDS)
+})
 
 UserSchema.methods.comparePassword = function (
-  candidate: string,
+  candidate: string
 ): Promise<boolean> {
-  return bcrypt.compare(candidate, this.password);
-};
+  return bcrypt.compare(candidate, this.password)
+}
 
-applyToJSONTransform(UserSchema, ["password"]);
+applyToJSONTransform(UserSchema, ["password"])

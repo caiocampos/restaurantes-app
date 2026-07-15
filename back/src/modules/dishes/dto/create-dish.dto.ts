@@ -4,17 +4,17 @@ import {
   IsPositive,
   IsString,
   MinLength,
-} from "class-validator";
+} from "class-validator"
 
 export class CreateDishDto {
   @IsString()
   @MinLength(1)
-  name!: string;
+  name!: string
 
   @IsNumber()
   @IsPositive()
-  price!: number;
+  price!: number
 
   @IsMongoId()
-  restaurant_id!: string;
+  restaurant_id!: string
 }

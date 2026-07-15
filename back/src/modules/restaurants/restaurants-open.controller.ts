@@ -1,5 +1,5 @@
-import { Controller, Get } from "@nestjs/common";
-import { RestaurantsService } from "./restaurants.service";
+import { Controller, Get } from "@nestjs/common"
+import { RestaurantsService } from "./restaurants.service"
 
 @Controller("restaurants-open")
 export class RestaurantsOpenController {
@@ -7,6 +7,6 @@ export class RestaurantsOpenController {
 
   @Get("count")
   count(): Promise<number> {
-    return this.restaurantsService.count();
+    return this.restaurantsService.count()
   }
 }

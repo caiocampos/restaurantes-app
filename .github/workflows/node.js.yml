@@ -26,9 +26,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: |
           back/yarn.lock
-#          yarn.lock
-#    - name: Install
-#      run: yarn install
+          yarn.lock
+    - name: Install
+      run: yarn install
 #    - name: Build
 #      run: yarn build
     - name: Install back

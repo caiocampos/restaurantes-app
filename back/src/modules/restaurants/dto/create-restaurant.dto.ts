@@ -1,15 +1,15 @@
-import { IsString, MinLength } from "class-validator";
+import { IsString, MinLength } from "class-validator"
 
 export class CreateRestaurantDto {
   @IsString()
   @MinLength(1)
-  name!: string;
+  name!: string
 
   @IsString()
   @MinLength(1)
-  phone!: string;
+  phone!: string
 
   @IsString()
   @MinLength(1)
-  address!: string;
+  address!: string
 }

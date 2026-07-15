@@ -3,14 +3,14 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
-} from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
+} from "@nestjs/common"
+import { Reflector } from "@nestjs/core"
 import {
   PERMISSION_KEY,
   RequiredPermission,
-} from "../permissions/require-permission.decorator";
-import { hasPermission } from "../permissions/permissions.matrix";
-import { RequestUser } from "../auth/jwt.strategy";
+} from "../permissions/require-permission.decorator"
+import { hasPermission } from "../permissions/permissions.matrix"
+import { RequestUser } from "../auth/jwt.strategy"
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -19,24 +19,24 @@ export class PermissionsGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const required = this.reflector.getAllAndOverride<
       RequiredPermission | undefined
-    >(PERMISSION_KEY, [context.getHandler(), context.getClass()]);
+    >(PERMISSION_KEY, [context.getHandler(), context.getClass()])
 
-    if (!required) return true;
+    if (!required) return true
 
-    const request = context.switchToHttp().getRequest();
-    const user = request.user as RequestUser | undefined;
+    const request = context.switchToHttp().getRequest()
+    const user = request.user as RequestUser | undefined
 
     if (!user) {
-      throw new ForbiddenException("Usuário não autenticado");
+      throw new ForbiddenException("Usuário não autenticado")
     }
 
-    const allowed = hasPermission(user.role, required.module, required.action);
+    const allowed = hasPermission(user.role, required.module, required.action)
     if (!allowed) {
       throw new ForbiddenException(
-        `A role "${user.role}" não possui permissão de "${required.action}" em "${required.module}"`,
-      );
+        `A role "${user.role}" não possui permissão de "${required.action}" em "${required.module}"`
+      )
     }
 
-    return true;
+    return true
   }
 }

@@ -1,16 +1,16 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Types } from "mongoose";
-import { applyToJSONTransform } from "../../../common/utils";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
+import { Document, Types } from "mongoose"
+import { applyToJSONTransform } from "../../../common/utils"
 
-export type DishDocument = Dish & Document;
+export type DishDocument = Dish & Document
 
 @Schema({ timestamps: true, collection: "dishes" })
 export class Dish {
   @Prop({ required: true, trim: true, index: true })
-  name!: string;
+  name!: string
 
   @Prop({ required: true, min: 0 })
-  price!: number;
+  price!: number
 
   @Prop({
     type: Types.ObjectId,
@@ -18,9 +18,9 @@ export class Dish {
     required: true,
     index: true,
   })
-  restaurant_id!: Types.ObjectId;
+  restaurant_id!: Types.ObjectId
 }
 
-export const DishSchema = SchemaFactory.createForClass(Dish);
+export const DishSchema = SchemaFactory.createForClass(Dish)
 
-applyToJSONTransform(DishSchema);
+applyToJSONTransform(DishSchema)

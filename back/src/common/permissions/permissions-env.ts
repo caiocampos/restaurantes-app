@@ -1,5 +1,5 @@
 export const acceptVisitors = (): boolean =>
-  process.env.ENABLE_VISITORS === "true";
+  process.env.ENABLE_VISITORS === "true"
 
 export const visitorUsername = (): string =>
-  process.env.VISITORS_USERNAME ?? "visitor";
+  process.env.VISITORS_USERNAME ?? "visitor"
