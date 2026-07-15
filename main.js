@@ -195,9 +195,7 @@ exports.getjwtSecretRefresh = getjwtSecretRefresh;
 const getjwtExpiresInRefresh = () => {
     const envInfo = process.env.JWT_EXPIRES_IN_REFRESH_RESTAURANTS ??
         process.env.JWT_EXPIRES_IN_REFRESH;
-    return envInfo !== undefined
-        ? envInfo
-        : (0, exports.getjwtExpiresIn)();
+    return envInfo !== undefined ? envInfo : (0, exports.getjwtExpiresIn)();
 };
 exports.getjwtExpiresInRefresh = getjwtExpiresInRefresh;
 
@@ -571,6 +569,7 @@ async function paginateWithQuery(model, query, extraFilter = {}) {
     const limit = query.limit ?? 10;
     const filter = { ...extraFilter };
     if (query.name) {
+        ;
         filter.name = {
             $regex: query.name,
             $options: "i",
