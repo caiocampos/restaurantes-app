@@ -1,10 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { LoginUserDto } from "./dto/login-user.dto";
-import {
-  acceptVisitors,
-  visitorUsername,
-} from "../../common/permissions/permissions-env";
+import { RequestUser } from "../../common/auth/jwt.strategy";
+import { CurrentUser } from "../../common/decorators/current-user.decorator";
+import { RefreshTokenDto } from "./dto/refresh-token.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -13,9 +12,14 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginUserDto) {
-    if (acceptVisitors() && dto.username === visitorUsername()) {
-      return this.usersService.loginAsVisitor();
-    }
     return this.usersService.login(dto);
+  }
+
+  @Post("refresh-token")
+  @HttpCode(HttpStatus.OK)
+  refreshToken(
+      @CurrentUser() currentUser: RequestUser,
+      @Body() dto: RefreshTokenDto,) {
+    return this.usersService.refreshToken(currentUser, dto);
   }
 }

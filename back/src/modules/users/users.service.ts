@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
@@ -18,13 +19,18 @@ import { PaginatedResult } from "../../common/interfaces/paginated-result.interf
 import { paginate } from "../../common/helpers/paginate";
 import { connectionName } from "../../mongoose-connection";
 import { Role } from "../../common/enums/role.enum";
-import { visitorUsername } from "../../common/permissions/permissions-env";
+import {
+  acceptVisitors,
+  visitorUsername,
+} from "../../common/permissions/permissions-env";
 import {
   getjwtExpiresIn,
   getjwtExpiresInRefresh,
   getjwtSecret,
   getjwtSecretRefresh,
 } from "../../common/auth/jwt-env";
+import { RefreshTokenDto } from "./dto/refresh-token.dto";
+import { JwtPayload, RequestUser } from "../../common/auth/jwt.strategy";
 
 interface GenTokenPayload {
   id: string;
@@ -34,6 +40,8 @@ interface GenTokenPayload {
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     @InjectModel(User.name, connectionName)
     private readonly userModel: Model<UserDocument>,
@@ -102,13 +110,14 @@ export class UsersService {
     return { success: true };
   }
 
-  async login(
-    dto: LoginUserDto,
-  ): Promise<{
+  async login(dto: LoginUserDto): Promise<{
     accessToken: string;
     refreshToken: string;
     user: Partial<User>;
   }> {
+    if (acceptVisitors() && dto.username === visitorUsername()) {
+      return this.loginAsVisitor();
+    }
     const user = await this.userModel.findOne({ username: dto.username });
     if (!user) {
       throw new UnauthorizedException("Usuário ou senha inválidos");
@@ -131,7 +140,53 @@ export class UsersService {
     };
   }
 
-  async loginAsVisitor(): Promise<{
+  async refreshToken(
+    currentUser: RequestUser,
+    dto: RefreshTokenDto,
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
+    if (acceptVisitors() && currentUser.username === visitorUsername()) {
+      const { accessToken, refreshToken } = await this.loginAsVisitor();
+      return { accessToken, refreshToken };
+    }
+    const user = await this.checkRefreshToken(currentUser, dto);
+    return this.generateTokens(user);
+  }
+
+  protected async checkRefreshToken(
+    currentUser: RequestUser,
+    dto: RefreshTokenDto,
+  ): Promise<GenTokenPayload> {
+    const id = this.jwtService.decode<JwtPayload>(dto.refreshToken)["sub"];
+    if (id !== currentUser.userId) {
+      this.logger.error("O usuário não é compatível com a requisição");
+      throw new NotFoundException("Usuário não encontrado");
+    }
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException("Usuário não encontrado");
+    }
+    try {
+      this.jwtService.verify(dto.refreshToken, {
+        secret: getjwtSecretRefresh(),
+      });
+      return user;
+    } catch (error: unknown) {
+      const err = error as Error;
+      this.logger.error("Erro ao validar o token", error);
+      if (err.name === "JsonWebTokenError") {
+        throw new UnauthorizedException("Assinatura Inválida");
+      }
+      if (err.name === "TokenExpiredError") {
+        throw new UnauthorizedException("Token Expirado");
+      }
+      throw new UnauthorizedException(err.name);
+    }
+  }
+
+  protected async loginAsVisitor(): Promise<{
     accessToken: string;
     refreshToken: string;
     user: Partial<User>;
@@ -140,7 +195,7 @@ export class UsersService {
     const role = Role.VISITOR;
     return {
       ...(await this.generateTokens({
-        id: "",
+        id: username,
         username,
         role,
       })),
@@ -190,8 +245,8 @@ export class UsersService {
       username: user.username,
       role: user.role,
     };
-    const refreshToken = await this.jwtService.signAsync(payload, options);
+    const token = await this.jwtService.signAsync(payload, options);
 
-    return refreshToken;
+    return token;
   }
 }
