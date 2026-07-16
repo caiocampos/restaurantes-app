@@ -2,7 +2,21 @@ import { Role } from "../enums/role.enum"
 import { acceptVisitors } from "./permissions-env"
 
 export type ModuleName = "dishes" | "restaurants" | "users"
+
+export enum ModuleNameEnum {
+  DISHES = "dishes",
+  RESTAURANTS = "restaurants",
+  USERS = "users",
+}
+
 export type Action = "create" | "read" | "update" | "delete"
+
+export enum ActionEnum {
+  CREATE = "create",
+  READ = "read",
+  UPDATE = "update",
+  DELETE = "delete",
+}
 
 type ActionsMap = Record<Action, boolean>
 type PermissionsMatrix = Record<Role, Record<ModuleName, ActionsMap>>

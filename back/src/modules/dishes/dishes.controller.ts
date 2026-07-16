@@ -16,37 +16,41 @@ import { PaginationQueryDto } from "../../common/dto/pagination-query.dto"
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard"
 import { PermissionsGuard } from "../../common/guards/permissions.guard"
 import { RequirePermission } from "../../common/permissions/require-permission.decorator"
+import {
+  ActionEnum,
+  ModuleNameEnum,
+} from "../../common/permissions/permissions.matrix"
 
 @Controller("dishes")
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 export class DishesController {
   constructor(private readonly dishesService: DishesService) {}
 
-  @RequirePermission("dishes", "create")
+  @RequirePermission(ModuleNameEnum.DISHES, ActionEnum.CREATE)
   @Post()
   create(@Body() dto: CreateDishDto) {
     return this.dishesService.create(dto)
   }
 
-  @RequirePermission("dishes", "read")
+  @RequirePermission(ModuleNameEnum.DISHES, ActionEnum.READ)
   @Get()
   findAll(@Query() query: PaginationQueryDto) {
     return this.dishesService.findAll(query)
   }
 
-  @RequirePermission("dishes", "read")
+  @RequirePermission(ModuleNameEnum.DISHES, ActionEnum.READ)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.dishesService.findById(id)
   }
 
-  @RequirePermission("dishes", "update")
+  @RequirePermission(ModuleNameEnum.DISHES, ActionEnum.UPDATE)
   @Patch(":id")
   update(@Param("id") id: string, @Body() dto: UpdateDishDto) {
     return this.dishesService.update(id, dto)
   }
 
-  @RequirePermission("dishes", "delete")
+  @RequirePermission(ModuleNameEnum.DISHES, ActionEnum.DELETE)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.dishesService.remove(id)
