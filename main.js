@@ -387,6 +387,7 @@ const pagination_query_dto_1 = __webpack_require__(28);
 const jwt_auth_guard_1 = __webpack_require__(30);
 const permissions_guard_1 = __webpack_require__(31);
 const require_permission_decorator_1 = __webpack_require__(32);
+const permissions_matrix_1 = __webpack_require__(33);
 let DishesController = class DishesController {
     constructor(dishesService) {
         this.dishesService = dishesService;
@@ -409,7 +410,7 @@ let DishesController = class DishesController {
 };
 exports.DishesController = DishesController;
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("dishes", "create"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.DISHES, permissions_matrix_1.ActionEnum.CREATE),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -417,7 +418,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "create", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("dishes", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.DISHES, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -425,7 +426,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "findAll", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("dishes", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.DISHES, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -433,7 +434,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "findOne", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("dishes", "update"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.DISHES, permissions_matrix_1.ActionEnum.UPDATE),
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
@@ -442,7 +443,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DishesController.prototype, "update", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("dishes", "delete"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.DISHES, permissions_matrix_1.ActionEnum.DELETE),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -811,10 +812,23 @@ exports.RequirePermission = RequirePermission;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PERMISSIONS = void 0;
+exports.PERMISSIONS = exports.ActionEnum = exports.ModuleNameEnum = void 0;
 exports.hasPermission = hasPermission;
 const role_enum_1 = __webpack_require__(34);
 const permissions_env_1 = __webpack_require__(35);
+var ModuleNameEnum;
+(function (ModuleNameEnum) {
+    ModuleNameEnum["DISHES"] = "dishes";
+    ModuleNameEnum["RESTAURANTS"] = "restaurants";
+    ModuleNameEnum["USERS"] = "users";
+})(ModuleNameEnum || (exports.ModuleNameEnum = ModuleNameEnum = {}));
+var ActionEnum;
+(function (ActionEnum) {
+    ActionEnum["CREATE"] = "create";
+    ActionEnum["READ"] = "read";
+    ActionEnum["UPDATE"] = "update";
+    ActionEnum["DELETE"] = "delete";
+})(ActionEnum || (exports.ActionEnum = ActionEnum = {}));
 const getFullAccess = () => ({
     create: true,
     read: true,
@@ -949,6 +963,7 @@ const pagination_query_dto_1 = __webpack_require__(28);
 const jwt_auth_guard_1 = __webpack_require__(30);
 const permissions_guard_1 = __webpack_require__(31);
 const require_permission_decorator_1 = __webpack_require__(32);
+const permissions_matrix_1 = __webpack_require__(33);
 let RestaurantsController = class RestaurantsController {
     constructor(restaurantsService) {
         this.restaurantsService = restaurantsService;
@@ -971,7 +986,7 @@ let RestaurantsController = class RestaurantsController {
 };
 exports.RestaurantsController = RestaurantsController;
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("restaurants", "create"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.RESTAURANTS, permissions_matrix_1.ActionEnum.CREATE),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -979,7 +994,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "create", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("restaurants", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.RESTAURANTS, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -987,7 +1002,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "findAll", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("restaurants", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.RESTAURANTS, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -995,7 +1010,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "findOne", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("restaurants", "update"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.RESTAURANTS, permissions_matrix_1.ActionEnum.UPDATE),
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
@@ -1004,7 +1019,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RestaurantsController.prototype, "update", null);
 __decorate([
-    (0, require_permission_decorator_1.RequirePermission)("restaurants", "delete"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.RESTAURANTS, permissions_matrix_1.ActionEnum.DELETE),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -1354,6 +1369,7 @@ const login_user_dto_1 = __webpack_require__(47);
 const jwt_strategy_1 = __webpack_require__(11);
 const current_user_decorator_1 = __webpack_require__(48);
 const refresh_token_dto_1 = __webpack_require__(49);
+const jwt_auth_guard_1 = __webpack_require__(30);
 let AuthController = class AuthController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -1375,6 +1391,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)("refresh-token"),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
@@ -1697,6 +1714,7 @@ const permissions_guard_1 = __webpack_require__(31);
 const require_permission_decorator_1 = __webpack_require__(32);
 const current_user_decorator_1 = __webpack_require__(48);
 const jwt_strategy_1 = __webpack_require__(11);
+const permissions_matrix_1 = __webpack_require__(33);
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -1746,7 +1764,7 @@ __decorate([
 ], UsersController.prototype, "changeOwnPassword", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "create"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.CREATE),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -1755,7 +1773,7 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -1764,7 +1782,7 @@ __decorate([
 ], UsersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "read"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.READ),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -1773,7 +1791,7 @@ __decorate([
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "update"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.UPDATE),
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
@@ -1783,7 +1801,7 @@ __decorate([
 ], UsersController.prototype, "update", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.DELETE),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -1792,7 +1810,7 @@ __decorate([
 ], UsersController.prototype, "disable", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, permissions_guard_1.PermissionsGuard),
-    (0, require_permission_decorator_1.RequirePermission)("users", "delete"),
+    (0, require_permission_decorator_1.RequirePermission)(permissions_matrix_1.ModuleNameEnum.USERS, permissions_matrix_1.ActionEnum.DELETE),
     (0, common_1.Patch)(":id/enable"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
