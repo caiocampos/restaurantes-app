@@ -1078,7 +1078,7 @@ let RestaurantsService = RestaurantsService_1 = class RestaurantsService {
         return new this.restaurantModel(dto).save();
     }
     findAll(query) {
-        return (0, paginate_1.paginate)(this.restaurantModel, query);
+        return (0, paginate_1.paginateWithQuery)(this.restaurantModel, query);
     }
     async findById(id) {
         const restaurant = await this.restaurantModel.findById(id);
@@ -1457,7 +1457,7 @@ let UsersService = UsersService_1 = class UsersService {
         return created.save();
     }
     findAll(query) {
-        return (0, paginate_1.paginate)(this.userModel, query);
+        return (0, paginate_1.paginateWithQuery)(this.userModel, query);
     }
     async findById(id) {
         const user = await this.userModel.findById(id);
