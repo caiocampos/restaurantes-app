@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios"
 import type { AuthSession } from "@/types"
 import { authService } from "./services"
+import { returnToLogin } from "@/util"
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api"
 
@@ -56,7 +57,7 @@ api.interceptors.response.use(
     const session = getSession()
     if (!session?.refreshToken) {
       clearSession()
-      window.location.href = "/login"
+      returnToLogin()
       return Promise.reject(error)
     }
 
@@ -88,7 +89,7 @@ api.interceptors.response.use(
     } catch (refreshError) {
       processQueue(refreshError, null)
       clearSession()
-      window.location.href = "/login"
+      returnToLogin()
       return Promise.reject(refreshError)
     } finally {
       isRefreshing = false

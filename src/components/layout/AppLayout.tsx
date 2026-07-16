@@ -3,6 +3,7 @@ import { LogOut, UtensilsCrossed } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/use-auth"
+import { loginRoute } from "@/util"
 
 const TABS = [
   { label: "Pratos", to: "/dishes" },
@@ -16,7 +17,7 @@ export function AppLayout() {
 
   function handleLogout() {
     logout()
-    navigate("/login", { replace: true })
+    navigate(loginRoute, { replace: true })
   }
 
   return (
