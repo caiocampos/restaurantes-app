@@ -16,7 +16,10 @@ import { PaginationQueryDto } from "../../common/dto/pagination-query.dto"
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard"
 import { PermissionsGuard } from "../../common/guards/permissions.guard"
 import { RequirePermission } from "../../common/permissions/require-permission.decorator"
-import { ActionEnum, ModuleNameEnum } from "../../common/permissions/permissions.matrix"
+import {
+  ActionEnum,
+  ModuleNameEnum,
+} from "../../common/permissions/permissions.matrix"
 
 @Controller("restaurants")
 @UseGuards(JwtAuthGuard, PermissionsGuard)

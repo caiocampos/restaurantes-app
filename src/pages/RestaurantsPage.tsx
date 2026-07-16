@@ -11,11 +11,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { RestaurantModal } from "@/components/modals/RestaurantModal"
 import { CreateRestaurantModal } from "@/components/modals/CreateModals"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ActionEnum, ModuleNameEnum } from "@/lib/permissions"
 
 const PAGE_LIMIT = 12
 
 export function RestaurantsPage() {
-  const canCreate = usePermission("restaurants", "create")
+  const canRead = usePermission(ModuleNameEnum.RESTAURANTS, ActionEnum.READ)
+  const canCreate = usePermission(ModuleNameEnum.RESTAURANTS, ActionEnum.CREATE)
 
   const [nameQuery, setNameQuery] = useState("")
   const debouncedName = useDebounce(nameQuery, 350)
@@ -24,17 +26,21 @@ export function RestaurantsPage() {
   const [createOpen, setCreateOpen] = useState(false)
 
   const fetcher = useCallback(
-    (page: number) =>
-      restaurantService
-        .list(page, PAGE_LIMIT, { name: debouncedName || undefined })
-        .then((r) => ({ data: r.data, totalPages: r.totalPages })),
-    [debouncedName]
+    async (page: number) => {
+      if (canRead) {
+        return restaurantService
+          .list(page, PAGE_LIMIT, { name: debouncedName || undefined })
+          .then((r) => ({ data: r.data, totalPages: r.totalPages }))
+      }
+      return { data: [], totalPages: 0 }
+    },
+    [canRead, debouncedName]
   )
 
   const { items, loading, error, hasMore, sentinelRef, reset } =
     useInfiniteScroll<Restaurant>({
       fetcher,
-      deps: [debouncedName],
+      debouncedQuery: debouncedName,
     })
 
   return (

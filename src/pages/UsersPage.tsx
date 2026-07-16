@@ -18,12 +18,14 @@ import {
 import { UserModal } from "@/components/modals/UserModal"
 import { CreateUserModal } from "@/components/modals/CreateModals"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Badge } from "@/components/ui/badge"
+import { UserRoleBadge, UserStatusBadge } from "@/components/common/user-badge"
+import { ActionEnum, ModuleNameEnum } from "@/lib/permissions"
 
 const PAGE_LIMIT = 10
 
 export function UsersPage() {
-  const canCreate = usePermission("users", "create")
+  const canRead = usePermission(ModuleNameEnum.USERS, ActionEnum.READ)
+  const canCreate = usePermission(ModuleNameEnum.USERS, ActionEnum.CREATE)
 
   const [nameQuery, setNameQuery] = useState("")
   const debouncedName = useDebounce(nameQuery, 350)
@@ -33,10 +35,22 @@ export function UsersPage() {
 
   const { items, page, total, totalPages, loading, error, goToPage, refresh } =
     usePaginatedList<User>({
-      fetcher: (p, limit) =>
-        userService.list(p, limit, { name: debouncedName || undefined }),
+      fetcher: async (p, limit) => {
+        if (canRead) {
+          return userService.list(p, limit, {
+            name: debouncedName || undefined,
+          })
+        }
+        return {
+          data: [],
+          total: 0,
+          page: p,
+          limit: limit,
+          totalPages: 0,
+        }
+      },
       limit: PAGE_LIMIT,
-      deps: [debouncedName],
+      debouncedQuery: debouncedName,
     })
 
   return (
@@ -110,16 +124,12 @@ export function UsersPage() {
                         {u.name} {u.lastName}
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          variant={u.role === "admin" ? "default" : "secondary"}
-                        >
-                          {u.role === "admin" ? "Admin" : "Usuário"}
-                        </Badge>
+                        <UserRoleBadge userRole={u.role} />
                       </TableCell>
                       <TableCell>
-                        <Badge variant={u.enabled ? "success" : "destructive"}>
-                          {u.enabled ? "Ativo" : "Inativo"}
-                        </Badge>
+                        <UserStatusBadge
+                          userStatus={u.enabled ? "enabled" : "disabled"}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}

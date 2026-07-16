@@ -2,12 +2,14 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 interface UseInfiniteScrollOptions<T> {
   fetcher: (page: number) => Promise<{ data: T[]; totalPages: number }>
-  deps?: unknown[]
+  debouncedQuery?: string
+  idQuery?: string
 }
 
 export function useInfiniteScroll<T>({
   fetcher,
-  deps = [],
+  debouncedQuery,
+  idQuery,
 }: UseInfiniteScrollOptions<T>) {
   const [items, setItems] = useState<T[]>([])
   const [page, setPage] = useState(1)
@@ -17,22 +19,29 @@ export function useInfiniteScroll<T>({
   const sentinelRef = useRef<HTMLDivElement | null>(null)
   const hasMore = page <= totalPages
 
-  const reset = useCallback(() => {
-    setItems([])
-    setPage(1)
-    setTotalPages(1)
-    setError(null)
-  }, [])
+  const reset = useCallback(
+    () =>
+      (async () => {
+        setItems([])
+        setPage(1)
+        setTotalPages(1)
+        setError(null)
+      })(),
+    []
+  )
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     reset()
-  }, deps)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedQuery, idQuery])
 
   useEffect(() => {
     if (loading) return
-    setLoading(true)
-    setError(null)
+    const start = async () => {
+      setLoading(true)
+      setError(null)
+    }
+    start()
 
     fetcher(page)
       .then(({ data, totalPages: tp }) => {
@@ -42,7 +51,7 @@ export function useInfiniteScroll<T>({
       .catch(() => setError("Erro ao carregar dados"))
       .finally(() => setLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, ...deps])
+  }, [page, debouncedQuery, idQuery])
 
   useEffect(() => {
     const el = sentinelRef.current

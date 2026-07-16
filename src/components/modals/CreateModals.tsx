@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { Restaurant } from "@/types"
+import { RoleEnum, type Restaurant } from "@/types"
 import { dishService, restaurantService, userService } from "@/lib/services"
 import {
   Dialog,
@@ -17,8 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Combobox } from "@/components/ui/combobox"
 import { Label } from "@/components/ui/label"
+import { RestaurantCombobox } from "../common/restaurant-combobox"
+import type { AxiosError } from "axios"
 
 interface CreateDishModalProps {
   open: boolean
@@ -34,6 +35,7 @@ export function CreateDishModal({
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
   const [restaurantId, setRestaurantId] = useState("")
+  const [restaurantName, setRestaurantName] = useState("")
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [restLoading, setRestLoading] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -104,15 +106,13 @@ export function CreateDishModal({
           </div>
           <div className="space-y-2">
             <Label>Restaurante</Label>
-            <Combobox
-              className="w-full"
+            <RestaurantCombobox
               options={options}
-              value={restaurantId}
-              placeholder="Selecionar restaurante"
-              searchPlaceholder="Buscar restaurante..."
-              onSelect={(v) => setRestaurantId(v ?? "")}
-              onSearch={handleRestSearch}
-              loading={restLoading}
+              handleRestSearch={handleRestSearch}
+              setRestaurantId={(id) => setRestaurantId(id ?? "")}
+              restaurantName={restaurantName}
+              setRestaurantName={setRestaurantName}
+              isLoading={restLoading}
             />
           </div>
           {error && <p className="text-sm text-destructive">{error}</p>}
@@ -254,8 +254,11 @@ export function CreateUserModal({
       await userService.create({ username, password, name, lastName, role })
       onCreated()
       handleOpenChange(false)
-    } catch (e: any) {
-      setError(e?.response?.data?.message ?? "Erro ao criar usuário.")
+    } catch (e: unknown) {
+      setError(
+        (e as AxiosError<{ message: string }>)?.response?.data?.message ??
+          "Erro ao criar usuário."
+      )
     } finally {
       setSaving(false)
     }
@@ -300,7 +303,10 @@ export function CreateUserModal({
           </div>
           <div className="space-y-2">
             <Label>Role</Label>
-            <Select value={role} onValueChange={setRole}>
+            <Select
+              value={role}
+              onValueChange={(value) => setRole(value ?? RoleEnum.USER)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

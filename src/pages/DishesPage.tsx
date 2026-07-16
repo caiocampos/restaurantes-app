@@ -8,16 +8,18 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import { Combobox } from "@/components/ui/combobox"
 import { DishModal } from "@/components/modals/DishModal"
 import { CreateDishModal } from "@/components/modals/CreateModals"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ActionEnum, ModuleNameEnum } from "@/lib/permissions"
+import { RestaurantCombobox } from "@/components/common/restaurant-combobox"
 
 const PAGE_LIMIT = 12
 
 export function DishesPage() {
-  const canCreate = usePermission("dishes", "create")
+  const canRead = usePermission(ModuleNameEnum.DISHES, ActionEnum.READ)
+  const canCreate = usePermission(ModuleNameEnum.DISHES, ActionEnum.CREATE)
 
   const [nameQuery, setNameQuery] = useState("")
   const [restaurantFilter, setRestaurantFilter] = useState<string | undefined>()
@@ -33,7 +35,10 @@ export function DishesPage() {
   const [filterRestLoading, setFilterRestLoading] = useState(false)
 
   useEffect(() => {
-    setFilterRestLoading(true)
+    const setLoading = async () => {
+      setFilterRestLoading(true)
+    }
+    setLoading()
     restaurantService
       .list(1, 20, { name: filterRestSearch })
       .then((r) => setFilterRestaurants(r.data))
@@ -44,29 +49,32 @@ export function DishesPage() {
 
   const fetcher = useCallback(
     async (page: number) => {
-      const result = await dishService.list(page, PAGE_LIMIT, {
-        name: debouncedName || undefined,
-        restaurant: restaurantFilter,
-      })
-      const unknownIds = [
-        ...new Set(result.data.map((d) => d.restaurant_id)),
-      ].filter((id) => id && !restaurantMap[id])
-      if (unknownIds.length > 0) {
-        const fetches = unknownIds.map((id) =>
-          restaurantService
-            .list(1, 1, {})
-            .then(() => null)
-            .catch(() => null)
-        )
-        const batchResult = await restaurantService.list(1, 50, {})
-        const newEntries: Record<string, string> = {}
-        batchResult.data.forEach((r) => {
-          newEntries[r.id] = r.name
+      if (canRead) {
+        const result = await dishService.list(page, PAGE_LIMIT, {
+          name: debouncedName || undefined,
+          restaurant: restaurantFilter,
         })
-        setRestaurantMap((prev) => ({ ...prev, ...newEntries }))
-        void fetches
+        const unknownIds = [
+          ...new Set(result.data.map((d) => d.restaurant_id)),
+        ].filter((id) => id && !restaurantMap[id])
+        if (unknownIds.length > 0) {
+          const fetches = unknownIds.map(() =>
+            restaurantService
+              .list(1, 1, {})
+              .then(() => null)
+              .catch(() => null)
+          )
+          const batchResult = await restaurantService.list(1, 50, {})
+          const newEntries: Record<string, string> = {}
+          batchResult.data.forEach((r) => {
+            newEntries[r.id] = r.name
+          })
+          setRestaurantMap((prev) => ({ ...prev, ...newEntries }))
+          void fetches
+        }
+        return { data: result.data, totalPages: result.totalPages }
       }
-      return { data: result.data, totalPages: result.totalPages }
+      return { data: [], totalPages: 0 }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [debouncedName, restaurantFilter]
@@ -81,7 +89,8 @@ export function DishesPage() {
     reset,
   } = useInfiniteScroll<Dish>({
     fetcher,
-    deps: [debouncedName, restaurantFilter],
+    debouncedQuery: debouncedName,
+    idQuery: restaurantFilter,
   })
 
   function handleSaved() {
@@ -131,20 +140,13 @@ export function DishesPage() {
             onChange={(e) => setNameQuery(e.target.value)}
           />
         </div>
-        <Combobox
-          className="sm:w-64"
+        <RestaurantCombobox
           options={filterOptions}
-          value={restaurantFilter}
-          placeholder="Filtrar por restaurante"
-          searchPlaceholder="Buscar restaurante..."
-          onSelect={(v) => {
-            setRestaurantFilter(v)
-            setRestaurantFilterName(
-              filterOptions.find((o) => o.value === v)?.label ?? ""
-            )
-          }}
-          onSearch={setFilterRestSearch}
-          loading={filterRestLoading}
+          handleRestSearch={setFilterRestSearch}
+          setRestaurantId={setRestaurantFilter}
+          restaurantName={restaurantFilterName}
+          setRestaurantName={setRestaurantFilterName}
+          isLoading={filterRestLoading}
         />
       </div>
 

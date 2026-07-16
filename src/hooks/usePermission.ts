@@ -1,4 +1,4 @@
-import { useAuth } from "@/contexts/AuthContext"
+import { useAuth } from "@/contexts/use-auth"
 import { hasPermission, type Action, type ModuleName } from "@/lib/permissions"
 
 export function usePermission(module: ModuleName, action: Action): boolean {

@@ -1,8 +1,8 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { LogOut, UtensilsCrossed } from "lucide-react"
-import { useAuth } from "@/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/contexts/use-auth"
 
 const TABS = [
   { label: "Pratos", to: "/dishes" },

@@ -2,7 +2,7 @@ import { QueryFilter, Model } from "mongoose"
 import { PaginationQueryDto } from "../dto/pagination-query.dto"
 import { PaginatedResult } from "../interfaces/paginated-result.interface"
 
-export async function paginateWithQuery<T>(
+export async function paginateWithQuery<T extends { name: string }>(
   model: Model<T>,
   query: PaginationQueryDto,
   extraFilter: QueryFilter<T> = {}
@@ -12,7 +12,7 @@ export async function paginateWithQuery<T>(
 
   const filter: QueryFilter<T> = { ...extraFilter }
   if (query.name) {
-    ;(filter as Record<string, unknown>).name = {
+    filter.name = {
       $regex: query.name,
       $options: "i",
     }

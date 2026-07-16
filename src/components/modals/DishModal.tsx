@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Combobox } from "@/components/ui/combobox"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "../ui/label"
+import { ActionEnum, ModuleNameEnum } from "@/lib/permissions"
+import { RestaurantCombobox } from "../common/restaurant-combobox"
 
 interface DishModalProps {
   dish: Dish | null
@@ -23,8 +24,8 @@ interface DishModalProps {
 }
 
 export function DishModal({ dish, open, onClose, onSaved }: DishModalProps) {
-  const canEdit = usePermission("dishes", "update")
-  const canDelete = usePermission("dishes", "delete")
+  const canEdit = usePermission(ModuleNameEnum.DISHES, ActionEnum.UPDATE)
+  const canDelete = usePermission(ModuleNameEnum.DISHES, ActionEnum.DELETE)
 
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -41,18 +42,24 @@ export function DishModal({ dish, open, onClose, onSaved }: DishModalProps) {
 
   useEffect(() => {
     if (dish) {
-      setName(dish.name)
-      setPrice(String(dish.price))
-      setRestaurantId(dish.restaurant_id)
-      setRestaurantName(dish.restaurantName ?? "")
-      setEditing(false)
-      setError("")
+      const updateValues = async () => {
+        setName(dish.name)
+        setPrice(String(dish.price))
+        setRestaurantId(dish.restaurant_id)
+        setRestaurantName(dish.restaurantName ?? "")
+        setEditing(false)
+        setError("")
+      }
+      updateValues()
     }
   }, [dish])
 
   useEffect(() => {
     if (!editing) return
-    setRestLoading(true)
+    const setLoading = async () => {
+      setRestLoading(true)
+    }
+    setLoading()
     restaurantService
       .list(1, 20, { name: restSearch })
       .then((r) => setRestaurants(r.data))
@@ -134,20 +141,13 @@ export function DishModal({ dish, open, onClose, onSaved }: DishModalProps) {
               </div>
               <div className="space-y-2">
                 <Label>Restaurante</Label>
-                <Combobox
-                  className="w-full"
+                <RestaurantCombobox
                   options={options}
-                  value={restaurantId}
-                  placeholder="Selecionar restaurante"
-                  searchPlaceholder="Buscar restaurante..."
-                  onSelect={(v) => {
-                    setRestaurantId(v ?? "")
-                    setRestaurantName(
-                      options.find((o) => o.value === v)?.label ?? ""
-                    )
-                  }}
-                  onSearch={setRestSearch}
-                  loading={restLoading}
+                  handleRestSearch={setRestSearch}
+                  setRestaurantId={(id) => setRestaurantId(id ?? "")}
+                  restaurantName={restaurantName}
+                  setRestaurantName={setRestaurantName}
+                  isLoading={restLoading}
                 />
               </div>
             </>

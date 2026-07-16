@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "../ui/label"
+import { ActionEnum, ModuleNameEnum } from "@/lib/permissions"
 
 interface RestaurantModalProps {
   restaurant: Restaurant | null
@@ -26,8 +27,8 @@ export function RestaurantModal({
   onClose,
   onSaved,
 }: RestaurantModalProps) {
-  const canEdit = usePermission("restaurants", "update")
-  const canDelete = usePermission("restaurants", "delete")
+  const canEdit = usePermission(ModuleNameEnum.RESTAURANTS, ActionEnum.UPDATE)
+  const canDelete = usePermission(ModuleNameEnum.RESTAURANTS, ActionEnum.DELETE)
 
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -39,11 +40,14 @@ export function RestaurantModal({
 
   useEffect(() => {
     if (restaurant) {
-      setName(restaurant.name)
-      setPhone(restaurant.phone)
-      setAddress(restaurant.address)
-      setEditing(false)
-      setError("")
+      const updateValues = async () => {
+        setName(restaurant.name)
+        setPhone(restaurant.phone)
+        setAddress(restaurant.address)
+        setEditing(false)
+        setError("")
+      }
+      updateValues()
     }
   }, [restaurant])
 

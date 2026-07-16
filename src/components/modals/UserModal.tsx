@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import type { User } from "@/types"
+import { RoleEnum, type Role, type User } from "@/types"
 import { userService } from "@/lib/services"
 import { usePermission } from "@/hooks/usePermission"
 import {
@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from "../ui/label"
-import { Badge } from "../ui/badge"
+import { UserRoleBadge, UserStatusBadge } from "../common/user-badge"
 
 interface UserModalProps {
   user: User | null
@@ -38,15 +38,18 @@ export function UserModal({ user, open, onClose, onSaved }: UserModalProps) {
 
   const [name, setName] = useState("")
   const [lastName, setLastName] = useState("")
-  const [role, setRole] = useState<"admin" | "user">("user")
+  const [role, setRole] = useState<Role>(RoleEnum.USER)
 
   useEffect(() => {
     if (user) {
-      setName(user.name)
-      setLastName(user.lastName)
-      setRole(user.role)
-      setEditing(false)
-      setError("")
+      const updateValues = async () => {
+        setName(user.name)
+        setLastName(user.lastName)
+        setRole(user.role)
+        setEditing(false)
+        setError("")
+      }
+      updateValues()
     }
   }, [user])
 
@@ -149,11 +152,7 @@ export function UserModal({ user, open, onClose, onSaved }: UserModalProps) {
                   Role
                 </dt>
                 <dd className="mt-0.5">
-                  <Badge
-                    variant={user.role === "admin" ? "default" : "secondary"}
-                  >
-                    {user.role === "admin" ? "Administrador" : "Usuário"}
-                  </Badge>
+                  <UserRoleBadge userRole={user.role} />
                 </dd>
               </div>
               <div>
@@ -161,9 +160,9 @@ export function UserModal({ user, open, onClose, onSaved }: UserModalProps) {
                   Status
                 </dt>
                 <dd className="mt-0.5">
-                  <Badge variant={user.enabled ? "success" : "destructive"}>
-                    {user.enabled ? "Ativo" : "Desabilitado"}
-                  </Badge>
+                  <UserStatusBadge
+                    userStatus={user.enabled ? "enabled" : "disabled"}
+                  />
                 </dd>
               </div>
             </dl>

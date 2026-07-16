@@ -1,4 +1,10 @@
-export type Role = "admin" | "user"
+export type Role = "admin" | "user" | "visitor"
+
+export enum RoleEnum {
+  ADMIN = "admin",
+  USER = "user",
+  VISITOR = "visitor",
+}
 
 export interface User {
   id: string
@@ -35,10 +41,7 @@ export interface AuthTokens {
   refreshToken: string
 }
 
-export interface AuthUser extends Pick<
-  User,
-  "username" | "role" | "name" | "lastName"
-> {}
+export type AuthUser = Pick<User, "username" | "role" | "name" | "lastName">
 
 export interface AuthSession extends AuthTokens {
   user: AuthUser

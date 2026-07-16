@@ -6,13 +6,13 @@ interface UsePaginatedListOptions<T> {
     limit: number
   ) => Promise<{ data: T[]; total: number; totalPages: number }>
   limit?: number
-  deps?: unknown[]
+  debouncedQuery?: string
 }
 
 export function usePaginatedList<T>({
   fetcher,
   limit = 10,
-  deps = [],
+  debouncedQuery,
 }: UsePaginatedListOptions<T>) {
   const [items, setItems] = useState<T[]>([])
   const [page, setPage] = useState(1)
@@ -23,8 +23,11 @@ export function usePaginatedList<T>({
 
   const load = useCallback(
     (p: number) => {
-      setLoading(true)
-      setError(null)
+      const start = async () => {
+        setLoading(true)
+        setError(null)
+      }
+      start()
       fetcher(p, limit)
         .then(({ data, total: t, totalPages: tp }) => {
           setItems(data)
@@ -36,7 +39,7 @@ export function usePaginatedList<T>({
         .finally(() => setLoading(false))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [limit, ...deps]
+    [limit, debouncedQuery]
   )
 
   useEffect(() => {
