@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
-const ENABLE_VISITORS = import.meta.env.ENABLE_VISITOR === "true"
-const VISITORS_USERNAME = import.meta.env.VISITORS_USERNAME ?? "visitor"
+const ENABLE_VISITORS = import.meta.env.VITE_ENABLE_VISITOR === "true"
+const VISITORS_USERNAME = import.meta.env.VITE_VISITORS_USERNAME ?? "visitor"
 
 export function LoginPage() {
   const { login } = useAuth()
