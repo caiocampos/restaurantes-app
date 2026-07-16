@@ -16,7 +16,7 @@ import { LoginUserDto } from "./dto/login-user.dto"
 import { ChangePasswordDto } from "./dto/change-password.dto"
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto"
 import { PaginatedResult } from "../../common/interfaces/paginated-result.interface"
-import { paginate } from "../../common/helpers/paginate"
+import { paginateWithQuery } from "../../common/helpers/paginate"
 import { connectionName } from "../../mongoose-connection"
 import { Role } from "../../common/enums/role.enum"
 import {
@@ -65,7 +65,7 @@ export class UsersService {
   }
 
   findAll(query: PaginationQueryDto): Promise<PaginatedResult<UserDocument>> {
-    return paginate(this.userModel, query)
+    return paginateWithQuery(this.userModel, query)
   }
 
   async findById(id: string): Promise<UserDocument> {

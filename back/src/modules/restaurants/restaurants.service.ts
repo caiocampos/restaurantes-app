@@ -11,7 +11,7 @@ import { CreateRestaurantDto } from "./dto/create-restaurant.dto"
 import { UpdateRestaurantDto } from "./dto/update-restaurant.dto"
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto"
 import { PaginatedResult } from "../../common/interfaces/paginated-result.interface"
-import { paginate } from "../../common/helpers/paginate"
+import { paginateWithQuery } from "../../common/helpers/paginate"
 import { connectionName } from "../../mongoose-connection"
 
 @Injectable()
@@ -40,7 +40,7 @@ export class RestaurantsService {
   findAll(
     query: PaginationQueryDto
   ): Promise<PaginatedResult<RestaurantDocument>> {
-    return paginate(this.restaurantModel, query)
+    return paginateWithQuery(this.restaurantModel, query)
   }
 
   async findById(id: string): Promise<RestaurantDocument> {
