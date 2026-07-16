@@ -29,8 +29,8 @@ jobs:
           yarn.lock
     - name: Install
       run: yarn install
-#    - name: Build
-#      run: yarn build
+    - name: Build
+      run: yarn build
     - name: Install back
       working-directory: ./back
       run: yarn install
