@@ -570,7 +570,6 @@ async function paginateWithQuery(model, query, extraFilter = {}) {
     const limit = query.limit ?? 10;
     const filter = { ...extraFilter };
     if (query.name) {
-        ;
         filter.name = {
             $regex: query.name,
             $options: "i",
