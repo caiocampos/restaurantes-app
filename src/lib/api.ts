@@ -1,5 +1,6 @@
 import axios, { type AxiosRequestConfig } from "axios"
 import type { AuthSession } from "@/types"
+import { authService } from "./services"
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api"
 
@@ -75,11 +76,9 @@ api.interceptors.response.use(
     isRefreshing = true
 
     try {
-      const { data } = await axios.post<AuthSession>(
-        `${BASE_URL}/auth/refresh`,
-        { refreshToken: session.refreshToken }
-      )
-      saveSession(data)
+      const data = await authService.refresh(session.refreshToken)
+
+      saveSession({ ...session, ...data })
       processQueue(null, data.accessToken)
       original.headers = {
         ...(original.headers ?? {}),

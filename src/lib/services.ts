@@ -7,6 +7,7 @@ import type {
   PaginatedResult,
   Restaurant,
   User,
+  AuthTokens,
 } from "@/types"
 
 export const authService = {
@@ -17,7 +18,7 @@ export const authService = {
 
   refresh: (refreshToken: string) =>
     api
-      .post<AuthSession>("/auth/refresh", { refreshToken })
+      .post<AuthTokens>("/auth/refresh-token", { refreshToken })
       .then((r) => r.data),
 }
 
