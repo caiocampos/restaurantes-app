@@ -29,6 +29,8 @@ jobs:
     - name: Build
       env:
         VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        ENABLE_VISITORS: ${{ env.ENABLE_VISITORS }}
+        VISITORS_USERNAME: ${{ env.VISITORS_USERNAME }}
       run: yarn build
     - name: Adjustment
       run: |

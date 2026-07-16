@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
+const ENABLE_VISITORS = import.meta.env.ENABLE_VISITOR === "true"
+const VISITORS_USERNAME = import.meta.env.VISITORS_USERNAME ?? "visitor"
+
 export function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -48,7 +51,7 @@ export function LoginPage() {
           </div>
           <h1 className="text-2xl font-bold tracking-tight">Restaurantes</h1>
           <p className="text-sm text-muted-foreground">
-            Gestão de pratos, restaurantes e usuários
+            Gestão de pratos e restaurantes
           </p>
         </div>
 
@@ -56,7 +59,10 @@ export function LoginPage() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-xl">Entrar</CardTitle>
             <CardDescription>
-              Informe suas credenciais para acessar o sistema
+              Informe suas credenciais para acessar o sistema{" "}
+              {ENABLE_VISITORS
+                ? `(Use ${VISITORS_USERNAME} como usuário e senha caso seja visitante)`
+                : null}
             </CardDescription>
           </CardHeader>
           <CardContent>

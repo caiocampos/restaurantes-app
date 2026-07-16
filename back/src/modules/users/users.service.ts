@@ -38,6 +38,10 @@ interface GenTokenPayload {
   role: Role
 }
 
+const conflictError = "Nome de usuário já está em uso"
+const notFoundError = "Usuário não encontrado"
+const userOrPassError = "Usuário ou senha inválidos"
+
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name)
@@ -54,7 +58,7 @@ export class UsersService {
     }
     const existing = await this.userModel.findOne({ username: dto.username })
     if (existing) {
-      throw new ConflictException("Nome de usuário já está em uso")
+      throw new ConflictException(conflictError)
     }
     const created = new this.userModel(dto)
     return created.save()
@@ -67,7 +71,7 @@ export class UsersService {
   async findById(id: string): Promise<UserDocument> {
     const user = await this.userModel.findById(id)
     if (!user) {
-      throw new NotFoundException("Usuário não encontrado")
+      throw new NotFoundException(notFoundError)
     }
     return user
   }
@@ -77,7 +81,7 @@ export class UsersService {
     if (dto.username && dto.username !== user.username) {
       const existing = await this.userModel.findOne({ username: dto.username })
       if (existing) {
-        throw new ConflictException("Nome de usuário já está em uso")
+        throw new ConflictException(conflictError)
       }
     }
     Object.assign(user, dto)
@@ -116,18 +120,21 @@ export class UsersService {
     user: Partial<User>
   }> {
     if (acceptVisitors() && dto.username === visitorUsername()) {
+      if (dto.password !== visitorUsername()) {
+        throw new UnauthorizedException(userOrPassError)
+      }
       return this.loginAsVisitor()
     }
     const user = await this.userModel.findOne({ username: dto.username })
     if (!user) {
-      throw new UnauthorizedException("Usuário ou senha inválidos")
+      throw new UnauthorizedException(userOrPassError)
     }
     if (!user.enabled) {
       throw new UnauthorizedException("Usuário desabilitado")
     }
     const isMatch = await user.comparePassword(dto.password)
     if (!isMatch) {
-      throw new UnauthorizedException("Usuário ou senha inválidos")
+      throw new UnauthorizedException(userOrPassError)
     }
     return {
       ...(await this.generateTokens(user)),
@@ -162,11 +169,11 @@ export class UsersService {
     const id = this.jwtService.decode<JwtPayload>(dto.refreshToken)["sub"]
     if (id !== currentUser.userId) {
       this.logger.error("O usuário não é compatível com a requisição")
-      throw new NotFoundException("Usuário não encontrado")
+      throw new NotFoundException(notFoundError)
     }
     const user = await this.userModel.findById(id)
     if (!user) {
-      throw new NotFoundException("Usuário não encontrado")
+      throw new NotFoundException(notFoundError)
     }
     try {
       this.jwtService.verify(dto.refreshToken, {
