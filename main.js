@@ -1436,6 +1436,9 @@ const mongoose_connection_1 = __webpack_require__(23);
 const role_enum_1 = __webpack_require__(34);
 const permissions_env_1 = __webpack_require__(35);
 const jwt_env_1 = __webpack_require__(13);
+const conflictError = "Nome de usuário já está em uso";
+const notFoundError = "Usuário não encontrado";
+const userOrPassError = "Usuário ou senha inválidos";
 let UsersService = UsersService_1 = class UsersService {
     constructor(userModel, jwtService) {
         this.userModel = userModel;
@@ -1448,7 +1451,7 @@ let UsersService = UsersService_1 = class UsersService {
         }
         const existing = await this.userModel.findOne({ username: dto.username });
         if (existing) {
-            throw new common_1.ConflictException("Nome de usuário já está em uso");
+            throw new common_1.ConflictException(conflictError);
         }
         const created = new this.userModel(dto);
         return created.save();
@@ -1459,7 +1462,7 @@ let UsersService = UsersService_1 = class UsersService {
     async findById(id) {
         const user = await this.userModel.findById(id);
         if (!user) {
-            throw new common_1.NotFoundException("Usuário não encontrado");
+            throw new common_1.NotFoundException(notFoundError);
         }
         return user;
     }
@@ -1468,7 +1471,7 @@ let UsersService = UsersService_1 = class UsersService {
         if (dto.username && dto.username !== user.username) {
             const existing = await this.userModel.findOne({ username: dto.username });
             if (existing) {
-                throw new common_1.ConflictException("Nome de usuário já está em uso");
+                throw new common_1.ConflictException(conflictError);
             }
         }
         Object.assign(user, dto);
@@ -1496,18 +1499,21 @@ let UsersService = UsersService_1 = class UsersService {
     }
     async login(dto) {
         if ((0, permissions_env_1.acceptVisitors)() && dto.username === (0, permissions_env_1.visitorUsername)()) {
+            if (dto.password !== (0, permissions_env_1.visitorUsername)()) {
+                throw new common_1.UnauthorizedException(userOrPassError);
+            }
             return this.loginAsVisitor();
         }
         const user = await this.userModel.findOne({ username: dto.username });
         if (!user) {
-            throw new common_1.UnauthorizedException("Usuário ou senha inválidos");
+            throw new common_1.UnauthorizedException(userOrPassError);
         }
         if (!user.enabled) {
             throw new common_1.UnauthorizedException("Usuário desabilitado");
         }
         const isMatch = await user.comparePassword(dto.password);
         if (!isMatch) {
-            throw new common_1.UnauthorizedException("Usuário ou senha inválidos");
+            throw new common_1.UnauthorizedException(userOrPassError);
         }
         return {
             ...(await this.generateTokens(user)),
@@ -1531,11 +1537,11 @@ let UsersService = UsersService_1 = class UsersService {
         const id = this.jwtService.decode(dto.refreshToken)["sub"];
         if (id !== currentUser.userId) {
             this.logger.error("O usuário não é compatível com a requisição");
-            throw new common_1.NotFoundException("Usuário não encontrado");
+            throw new common_1.NotFoundException(notFoundError);
         }
         const user = await this.userModel.findById(id);
         if (!user) {
-            throw new common_1.NotFoundException("Usuário não encontrado");
+            throw new common_1.NotFoundException(notFoundError);
         }
         try {
             this.jwtService.verify(dto.refreshToken, {
