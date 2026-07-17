@@ -5,8 +5,7 @@ on:
     branches: [ master ]
     paths:
       - 'back/**'
-    paths-ignore:
-      - '.github/**'
+      - '!.github/**'
       
   workflow_dispatch:
 
