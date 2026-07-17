@@ -61,7 +61,7 @@ export function LoginPage() {
             <CardDescription>
               Informe suas credenciais para acessar o sistema{" "}
               {ENABLE_VISITORS
-                ? `(Use ${VISITORS_USERNAME} como usuário e senha caso seja visitante)`
+                ? `(Use "${VISITORS_USERNAME}" como usuário e senha caso seja visitante)`
                 : null}
             </CardDescription>
           </CardHeader>
