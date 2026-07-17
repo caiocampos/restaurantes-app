@@ -3,6 +3,11 @@ name: Deploy Back-end
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'back/**'
+    paths-ignore:
+      - '.github/**'
+      
   workflow_dispatch:
 
 jobs:
