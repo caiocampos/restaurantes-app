@@ -41,6 +41,7 @@ export function LoginPage() {
       setLoading(false)
     }
   }
+  console.log("ENABLE_VISITORS", ENABLE_VISITORS)
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
