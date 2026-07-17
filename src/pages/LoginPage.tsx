@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 
-const ENABLE_VISITORS = import.meta.env.VITE_ENABLE_VISITOR === "true"
+const ENABLE_VISITORS = import.meta.env.VITE_ENABLE_VISITORS === "true"
 const VISITORS_USERNAME = import.meta.env.VITE_VISITORS_USERNAME ?? "visitor"
 
 export function LoginPage() {
@@ -63,7 +63,6 @@ export function LoginPage() {
               {ENABLE_VISITORS
                 ? `(Use ${VISITORS_USERNAME} como usuário e senha caso seja visitante)`
                 : null}
-              {import.meta.env.VITE_ENABLE_VISITOR }
             </CardDescription>
           </CardHeader>
           <CardContent>
