@@ -41,8 +41,7 @@ export function LoginPage() {
       setLoading(false)
     }
   }
-  console.log("ENABLE_VISITORS", ENABLE_VISITORS)
-
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
       <div className="w-full max-w-sm">
@@ -64,6 +63,7 @@ export function LoginPage() {
               {ENABLE_VISITORS
                 ? `(Use ${VISITORS_USERNAME} como usuário e senha caso seja visitante)`
                 : null}
+              {import.meta.env.VITE_ENABLE_VISITOR }
             </CardDescription>
           </CardHeader>
           <CardContent>
