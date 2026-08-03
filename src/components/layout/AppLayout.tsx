@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/use-auth"
 import { loginRoute } from "@/util"
+import { ThemeSelector } from "../theme-selector"
 
 const TABS = [
   { label: "Pratos", to: "/dishes" },
@@ -25,6 +26,7 @@ export function AppLayout() {
       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 text-lg font-semibold select-none">
+            <ThemeSelector />
             <UtensilsCrossed className="h-5 w-5 text-primary" />
             <span>Restaurantes</span>
           </div>
