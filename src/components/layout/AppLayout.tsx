@@ -67,7 +67,7 @@ export function AppLayout() {
         </div>
       </header>
 
-      <main className="container mx-auto flex-1 px-4 py-8 bg-background/70">
+      <main className="container mx-auto flex-1 bg-background/70 px-4 py-8">
         <Outlet />
       </main>
     </div>
