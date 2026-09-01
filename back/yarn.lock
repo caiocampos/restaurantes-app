@@ -1037,10 +1037,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-12.0.0.tgz#41714460f92d8673778b02b7ef44c94e6054f600"
   integrity sha512-Xjv1+9zeRyEh9UE9f7DSVOigEA5CF9kJis8uqfE3v/AB6QNxPC0gb+TcKEhAf9zkVQ3e3dM48QfI+tdP0jrJZA==
 
-"@nestjs/passport@^11.0":
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-11.0.5.tgz#dd3e506c2fb7ddc80fd1321c01cc1a0ca6d6b609"
-  integrity sha512-ulQX6mbjlws92PIM15Naes4F4p2JoxGnIJuUsdXQPT+Oo2sqQmENEZXM7eYuimocfHnKlcfZOuyzbA33LwUlOQ==
+"@nestjs/passport@^12.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-12.0.0.tgz#b37af80aed4370cdbf81c65b0ca7f503e1add09f"
+  integrity sha512-FM9ioo2Dyj+cC7aeO4g19ijAXoRaHlW/GQZFbgXsM4Z9pyQedA8yOseb7ivfqlPwUKJlH9PFgeWniu6c0vb6dw==
 
 "@nestjs/platform-express@^12.0":
   version "12.0.0"
