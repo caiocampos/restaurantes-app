@@ -46,7 +46,7 @@
     "@types/jest": "^30.0",
     "@types/node": "^26.5",
     "@types/passport-jwt": "^4.0",
-    "@typescript-eslint/eslint-plugin": "^8.69",
+    "@typescript-eslint/eslint-plugin": "^8.70",
     "@typescript-eslint/parser": "^8.70",
     "eslint": "^10.10",
     "eslint-config-prettier": "^10.1",
