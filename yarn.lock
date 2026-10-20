@@ -644,10 +644,10 @@
   resolved "https://registry.yarnpkg.com/@sec-ant/readable-stream/-/readable-stream-0.4.1.tgz#60de891bb126abfdc5410fdc6166aca065f10a0c"
   integrity sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==
 
-"@shadcn/registry@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@shadcn/registry/-/registry-0.1.4.tgz#b47a8afed84d4d55fdf0327a228f2c514838d15e"
-  integrity sha512-IGrkPadYYiaDFULUYzsjUNadQQ+pwYbLP7apZDXNeB/vH7JAS5CsQ6sOuvZLGz4DuAmNap5bpV6p26fmDx0VuA==
+"@shadcn/registry@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@shadcn/registry/-/registry-0.2.0.tgz#f56c6d3d49de62c167b94f7adb0227e985aa0b70"
+  integrity sha512-m3TeqU/+av2kgOLfESHkWzsmhuQuY4NXZd5Y1Rd4lzy4IX3JJ5+k2mYfkq6OT8oMuk2W4GQPAkO7+CC7KlpSbw==
   dependencies:
     "@babel/core" "^7.28.0"
     "@babel/parser" "^7.28.0"
@@ -671,7 +671,7 @@
     tsconfig-paths "^4.2.0"
     type-fest "^4.41.0"
     undici "^7.29.1"
-    zod "^3.24.1"
+    zod "^4.2.0"
 
 "@sindresorhus/merge-streams@^4.0.0":
   version "4.0.0"
@@ -2976,10 +2976,10 @@ setprototypeof@~1.2.0:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.2.0.tgz#66c9a24a73f9fc28cbe66b09fed3d33dcaf1b424"
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
-shadcn@^4.21.5:
-  version "4.21.5"
-  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-4.21.5.tgz#555b53bbe221b4714b71a8249748653e0a842374"
-  integrity sha512-gZtE1by6dEdHdWKgyEZf/dkRaDHPRlTAH3qOxldHNXToxFECUSlJsb+S0LfbR4o79jflIKVryhe9UCXZf407Vw==
+shadcn@^4.22.0:
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-4.22.0.tgz#c0708e91b09703138fb81544da1329c2cdf0d315"
+  integrity sha512-QKR3XUnatWlgo8IbZqGHrpsxjgdsfpPSAvJvLntQqAxPEf5U2sNsjDYLAS2xmFrOkC9lpj5UpZbrh/BuHrE2CQ==
   dependencies:
     "@babel/core" "^7.28.0"
     "@babel/parser" "^7.28.0"
@@ -2987,7 +2987,7 @@ shadcn@^4.21.5:
     "@babel/preset-typescript" "^7.27.1"
     "@dotenvx/dotenvx" "^1.48.4"
     "@modelcontextprotocol/sdk" "^1.32.0"
-    "@shadcn/registry" "0.1.4"
+    "@shadcn/registry" "0.2.0"
     "@types/validate-npm-package-name" "^4.0.2"
     browserslist "^4.29.3"
     cn "^0.2.4"
@@ -3012,8 +3012,7 @@ shadcn@^4.21.5:
     tsconfig-paths "^4.2.0"
     undici "^7.29.1"
     validate-npm-package-name "^7.0.1"
-    zod "^3.24.1"
-    zod-to-json-schema "^3.24.6"
+    zod "^4.2.0"
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -3402,7 +3401,7 @@ yoctocolors@^2.1.1:
   resolved "https://registry.yarnpkg.com/yoctocolors/-/yoctocolors-2.1.2.tgz#d795f54d173494e7d8db93150cec0ed7f678c83a"
   integrity sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==
 
-zod-to-json-schema@^3.24.6, zod-to-json-schema@^3.25.1:
+zod-to-json-schema@^3.25.1:
   version "3.25.2"
   resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.25.2.tgz#3fa799a7badd554541472fb65843fdc460b2e5aa"
   integrity sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA==
@@ -3412,12 +3411,7 @@ zod-to-json-schema@^3.24.6, zod-to-json-schema@^3.25.1:
   resolved "https://registry.yarnpkg.com/zod-validation-error/-/zod-validation-error-4.0.2.tgz#bc605eba49ce0fcd598c127fee1c236be3f22918"
   integrity sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==
 
-zod@^3.24.1:
-  version "3.25.76"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
-  integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
-
-"zod@^3.25 || ^4.0", "zod@^3.25.0 || ^4.0.0":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-4.4.3.tgz#b680f172885d18bbebf21a834ea25e55a1bbf356"
-  integrity sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==
+"zod@^3.25 || ^4.0", "zod@^3.25.0 || ^4.0.0", zod@^4.2.0:
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.6.7.tgz#e806cf64a7f4e37635ce9f2f52c04c3766f75e5b"
+  integrity sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==
